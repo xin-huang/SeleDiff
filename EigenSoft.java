@@ -47,6 +47,7 @@ public class EigenSoft {
 	private String[] geno;                  // a string array stores genotypes of SNPs
 	private String[] indId;                 // a string array stores each individual ID
 	private HashMap<Integer, String> popId; // a hash table converts integers to population IDs
+	private HashMap<String, Integer> popIndex; // a hash table converts population IDs to index 
 	private int[] popIdIndex;               // an integer array stores integers represent population IDs for individuals
 	private Snp[] snps;                     // an array stores Snp data type
 	private int indSize;                    // how many individuals are there in the sample
@@ -120,9 +121,12 @@ public class EigenSoft {
 			}
 			popSize = popIdMap.keySet().size();
 			popId = new HashMap<Integer, String>();
+			popIndex = new HashMap<String, Integer>();
 			for (Iterator<String> iter = popIdMap.keySet().iterator(); iter.hasNext();) {
 				String id = iter.next();
-				popId.put(popIdMap.get(id), id);
+				Integer index = popIdMap.get(id);
+				popId.put(index, id);
+				popIndex.put(id, index);
 			}
 			popIdIndex = new int[indSize];
 			i = 0;
@@ -185,6 +189,11 @@ public class EigenSoft {
 	public String getPopId(int i) {
 		validate(i,0);
 		return popId.get(i);
+	}
+	
+	public int getPopIndex(String s) {
+		if (!popIndex.containsKey(s)) throw new IllegalArgumentException("No population named " + s);
+		return popIndex.get(s);
 	}
 	
 	/**
