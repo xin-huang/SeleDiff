@@ -2,19 +2,17 @@ package xin.bio.popgen;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
+import org.apache.commons.math3.distribution.ChiSquaredDistribution;
+
 import xin.bio.popgen.InputOptions.ModeEnum;
 
-import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.ParameterException;
 
 import edu.princeton.cs.algs4.LinkedQueue;
 
@@ -30,11 +28,15 @@ import edu.princeton.cs.algs4.LinkedQueue;
  */
 public class SelectionDiff {
 	
-	private int[][][] alleleCounts; // an integer array stores allele counts, the first dimension represents SNPs
-                                    // the second dimension represents populations
-	                                // the third dimension represents reference allele (0) and derived allele (1)
-	private int snpSize;            // how many SNPs are there in the sample
-	private int popSize;            // how many populations are there in the sample
+	private int[][][] alleleCounts;      // an integer array stores allele counts, the first dimension represents SNPs
+                                         // the second dimension represents populations
+	                                     // the third dimension represents reference allele (0) and derived allele (1)
+	private boolean[][] alleleAvailable; // a boolean array stores whether a specific SNP is available for analysis in a population
+	                                     // the first dimension represents SNPs
+	                                     // the second dimension represents populations
+                                         // all the elements are false by default
+	private int snpSize;                 // how many SNPs are there in the sample
+	private int popSize;                 // how many populations are there in the sample
 	
 	
 	/**
@@ -50,21 +52,28 @@ public class SelectionDiff {
 		this.snpSize = snpSize;
 		this.popSize = popSize;
 		alleleCounts = new int[snpSize][popSize][2];
+		alleleAvailable = new boolean[snpSize][popSize];
 		
 		int snpIndex = 0;
 		for (String s:geno) {
 			String[] counts = s.split("");
 			for (int i = 0; i < counts.length; i++) {
-				int popIndex = popIdIndex[i];
+				int popIndex = popIdIndex[i]; // get the population index of individual i
+				
+				// if at least an allele is not 9 in the population,
+				// then this SNP can be used for analysis
 				if (counts[i].equals("0")) {
 					alleleCounts[snpIndex][popIndex][0] += 2;
+					alleleAvailable[snpIndex][popIndex] = true;
 				}
 				else if (counts[i].equals("1")) {
 					alleleCounts[snpIndex][popIndex][0] += 1;
 					alleleCounts[snpIndex][popIndex][1] += 1;
+					alleleAvailable[snpIndex][popIndex] = true;
 				}
 				else if (counts[i].equals("2")) {
 					alleleCounts[snpIndex][popIndex][1] += 2;
+					alleleAvailable[snpIndex][popIndex] = true;
 				}
 			}
 			snpIndex++;
@@ -72,18 +81,7 @@ public class SelectionDiff {
 	}
 	
 	/**
-	 * Return the count of the k-th allele of i-th SNP in j-th population
-	 * @param i the i-th SNP
-	 * @param j the j-th population
-	 * @param k the k-th allele, if 0 reference allele; if 1 derived allele
-	 * @return the count of the k-th allele of i-th SNP in j-th population
-	 */
-	public int getAlleleCount(int i, int j, int k) {
-		return alleleCounts[i][j][k];
-	}
-	
-	/**
-	 * Estimate the variance of Omega between two given
+	 * Estimate the variance of population drift Omega between two given
 	 * populations i and j
 	 * @param i the i-th population
 	 * @param j the j-th population
@@ -94,6 +92,8 @@ public class SelectionDiff {
 		LinkedQueue<Double> omegaQueue = new LinkedQueue<Double>();
 		for (int k = 0; k < snpSize; k++) {
 			if (!validateBiallelic(i, j, k))
+				continue;
+			if ((alleleAvailable[k][i] == false) || (alleleAvailable[k][j] == false))
 				continue;
 			double logOdds = calLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
 			double logOddsVar = calVarLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
@@ -122,6 +122,8 @@ public class SelectionDiff {
 	public double calDelta(int i, int j, int k, double varOmega) {
 		validate(i,j,k);
 		if (!validateBiallelic(i, j, k))
+			return Double.NaN;
+		if ((alleleAvailable[k][i] == false) || (alleleAvailable[k][j] == false))
 			return Double.NaN;
 		double logOdds = calLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
 		double varLogOdds = calVarLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
@@ -221,10 +223,10 @@ public class SelectionDiff {
 	}
 	
 	/**
-	 * 
-	 * @param eigensoft
-	 * @param seleDiff
-	 * @param outputFileName
+	 * Helper function for estimating the variance of population drift Omega
+	 * @param eigensoft an EigenSoft data type for storing data
+	 * @param seleDiff an SelectionDiff data type for analysing data
+	 * @param outputFileName the output file name
 	 */
 	private static void estimateOmega(EigenSoft eigensoft, SelectionDiff seleDiff, String outputFileName) {
 		
@@ -251,10 +253,10 @@ public class SelectionDiff {
 	}
 	
 	/**
-	 * 
-	 * @param eigensoft
-	 * @param seleDiff
-	 * @param outputFileName
+	 * Helper function for estimating the delta statistics
+	 * @param eigensoft an EigenSoft data type for storing data
+	 * @param seleDiff an SelectionDiff data type for analysing data
+	 * @param outputFileName the output file name
 	 */
 	private static void estimateDelta(EigenSoft eigensoft, SelectionDiff seleDiff, String outputFileName) {
 		
@@ -268,8 +270,18 @@ public class SelectionDiff {
 					double varOmega = seleDiff.getVarOmega(i, j);
 					for (int k = 0; k < snpSize; k++) {
 						double delta = seleDiff.calDelta(i, j, k, varOmega);
-						double logOdds = seleDiff.calLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
-						double varLogOdds = seleDiff.calVarLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
+						double logOdds;
+						double varLogOdds;
+						if ((seleDiff.alleleAvailable[k][i] == false) || (seleDiff.alleleAvailable[k][j] == false)) {
+							logOdds = Double.NaN;
+							varLogOdds = Double.NaN;
+						}
+						else {
+							logOdds = seleDiff.calLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
+							varLogOdds = seleDiff.calVarLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
+						}
+						ChiSquaredDistribution chisq = new ChiSquaredDistribution(1);
+						double pvalue = 1.0 - chisq.cumulativeProbability(delta);
 						StringJoiner output = new StringJoiner("\t");
 						output.add(eigensoft.getSnp(k).getId());
 						output.add(eigensoft.getPopId(i));
@@ -278,6 +290,7 @@ public class SelectionDiff {
 						output.add(String.valueOf(varLogOdds));
 						output.add(String.valueOf(varOmega));
 						output.add(String.valueOf(delta));
+						output.add(String.valueOf(pvalue));
 						bw.write(output.toString());
 						bw.newLine();
 					}
@@ -291,11 +304,11 @@ public class SelectionDiff {
 	}
 	
 	/**
-	 * 
-	 * @param eigensoft
-	 * @param seleDiff
-	 * @param omegaFileName
-	 * @param outputFileName
+	 * Helper function for estimating the delta statistics with the given variance of population drift Omega
+	 * @param eigensoft eigensoft an EigenSoft data type for storing data
+	 * @param seleDiff seleDiff an SelectionDiff data type for analysing data
+	 * @param omegaFileName the name of the file stores the variance of population drift Omega
+	 * @param outputFileName outputFileName the output file name
 	 */
 	private static void estimateDelta(EigenSoft eigensoft, SelectionDiff seleDiff, String omegaFileName, String outputFileName) {
 		
@@ -325,6 +338,8 @@ public class SelectionDiff {
 						double delta = seleDiff.calDelta(i, j, k, varOmegas[index]);
 						double logOdds = seleDiff.calLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
 						double varLogOdds = seleDiff.calVarLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
+						ChiSquaredDistribution chisq = new ChiSquaredDistribution(1);
+						double pvalue = 1.0 - chisq.cumulativeProbability(delta);
 						StringJoiner output = new StringJoiner("\t");
 						output.add(eigensoft.getSnp(k).getId());
 						output.add(eigensoft.getPopId(i));
@@ -333,6 +348,7 @@ public class SelectionDiff {
 						output.add(String.valueOf(varLogOdds));
 						output.add(String.valueOf(varOmegas[index]));
 						output.add(String.valueOf(delta));
+						output.add(String.valueOf(pvalue));
 						bw.write(output.toString());
 						bw.newLine();
 					}
