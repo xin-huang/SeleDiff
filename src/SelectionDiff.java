@@ -218,7 +218,7 @@ public class SelectionDiff {
 					StringJoiner output = new StringJoiner("\t");
 					output.add(eigensoft.getPopId(i));
 					output.add(eigensoft.getPopId(j));
-					output.add(String.valueOf(varOmega));
+					output.add(String.valueOf(round(varOmega)));
 					bw.write(output.toString());
 					bw.newLine();
 				}
@@ -244,6 +244,7 @@ public class SelectionDiff {
 		
 		double[] varOmegas = new double[popSize * (popSize - 1) / 2]; // a one-dimensional triangular array represents population pairs
 		                                        // see Chapter 6 of Mining of Massive Datasets
+		ChiSquaredDistribution chisq = new ChiSquaredDistribution(1); // Chi-square distribution for testing the delta statistic
 		
 		try {
 			if (omegaFileName != null) { // read omega file if omegaFileName is specified
@@ -291,7 +292,7 @@ public class SelectionDiff {
 						}
 						
 						// calculate p-value associated with the delta statistic
-						ChiSquaredDistribution chisq = new ChiSquaredDistribution(1);
+						
 						if (delta != Double.NaN)
 							pvalue = 1.0 - chisq.cumulativeProbability(delta);
 						else 
@@ -302,11 +303,11 @@ public class SelectionDiff {
 						output.add(eigensoft.getSnp(k).getId());
 						output.add(eigensoft.getPopId(i));
 						output.add(eigensoft.getPopId(j));
-						output.add(String.valueOf(logOdds));
-						output.add(String.valueOf(varLogOdds));
-						output.add(String.valueOf(varOmega));
-						output.add(String.valueOf(delta));
-						output.add(String.valueOf(pvalue));
+						output.add(String.valueOf(round(logOdds)));
+						output.add(String.valueOf(round(varLogOdds)));
+						output.add(String.valueOf(round(varOmega)));
+						output.add(String.valueOf(round(delta)));
+						output.add(String.valueOf(round(pvalue)));
 						bw.write(output.toString());
 						bw.newLine();
 					}
@@ -317,6 +318,15 @@ public class SelectionDiff {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Helper function to round a double value to 6 decimal points
+	 * @param value the value to be round
+	 * @return the rounded value
+	 */
+	private static double round(double value) {
+		return (double) Math.round(value * 1000000d) / 1000000d;
 	}
 	
 	/**
