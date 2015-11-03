@@ -38,11 +38,8 @@ public class InputOptions {
 	@Parameter(names = "--mode", description = "o:estimate omega;d:estimate delta;s: estimate delta with given SNPs", required = true)
 	private ModeEnum mode; // select which mode to perform
 	
-	@Parameter(names = "--omega", description = "omegas of pairwise populations")
+	@Parameter(names = "--omega", description = "the variance of population drift")
 	private String omegaFileName;  // the name of the file storing variance of omega for pairwise populations
-	
-	@Parameter(names = "--help", description = "show help information")
-	private String help;  // ask for showing help information
 	
 	/**
 	 * Return the name of the .geno file

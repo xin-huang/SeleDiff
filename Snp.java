@@ -65,7 +65,4 @@ public class Snp {
 		return id + " " + ref + " " + derived + " " + position;
 	}
 	
-	public static void main(String[] args) {
-	}
-
 }

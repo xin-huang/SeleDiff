@@ -199,25 +199,29 @@ public class SelectionDiff {
 	 */
 	public static void main(String[] args) {
 		
-		// validate input options
-		InputOptions parameters = new InputOptions();
-		new JCommander(parameters, args);
-		if (parameters.getMode().equals(ModeEnum.s) && (parameters.getOmegaFileName() == null)) 
-			throw new IllegalArgumentException("Parameter --mode s should be used with --omega");
+		if (args.length == 0) 
+			showHelp();
+		else {
+			// validate input options
+			InputOptions parameters = new InputOptions();
+			new JCommander(parameters, args);
+			if (parameters.getMode().equals(ModeEnum.s) && (parameters.getOmegaFileName() == null)) 
+				throw new IllegalArgumentException("Parameter --mode s should be used with --omega");
 		
-		// initialization
-		EigenSoft eigensoft = new EigenSoft(parameters.getGenoFileName(), parameters.getIndFileName(), parameters.getSnpFileName());
-		SelectionDiff seleDiff = new SelectionDiff(eigensoft.getGeno(), eigensoft.getPopIdIndex(), eigensoft.getSnpSize(), eigensoft.getPopSize());
+			// initialization
+			EigenSoft eigensoft = new EigenSoft(parameters.getGenoFileName(), parameters.getIndFileName(), parameters.getSnpFileName());
+			SelectionDiff seleDiff = new SelectionDiff(eigensoft.getGeno(), eigensoft.getPopIdIndex(), eigensoft.getSnpSize(), eigensoft.getPopSize());
 		
-		// estimation
-		if (parameters.getMode().equals(ModeEnum.o)) {
-			estimateOmega(eigensoft, seleDiff, parameters.getOutputFileName());
-		}
-		else if (parameters.getMode().equals(ModeEnum.d)) {
-			estimateDelta(eigensoft, seleDiff, parameters.getOutputFileName());
-		}
-		else if (parameters.getMode().equals(ModeEnum.s)) {
-			estimateDelta(eigensoft, seleDiff, parameters.getOmegaFileName(), parameters.getOutputFileName());
+			// estimation
+			if (parameters.getMode().equals(ModeEnum.o)) {
+				estimateOmega(eigensoft, seleDiff, parameters.getOutputFileName());
+			}
+			else if (parameters.getMode().equals(ModeEnum.d)) {
+				estimateDelta(eigensoft, seleDiff, null, parameters.getOutputFileName());
+			}
+			else if (parameters.getMode().equals(ModeEnum.s)) {
+				estimateDelta(eigensoft, seleDiff, parameters.getOmegaFileName(), parameters.getOutputFileName());
+			}
 		}
 		
 	}
@@ -234,9 +238,16 @@ public class SelectionDiff {
 		
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
+			
+			// write header of the output
+			bw.write(new String("#Pop1\tPop2\tVar(Omega)"));
+			bw.newLine();
+			
 			for (int i = 0; i < popSize; i++) {
 				for (int j = i + 1; j < popSize; j++) {
 					double varOmega = seleDiff.getVarOmega(i, j);
+					
+					// output results
 					StringJoiner output = new StringJoiner("\t");
 					output.add(eigensoft.getPopId(i));
 					output.add(eigensoft.getPopId(j));
@@ -253,25 +264,56 @@ public class SelectionDiff {
 	}
 	
 	/**
-	 * Helper function for estimating the delta statistics
-	 * @param eigensoft an EigenSoft data type for storing data
-	 * @param seleDiff an SelectionDiff data type for analysing data
-	 * @param outputFileName the output file name
+	 * Helper function for estimating the delta statistic
+	 * @param eigensoft eigensoft an EigenSoft data type for storing data
+	 * @param seleDiff seleDiff an SelectionDiff data type for analysing data
+	 * @param omegaFileName the name of the file stores the variance of population drift Omega
+	 * @param outputFileName outputFileName the output file name
 	 */
-	private static void estimateDelta(EigenSoft eigensoft, SelectionDiff seleDiff, String outputFileName) {
+	private static void estimateDelta(EigenSoft eigensoft, SelectionDiff seleDiff, String omegaFileName, String outputFileName) {
 		
 		int popSize = eigensoft.getPopSize();
 		int snpSize = eigensoft.getSnpSize();
 		
+		double[] varOmegas = new double[popSize * (popSize - 1) / 2]; // a one-dimensional triangular array represents population pairs
+		                                        // see Chapter 6 of Mining of Massive Datasets
+		
 		try {
+			if (omegaFileName != null) { // read omega file if omegaFileName is specified
+				BufferedReader br = new BufferedReader(new FileReader(omegaFileName));
+				String line = null;
+				br.readLine(); // remove the header
+				while ((line = br.readLine()) != null) {
+					String[] elements = line.trim().split("\\s+");
+					int popi = eigensoft.getPopIndex(elements[0]);
+					int popj = eigensoft.getPopIndex(elements[1]);
+					int index = (popi * (2 * popSize - (popi + 1)) + 2 * (popj - popi - 1)) / 2;
+					varOmegas[index] = Double.parseDouble(elements[2]);
+				}
+				br.close();
+			}
+			
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
+			
+			// write header of the output
+			bw.write(new String("#SNP Id\tPop1\tPop2\tlogOdds\tVar(logOdds)\tVar(Omega)\tdelta\tpvalue"));
+			bw.newLine();
+			
 			for (int i = 0; i < popSize; i++) {
 				for (int j = i + 1; j < popSize; j++) {
-					double varOmega = seleDiff.getVarOmega(i, j);
+					double varOmega;
+					if (omegaFileName != null) {
+						int index = (i * (2 * popSize - (i + 1)) + 2 * (j - i - 1)) / 2;
+						varOmega = varOmegas[index];
+					}
+					else {
+						varOmega = seleDiff.getVarOmega(i, j);
+					}
 					for (int k = 0; k < snpSize; k++) {
 						double delta = seleDiff.calDelta(i, j, k, varOmega);
 						double logOdds;
 						double varLogOdds;
+						double pvalue;
 						if ((seleDiff.alleleAvailable[k][i] == false) || (seleDiff.alleleAvailable[k][j] == false)) {
 							logOdds = Double.NaN;
 							varLogOdds = Double.NaN;
@@ -280,8 +322,15 @@ public class SelectionDiff {
 							logOdds = seleDiff.calLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
 							varLogOdds = seleDiff.calVarLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
 						}
+						
+						// calculate p-value associated with the delta statistic
 						ChiSquaredDistribution chisq = new ChiSquaredDistribution(1);
-						double pvalue = 1.0 - chisq.cumulativeProbability(delta);
+						if (delta != Double.NaN)
+							pvalue = 1.0 - chisq.cumulativeProbability(delta);
+						else 
+							pvalue = Double.NaN;
+						
+						// output results
 						StringJoiner output = new StringJoiner("\t");
 						output.add(eigensoft.getSnp(k).getId());
 						output.add(eigensoft.getPopId(i));
@@ -304,66 +353,28 @@ public class SelectionDiff {
 	}
 	
 	/**
-	 * Helper function for estimating the delta statistics with the given variance of population drift Omega
-	 * @param eigensoft eigensoft an EigenSoft data type for storing data
-	 * @param seleDiff seleDiff an SelectionDiff data type for analysing data
-	 * @param omegaFileName the name of the file stores the variance of population drift Omega
-	 * @param outputFileName outputFileName the output file name
-	 */
-	private static void estimateDelta(EigenSoft eigensoft, SelectionDiff seleDiff, String omegaFileName, String outputFileName) {
-		
-		int popSize = eigensoft.getPopSize();
-		int snpSize = eigensoft.getSnpSize();
-		
-		double[] varOmegas = new double[popSize * (popSize - 1) / 2]; // a one-dimensional triangular array represents population pairs
-		                                        // see Chapter 6 of Mining of Massive Datasets
-		
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(omegaFileName));
-			String line = null;
-			while ((line = br.readLine()) != null) {
-				String[] elements = line.trim().split("\\s+");
-				int popi = eigensoft.getPopIndex(elements[0]);
-				int popj = eigensoft.getPopIndex(elements[1]);
-				int index = (popi * (2 * popSize - (popi + 1)) + 2 * (popj - popi - 1)) / 2;
-				varOmegas[index] = Double.parseDouble(elements[2]);
-			}
-			br.close();
-			
-			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
-			for (int i = 0; i < popSize; i++) {
-				for (int j = i + 1; j < popSize; j++) {
-					for (int k = 0; k < snpSize; k++) {
-						int index = (i * (2 * popSize - (i + 1)) + 2 * (j - i - 1)) / 2;
-						double delta = seleDiff.calDelta(i, j, k, varOmegas[index]);
-						double logOdds = seleDiff.calLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
-						double varLogOdds = seleDiff.calVarLogOdds(seleDiff.alleleCounts[k][i][0], seleDiff.alleleCounts[k][i][1], seleDiff.alleleCounts[k][j][0], seleDiff.alleleCounts[k][j][1]);
-						ChiSquaredDistribution chisq = new ChiSquaredDistribution(1);
-						double pvalue = 1.0 - chisq.cumulativeProbability(delta);
-						StringJoiner output = new StringJoiner("\t");
-						output.add(eigensoft.getSnp(k).getId());
-						output.add(eigensoft.getPopId(i));
-						output.add(eigensoft.getPopId(j));
-						output.add(String.valueOf(logOdds));
-						output.add(String.valueOf(varLogOdds));
-						output.add(String.valueOf(varOmegas[index]));
-						output.add(String.valueOf(delta));
-						output.add(String.valueOf(pvalue));
-						bw.write(output.toString());
-						bw.newLine();
-					}
-				}
-			}
-			bw.flush();
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
 	 * Show help information
 	 */
-	private void showHelp() {}
+	private static void showHelp() {
+		System.out.println("\nSelectionDiff - 1.0.0 2015/11/03 (Xin Huang)\n");
+		System.out.println("Usage: java -jar SelectionDiff.jar "
+				+ "--geno <.geno file> "
+				+ "--ind <.ind file> "
+				+ "--snp <.snp file> "
+				+ "--output <output file> "
+				+ "--mode {o, d, s} "
+				+ "[--omega <omega file>]\n");
+		System.out.println("Options:");
+		System.out.println("--geno\tThe .geno file contains genotype information, required");
+		System.out.println("--ind\tThe .ind file contains individual information, required");
+		System.out.println("--snp\tThe .snp file contains SNP information, required");
+		System.out.println("--output\tThe file stores results, required");
+		System.out.println("--mode\tSelect a analysis mode to perform, required\n"
+				+ "\to: estimate the variance of pairwise population drift Omega only\n"
+				+ "\td: estimate the delta statistics\n"
+				+ "\ts: estimate the delta statistics with the given Omega");
+		System.out.println("--omega\tThe file stores the variance of pairwise population drift Omega, "
+				+ "which can be obtained by performing mode o analysis first");
+	}
 
 }
