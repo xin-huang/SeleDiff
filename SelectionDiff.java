@@ -193,39 +193,6 @@ public class SelectionDiff {
 		return true;
 	}
 	
-	
-	/**
-	 *	Main program of the <tt>SelectionDiff</tt> data type
-	 */
-	public static void main(String[] args) {
-		
-		if (args.length == 0) 
-			showHelp();
-		else {
-			// validate input options
-			InputOptions parameters = new InputOptions();
-			new JCommander(parameters, args);
-			if (parameters.getMode().equals(ModeEnum.s) && (parameters.getOmegaFileName() == null)) 
-				throw new IllegalArgumentException("Parameter --mode s should be used with --omega");
-		
-			// initialization
-			EigenSoft eigensoft = new EigenSoft(parameters.getGenoFileName(), parameters.getIndFileName(), parameters.getSnpFileName());
-			SelectionDiff seleDiff = new SelectionDiff(eigensoft.getGeno(), eigensoft.getPopIdIndex(), eigensoft.getSnpSize(), eigensoft.getPopSize());
-		
-			// estimation
-			if (parameters.getMode().equals(ModeEnum.o)) {
-				estimateOmega(eigensoft, seleDiff, parameters.getOutputFileName());
-			}
-			else if (parameters.getMode().equals(ModeEnum.d)) {
-				estimateDelta(eigensoft, seleDiff, null, parameters.getOutputFileName());
-			}
-			else if (parameters.getMode().equals(ModeEnum.s)) {
-				estimateDelta(eigensoft, seleDiff, parameters.getOmegaFileName(), parameters.getOutputFileName());
-			}
-		}
-		
-	}
-	
 	/**
 	 * Helper function for estimating the variance of population drift Omega
 	 * @param eigensoft an EigenSoft data type for storing data
@@ -377,4 +344,35 @@ public class SelectionDiff {
 				+ "which can be obtained by performing mode o analysis first");
 	}
 
+	/**
+	 *	Main program of the <tt>SelectionDiff</tt> data type
+	 */
+	public static void main(String[] args) {
+		
+		if (args.length == 0) 
+			showHelp();
+		else {
+			// validate input options
+			InputOptions parameters = new InputOptions();
+			new JCommander(parameters, args);
+			if (parameters.getMode().equals(ModeEnum.s) && (parameters.getOmegaFileName() == null)) 
+				throw new IllegalArgumentException("Parameter --mode s should be used with --omega");
+		
+			// initialization
+			EigenSoft eigensoft = new EigenSoft(parameters.getGenoFileName(), parameters.getIndFileName(), parameters.getSnpFileName());
+			SelectionDiff seleDiff = new SelectionDiff(eigensoft.getGeno(), eigensoft.getPopIdIndex(), eigensoft.getSnpSize(), eigensoft.getPopSize());
+		
+			// estimation
+			if (parameters.getMode().equals(ModeEnum.o)) {
+				estimateOmega(eigensoft, seleDiff, parameters.getOutputFileName());
+			}
+			else if (parameters.getMode().equals(ModeEnum.d)) {
+				estimateDelta(eigensoft, seleDiff, null, parameters.getOutputFileName());
+			}
+			else if (parameters.getMode().equals(ModeEnum.s)) {
+				estimateDelta(eigensoft, seleDiff, parameters.getOmegaFileName(), parameters.getOutputFileName());
+			}
+		}
+		
+	}
 }
