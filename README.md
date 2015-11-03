@@ -36,10 +36,10 @@ Here is an example to show how `SelectionDiff.jar` tests and estimates selection
 For SNP rs12913832 of gene *HERC2*, there are two alleles. One is the ancestral allele A and the other is the derived allele G. The counts of alleles were summarized in below.
 
 | Population | Allele A counts | Allele G counts |
-| - | - | - |
-| YRI | 294 | 0 |
-| CEU | 47 | 177 |
-| CHS | 491 | 1 |
+| --- | --- | --- |
+| YRI | 294 | 0   |
+| CEU | 47  | 177 |
+| CHS | 491 | 1   |
 
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
