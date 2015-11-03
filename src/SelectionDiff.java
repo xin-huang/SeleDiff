@@ -207,7 +207,7 @@ public class SelectionDiff {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
 			
 			// write header of the output
-			bw.write(new String("#Pop1\tPop2\tVar(Omega)"));
+			bw.write(new String("#Population1\tPopulation2\tVar(Omega)"));
 			bw.newLine();
 			
 			for (int i = 0; i < popSize; i++) {
@@ -263,7 +263,7 @@ public class SelectionDiff {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
 			
 			// write header of the output
-			bw.write(new String("#SNP Id\tPop1\tPop2\tlogOdds\tVar(logOdds)\tVar(Omega)\tdelta\tpvalue"));
+			bw.write(new String("#SNP Id\tPopulation1\tPopulation2\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tVar(Omega)\tdelta\tp-value"));
 			bw.newLine();
 			
 			for (int i = 0; i < popSize; i++) {
