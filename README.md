@@ -41,6 +41,14 @@ For SNP rs12913832 of gene *HERC2*, there are two alleles. One is the ancestral 
 | CEU | 47  | 177 |
 | CHS | 491 | 1   |
 
+Using `SelectionDiff.jar`, we can obtain the result as follow.
+
+| SNP Id | Population 1 | Population 2 | log(Odds Ratio) | Var(log(Odds Ratio)) | Var(Omega) | delta | p-value |
+| ------ | ------------ | ------------ | --------------- | -------------------- | ---------- | ----- | ------- |
+| rs12913832 | CHS      | YRI          | -0.585748       | 2.672105         | 3.852386   | 0.052587 | 0.818622 |
+| rs12913832 | CHS      | CEU          | 7.116981        | 0.69563          | 1.875915   | 19.696884 | 9.0E-6  |
+| rs12913832 | YRI      | CEU          | 7.072729        | 2.030328         | 2.935674   | 11.947648 | 5.47E-4 |
+
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Apache Commons Math 3.5](https://commons.apache.org/proper/commons-math/index.html)
