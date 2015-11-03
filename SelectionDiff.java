@@ -332,16 +332,16 @@ public class SelectionDiff {
 				+ "--mode {o, d, s} "
 				+ "[--omega <omega file>]\n");
 		System.out.println("Options:");
-		System.out.println("--geno\tThe .geno file contains genotype information, required");
-		System.out.println("--ind\tThe .ind file contains individual information, required");
-		System.out.println("--snp\tThe .snp file contains SNP information, required");
+		System.out.println("--geno\t\tThe .geno file contains genotype information, required");
+		System.out.println("--ind\t\tThe .ind file contains individual information, required");
+		System.out.println("--snp\t\tThe .snp file contains SNP information, required");
 		System.out.println("--output\tThe file stores results, required");
-		System.out.println("--mode\tSelect a analysis mode to perform, required\n"
-				+ "\to: estimate the variance of pairwise population drift Omega only\n"
-				+ "\td: estimate the delta statistics\n"
-				+ "\ts: estimate the delta statistics with the given Omega");
-		System.out.println("--omega\tThe file stores the variance of pairwise population drift Omega, "
-				+ "which can be obtained by performing mode o analysis first");
+		System.out.println("--mode\t\tSelect a analysis mode to perform, required\n"
+				+ "\t\to: estimate the variance of pairwise population drift Omega only\n"
+				+ "\t\td: estimate the delta statistics\n"
+				+ "\t\ts: estimate the delta statistics with the given Omega");
+		System.out.println("--omega\t\tThe file stores the variance of pairwise population drift Omega\n"
+				+ "\t\twhich can be obtained by performing mode o analysis first");
 	}
 
 	/**
