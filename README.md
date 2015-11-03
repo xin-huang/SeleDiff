@@ -1,15 +1,7 @@
-<head>
-...
-    <script type="text/javascript"
-            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-...
-</head>
-
 # SelectionDiff
 
 ## Introduction
-
+- `SelectionDiff.jar` is implemented with a probabilistic method for testing and estimating selection differences between populations<sup>1</sup>.
 - If you have any problem, please feel free to contact huangxin@picb.ac.cn.
 
 ## Usage
@@ -39,8 +31,15 @@
 - Output files
 
 ## Example
-Here is an example MathJax inline rendering \\( 1/x^{2} \\), and here is a block rendering: 
-\\[ \frac{1}{n^{2}} \\]
+Here is an example to show how `SelectionDiff.jar` tests and estimates selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed.
+
+For SNP rs12913832 of gene *HERC2*, there are two alleles. One is the ancestral allele A and the other is the derived allele G. The counts of alleles were summarized in below.
+
+| Population | Allele A counts | Allele G counts |
+| - | - | - |
+| YRI | 294 | 0 |
+| CEU | 47 | 177 |
+| CHS | 491 | 1 |
 
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
@@ -49,7 +48,7 @@ Here is an example MathJax inline rendering \\( 1/x^{2} \\), and here is a block
 - [Algs4](http://algs4.cs.princeton.edu/home/)
 
 ## References
-- [He *et al*, Genome Research, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
+1. [He *et al*, Genome Research, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
 
 ## License
 - Copyright 2015, Xin Huang.
