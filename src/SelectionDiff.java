@@ -207,7 +207,7 @@ public class SelectionDiff {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
 			
 			// write header of the output
-			bw.write(new String("#Population1\tPopulation2\tVar(Omega)"));
+			bw.write(new String("Population1,Population2,Var(Omega)"));
 			bw.newLine();
 			
 			for (int i = 0; i < popSize; i++) {
@@ -215,7 +215,7 @@ public class SelectionDiff {
 					double varOmega = seleDiff.getVarOmega(i, j);
 					
 					// output results
-					StringJoiner output = new StringJoiner("\t");
+					StringJoiner output = new StringJoiner(",");
 					output.add(eigensoft.getPopId(i));
 					output.add(eigensoft.getPopId(j));
 					output.add(String.valueOf(round(varOmega)));
@@ -252,7 +252,7 @@ public class SelectionDiff {
 				String line = null;
 				br.readLine(); // remove the header
 				while ((line = br.readLine()) != null) {
-					String[] elements = line.trim().split("\\s+");
+					String[] elements = line.trim().split(",");
 					int popi = eigensoft.getPopIndex(elements[0]);
 					int popj = eigensoft.getPopIndex(elements[1]);
 					int index = (popi * (2 * popSize - (popi + 1)) + 2 * (popj - popi - 1)) / 2;
@@ -264,7 +264,7 @@ public class SelectionDiff {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
 			
 			// write header of the output
-			bw.write(new String("#SNP Id\tPopulation1\tPopulation2\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tVar(Omega)\tdelta\tp-value"));
+			bw.write(new String("SNP Id,Population1,Population2,log(Odds Ratio),Var(log(Odds Ratio)),Var(Omega),delta,p-value"));
 			bw.newLine();
 			
 			for (int i = 0; i < popSize; i++) {
@@ -299,7 +299,7 @@ public class SelectionDiff {
 							pvalue = Double.NaN;
 						
 						// output results
-						StringJoiner output = new StringJoiner("\t");
+						StringJoiner output = new StringJoiner(",");
 						output.add(eigensoft.getSnp(k).getId());
 						output.add(eigensoft.getPopId(i));
 						output.add(eigensoft.getPopId(j));
@@ -326,6 +326,8 @@ public class SelectionDiff {
 	 * @return the rounded value
 	 */
 	private static double round(double value) {
+		if (new Double(value).equals(Double.NaN))
+			return value;
 		return (double) Math.round(value * 1000000d) / 1000000d;
 	}
 	
