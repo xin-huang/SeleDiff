@@ -4,10 +4,10 @@ public class Model {
 	
 	/**
 	 * Calculate the logarithm of Odds ratio
-	 * E(\Phi_B - \Phi_A)
-	 * @param countAw counts of reference allele in population A
+	 * E(\Phi_A - \Phi_B)
+	 * @param countAw counts of ancestral allele in population A
 	 * @param countAm counts of derived allele in population A
-	 * @param countBw counts of reference allele in population B
+	 * @param countBw counts of ancestral allele in population B
 	 * @param countBm counts of derived allele in population B
 	 * @return the Odds ratio
 	 */
@@ -17,34 +17,14 @@ public class Model {
 	
 	/**
 	 * Calculate the variance of the logarithm of Odds ratio
-	 * @param countAw counts of reference allele in population A
+	 * @param countAw counts of ancestral allele in population A
 	 * @param countAm counts of derived allele in population A
-	 * @param countBw counts of reference allele in population B
-	 * @param countBm counts of reference allele in population B
+	 * @param countBw counts of ancestral allele in population B
+	 * @param countBm counts of derived allele in population B
 	 * @return the variance of the logarithm of Odds ratio
 	 */
 	public static double calVarLogOdds(double countAw, double countAm, double countBw, double countBm) {
 		return 1/correction(countAw) + 1/correction(countAm) + 1/correction(countBw) + 1/correction(countBm);
-	}
-	
-	/**
-	 * Help function for calculating the delta statistic of the k-th SNP
-	 * in the i-th population and j-th population with
-	 * the estimated variance of Omega.
-	 * @param i             the i-th population.
-	 * @param j             the j-th population.
-	 * @param k             the k-th SNP.
-	 * @param varOmega      the estimated variance of Omega.
-	 * @param alleleCounts  the array stores allele counts in different populations.
-	 * @return the delta statistic.
-	 * 22 Mar 2016
-	 */
-	public static double calDelta(int i, int j, int k, double varOmega, int[][][] alleleCounts) {
-		if ((alleleCounts[k][i][0] + alleleCounts[k][i][1] == 0) || (alleleCounts[k][j][0] + alleleCounts[k][j][1] == 0))
-			return Double.NaN;
-		double logOdds = calLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
-		double varLogOdds = calVarLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
-		return logOdds * logOdds / (varLogOdds + varOmega);
 	}
 	
 	/**
@@ -79,6 +59,21 @@ public class Model {
 	 */
 	public static double round(double value) {
 		return (new Double(value).equals(Double.NaN)) ? value : ((double) Math.round(value * 1000000d) / 1000000d);
+	}
+	
+	/**
+	 * Unit test.
+	 * @param args
+	 * 21 Apr 2016
+	 */
+	public static void main(String[] args) {
+		double countAw = 1000;
+		double countAm = 0;
+		double countBw = 2532;
+		double countBm = 2;
+		double divergenceTime = 3000;
+		System.out.println(calLogOdds(countAw, countAm, countBw, countBm));
+		System.out.println(calLogOdds(countAw, countAm, countBw, countBm)/divergenceTime);
 	}
 	
 }

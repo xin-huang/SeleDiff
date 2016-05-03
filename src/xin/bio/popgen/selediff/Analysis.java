@@ -141,16 +141,16 @@ public class Analysis {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
 			// write header of the output
 			if (containsHaploidType)
-				bw.write(new String("Haploid Type\tAncestral Haploid Type\tDerived Haploid Type\t"
-					+ "Population1\tAncestral Haploid Type Count\tDerived Haploid Type Count\t"
-					+ "Population2\tAncestral Haploid Type Count\tDerived Haploid Type Count\t"
-					+ "Selection Difference\tStd(Selection Difference)\t"
+				bw.write(new String("Haplotype\tAncestral Haplotype\tDerived Haplotype\t"
+					+ "Population1\tAncestral Haplotype Count\tDerived Haplotype Count\t"
+					+ "Population2\tAncestral Haplotype Count\tDerived Haplotype Count\t"
+					+ "Selection Difference (Population1 - Population2)\tStd(Selection Difference)\t"
 					+ "Divergence Time\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tVar(Omega)\tdelta\tp-value"));
 			else
 				bw.write(new String("SNP Id\tAncestral Allele\tDerived Allele\t"
 					+ "Population1\tAncestral Allele Count\tDerived Allele Count\t"
 					+ "Population2\tAncestral Allele Count\tDerived Allele Count\t"
-					+ "Selection Difference\tStd(Selection Difference)\t"
+					+ "Selection Difference (Population1 - Population2)\tStd(Selection Difference)\t"
 					+ "Divergence Time\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tVar(Omega)\tdelta\tp-value"));
 			bw.newLine();
 			
@@ -161,50 +161,47 @@ public class Analysis {
 						int index = (i * (2 * popSize - (i + 1)) + 2 * (j - i - 1)) / 2;
 						String popiId = candidates.getPopId(i);
 						String popjId = candidates.getPopId(j);
-						double[][] freqs = null;
+						int[][][] admixedAlleleCounts = null;
 						String[] admixedPopIds = null;
 						
 						if (admixedPops != null && admixedPops.containsKey(popiId) && admixedPops.containsKey(popjId)) {
 							// i and j are both admixed populations
 							admixedPopIds = new String[] {popiId, popjId};
-							freqs = estimateMissFreqs(k, admixedPopIds, admixedPops, candidates);  
+							admixedAlleleCounts = estimateMissFreqs(k, admixedPopIds, admixedPops, candidates);  
 							for (int m = 0; m < 2; m++) {
 								for (int n = 0; n < 2; n++) {
 									Output.getResults(candidates.getVariant(k), popiId + String.valueOf(m), popjId + String.valueOf(n), 
-											new int[] {(int)Math.round(1000*freqs[0][m]), (int)Math.round(1000*(1-freqs[0][m]))}, 
-											new int[] {(int)Math.round(1000*freqs[1][n]), (int)Math.round(1000*(1-freqs[1][n]))}, 
+											admixedAlleleCounts[0][m], admixedAlleleCounts[1][n], 
 											varOmegas[index], divergenceTimes.get(popiId + String.valueOf(m) + "_" + popjId + String.valueOf(n)), 
-											chisq, bw, containsHaploidType);
+											chisq, bw);
 								}
 							}
 						}
 						else if (admixedPops != null && admixedPops.containsKey(popiId)) {
 							admixedPopIds = new String[] {popiId};
-							freqs = estimateMissFreqs(k, admixedPopIds, admixedPops, candidates);
+							admixedAlleleCounts = estimateMissFreqs(k, admixedPopIds, admixedPops, candidates);
 							for (int m = 0; m < 2; m++) {
 								Output.getResults(candidates.getVariant(k), popiId + String.valueOf(m), popjId, 
-										new int[] {(int)Math.round(1000*freqs[0][m]), (int)Math.round(1000*(1-freqs[0][m]))}, 
-										alleleCounts[k][j], 
-										varOmegas[index], divergenceTimes.get(popiId + String.valueOf(m) + "_" + popjId), chisq, bw, containsHaploidType);
+										admixedAlleleCounts[0][m], alleleCounts[k][j], 
+										varOmegas[index], divergenceTimes.get(popiId + String.valueOf(m) + "_" + popjId), chisq, bw);
 							}
 						}
 						else if (admixedPops != null && admixedPops.containsKey(popjId)) {
 							admixedPopIds = new String[] {popjId};
-							freqs = estimateMissFreqs(k, admixedPopIds, admixedPops, candidates);
+							admixedAlleleCounts = estimateMissFreqs(k, admixedPopIds, admixedPops, candidates);
 							for (int n = 0; n < 2; n++) {
 								Output.getResults(candidates.getVariant(k), popiId, popjId + String.valueOf(n), 
-										alleleCounts[k][i], 
-										new int[] {(int)Math.round(1000*freqs[0][n]), (int)Math.round(1000*(1-freqs[0][n]))}, 
-										varOmegas[index], divergenceTimes.get(popiId + "_" + popjId + String.valueOf(n)), chisq, bw, containsHaploidType);
+										alleleCounts[k][i], admixedAlleleCounts[0][n], 
+										varOmegas[index], divergenceTimes.get(popiId + "_" + popjId + String.valueOf(n)), chisq, bw);
 							}
 						}
 						else {
 							//System.out.println(popiId + "_" + popjId);
 							Output.getResults(candidates.getVariant(k), popiId, popjId, 
 									alleleCounts[k][i], alleleCounts[k][j], varOmegas[index], 
-									divergenceTimes.get(popiId + "_" + popjId), chisq, bw, containsHaploidType);
+									divergenceTimes.get(popiId + "_" + popjId), chisq, bw);
 						}
-						if (freqs != null) {
+						if (admixedAlleleCounts != null) {
 							// compare selection difference between two parent populations of a admixed population.
 							for (int m = 0; m < admixedPopIds.length; m++) {
 								if (!outputedAdmixedPops.contains(admixedPopIds[m])) {
@@ -213,9 +210,8 @@ public class Analysis {
 									int parentIndex2 = candidates.getPopIndex(admixedPops.get(admixedPopIds[m])[1]);
 									double divergenceTime = divergenceTimes.get(candidates.getPopId(parentIndex1) + "_" + candidates.getPopId(parentIndex2));
 									Output.getResults(candidates.getVariant(k), admixedPopIds[m] + "0", admixedPopIds[m] + "1", 
-											new int[] {(int)Math.round(1000*freqs[m][0]), (int)Math.round(1000*(1-freqs[m][0]))}, 
-											new int[] {(int)Math.round(1000*freqs[m][1]), (int)Math.round(1000*(1-freqs[m][1]))}, 
-											varOmegas[index], divergenceTime, chisq, bw, true);
+											admixedAlleleCounts[m][0], admixedAlleleCounts[m][1], 
+											varOmegas[index], divergenceTime, chisq, bw);
 								}
 							}
 						}
@@ -229,40 +225,43 @@ public class Analysis {
 		}
 	}
 	
-	/**
-	 * Help function for estimating allele frequencies in the missing parental population of a admixed population.
-	 * @param snpIndex       an integer specifies a Snp instance. 
-	 * @param admixedPopIds  a String array stores admixed populations' IDs.
-	 * @param admixedPops    a hash map stores admixed populations' information.
-	 * @param genetic        a genetic data type stores genetic data.
-	 * @return a double array stores allele frequencies in admixed populations' missing parental populations.
-	 * 22 Mar 2016
-	 */
-	private static double[][] estimateMissFreqs(int snpIndex, String[] admixedPopIds, 
+	private static int[][][] estimateMissFreqs(int variantIndex, String[] admixedPopIds, 
 			HashMap<String, String[]> admixedPops, GeneticData genetic) {
-		double[][] freqs = new double[admixedPopIds.length][2]; // an array stores allele frequencies in admixed populations' missing parental populations.
+		int[][][] alleleCounts = new int[admixedPopIds.length][2][]; // an array stores allele frequencies in admixed populations' missing parental populations.
 		                                                        // the first dimension represents admixed population indices.
 		                                                        // the second dimension represents missing parents.
-		int i = 0;
+		int j = 0;
 		for (String descendant:admixedPopIds) {
 			String parentId1    = admixedPops.get(descendant)[0];
 			String parentId2    = admixedPops.get(descendant)[1];
 			double lambda       = Double.parseDouble(admixedPops.get(descendant)[2]);
-			int descAlleleCount = genetic.getAlleleCount(snpIndex, genetic.getPopIndex(descendant), 0);
-			int descSampleSize  = genetic.getAlleleCount(snpIndex, genetic.getPopIndex(descendant), 0) 
-					+ genetic.getAlleleCount(snpIndex, genetic.getPopIndex(descendant), 1);
-			int ancAlleleCount1 = genetic.getAlleleCount(snpIndex, genetic.getPopIndex(parentId1), 0);
-			int ancSampleSize1  = genetic.getAlleleCount(snpIndex, genetic.getPopIndex(parentId1), 0) 
-					+ genetic.getAlleleCount(snpIndex, genetic.getPopIndex(parentId1), 1);
-			int ancAlleleCount2 = genetic.getAlleleCount(snpIndex, genetic.getPopIndex(parentId2), 0);
-			int ancSampleSize2  = genetic.getAlleleCount(snpIndex, genetic.getPopIndex(parentId2), 0) 
-					+ genetic.getAlleleCount(snpIndex, genetic.getPopIndex(parentId2), 1);
+			
+			int[] count1 = new int[genetic.getVariant(variantIndex).getAlleleSize()];
+			int[] count2 = new int[genetic.getVariant(variantIndex).getAlleleSize()];
+			int descSampleSize = 0;
+			int ancSampleSize1 = 0;
+			int ancSampleSize2 = 0;
+			
+			for (int i = 0; i < count1.length; i++) {
+				descSampleSize += genetic.getAlleleCount(variantIndex, genetic.getPopIndex(descendant), i);
+				ancSampleSize1 += genetic.getAlleleCount(variantIndex, genetic.getPopIndex(parentId1), i);
+				ancSampleSize2 += genetic.getAlleleCount(variantIndex, genetic.getPopIndex(parentId2), i);
+			}
+			
+			for (int i = 0; i < count1.length; i++) {
+				int descAlleleCount = genetic.getAlleleCount(variantIndex, genetic.getPopIndex(descendant), i);
+				int ancAlleleCount1 = genetic.getAlleleCount(variantIndex, genetic.getPopIndex(parentId1), i);
+				int ancAlleleCount2 = genetic.getAlleleCount(variantIndex, genetic.getPopIndex(parentId2), i);
+				count1[i] = (int) Math.round(1000*Model.calMissFreq(lambda, descAlleleCount, descSampleSize, ancAlleleCount2, ancSampleSize2));
+				count2[i] = (int) Math.round(1000*Model.calMissFreq(1 - lambda, descAlleleCount, descSampleSize, ancAlleleCount1, ancSampleSize1));
+			}
+			
 			// parent1 is missing
-			freqs[i][0] = Model.calMissFreq(lambda, descAlleleCount, descSampleSize, ancAlleleCount2, ancSampleSize2);
+			alleleCounts[j][0] = count1;
 			// parent2 is missing
-			freqs[i++][1] = Model.calMissFreq(1 - lambda, descAlleleCount, descSampleSize, ancAlleleCount1, ancSampleSize1);
+			alleleCounts[j++][1] = count2;
 		}
-		return freqs;
+		return alleleCounts;
 	}
 	
 }

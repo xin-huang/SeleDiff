@@ -122,14 +122,12 @@ public class CommandLineArgs {
 			allInputs.add(allSnp);
 			allFormat = "eigenstrat";
 		}
-		
-		if (isAllGwasParamValid == 1) {
+		else if (isAllGwasParamValid == 1) {
 			allInputs.add(allGen);
 			allInputs.add(allSample);
 			allFormat = "gwas";
 		}
-		
-		if (isAllHapsParamValid == 1) {
+		else if (isAllHapsParamValid == 1) {
 			allInputs.add(allHaps);
 			allInputs.add(allSample);
 			allFormat = "haps";
@@ -141,21 +139,18 @@ public class CommandLineArgs {
 			canInputs.add(canSnp);
 			canFormat = "eigenstrat";
 		}
-		
-		if (isCanGwasParamValid == 1) {
+		else if (isCanGwasParamValid == 1) {
 			canInputs.add(canGen);
 			canInputs.add(canSample);
 			canFormat = "gwas";
 		}
-		
-		if (isCanHapsParamValid == 1) {
+		else if (isCanHapsParamValid == 1) {
 			canInputs.add(canHaps);
 			canInputs.add(canSample);
 			canFormat = "haps";
-		}
-		
-		if (containsHaplotype) {
-			canInputs.add(hapList);
+			if (containsHaplotype) {
+				canInputs.add(hapList);
+			}
 		}
 	}
 	

@@ -35,7 +35,7 @@ public class Output {
 	 */
 	public static void getResults(GeneticVariant g, String popiId, String popjId, 
 			int[] popaAlleleCount, int[] popbAlleleCount, double varOmega, 
-			double divergenceTime, ChiSquaredDistribution chisq, BufferedWriter bw, boolean containsHaploidType) {
+			double divergenceTime, ChiSquaredDistribution chisq, BufferedWriter bw) {
 		int ancAlleleIndex = g.getAncAlleleIndex();
 		double countAw = popaAlleleCount[ancAlleleIndex];
 		double countBw = popbAlleleCount[ancAlleleIndex];

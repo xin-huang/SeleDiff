@@ -12,23 +12,23 @@ public class ReadGenoFile extends GenoFile implements Readable {
 
 	@Override
 	public void parseLine(int i, String line) {
-		String genotypes = "";
-		String[] elements = line.trim().split("");
-		for (int j = 0; j < elements.length; j++) {
-			if (elements[j].equals("0")) {
-				genotypes = genotypes.concat("11");
+		StringBuilder genotypes = new StringBuilder();
+		int length = line.length();
+		for (int j = 0; j < length; j++) {
+			if (line.charAt(j) == '0') {
+				genotypes.append("11");
 			}
-			else if (elements[j].equals("1")) {
-				genotypes = genotypes.concat("01");
+			else if (line.charAt(j) == '1') {
+				genotypes.append("01");
 			}
-			else if (elements[j].equals("2")) {
-				genotypes = genotypes.concat("00");
+			else if (line.charAt(j) == '2') {
+				genotypes.append("00");
 			}
-			else if (elements[j].equals("9")) {
-				genotypes = genotypes.concat("99");
+			else if (line.charAt(j) == '9') {
+				genotypes.append("99");
 			}
 		}
-		variants[i++].setGenotypes(genotypes);
+		variants[i++].setGenotypes(genotypes.toString());
 	}
 	
 }

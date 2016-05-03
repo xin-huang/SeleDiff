@@ -71,6 +71,7 @@ public class EigenStrat extends GeneticData {
 	
 	@Override
 	protected void readFiles() {
+		//long start = System.currentTimeMillis();
 		ReadIndFile indFile = new ReadIndFile(indFileName);
 		this.inds = indFile.getInds();
 		this.indIndices = indFile.getIndIndices();
@@ -83,6 +84,9 @@ public class EigenStrat extends GeneticData {
 		
 		ReadGenoFile genoFile = new ReadGenoFile(genoFileName, this.variants);
 		this.variants = genoFile.getVariants();
+		//long end = System.currentTimeMillis();
+		//long diff = end - start;
+		//System.out.println("Ellapsed time: " + diff);
 	}
 	
 	/**

@@ -21,19 +21,19 @@ public class ReadGenFile extends SnpFile implements Readable {
 		int    pos = Integer.parseInt(elements[2]);
 		String ref = elements[3];
 		String alt = elements[4];
-		String genotypes = "";
+		StringBuilder genotypes = new StringBuilder();
 		for (int j = 5; j < elements.length; j += 3) {
 			if (Double.parseDouble(elements[j]) >= threshold) {
-				genotypes = genotypes.concat("00");
+				genotypes.append("00");
 			}
 			else if (Double.parseDouble(elements[j+1]) >= threshold) {
-				genotypes = genotypes.concat("01");
+				genotypes.append("01");
 			}
 			else if (Double.parseDouble(elements[j+2]) >= threshold) {
-				genotypes = genotypes.concat("11");
+				genotypes.append("11");
 			}
 		}
-		snpQueue.enqueue(new Snp(id, chr, 0, pos, ref, null, new String[] {ref, alt}, genotypes));
+		snpQueue.enqueue(new Snp(id, chr, 0, pos, ref, null, new String[] {ref, alt}, genotypes.toString()));
 	}
 
 }
