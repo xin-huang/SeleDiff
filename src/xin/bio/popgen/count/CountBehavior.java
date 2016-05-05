@@ -1,4 +1,4 @@
-package xin.bio.popgen.fileformat;
+package xin.bio.popgen.count;
 
 public interface CountBehavior {
 	public int[][][] count();

@@ -1,6 +1,8 @@
-package xin.bio.popgen.fileformat;
+package xin.bio.popgen.datatype;
 
 import java.util.HashMap;
+
+import xin.bio.popgen.count.CountBehavior;
 
 /**
  * The GeneticData class defines several variables and methods
@@ -20,7 +22,7 @@ import java.util.HashMap;
  *
  * 23 Mar 2016
  */
-public abstract class GeneticData {
+public class GeneticData {
 
 	protected GeneticVariant[] variants;           // an array stores GeneticVariant data types.
 	protected Individual[] inds;                   // an array stores information of each individual.
@@ -31,9 +33,6 @@ public abstract class GeneticData {
 	protected int[][][] alleleCounts;              // an integer array stores allele counts, the first dimension represents SNPs.
 	                                               // the second dimension represents populations.
 	                                               // the third dimension represents the reference allele (0) and the alternative allele (1).
-	protected CountBehavior countBehavior;
-	protected abstract void readFiles();
-	
 	/**
 	 * Returns the i-th individual in the data.
 	 * @return the i-th individual in the data.
@@ -58,6 +57,30 @@ public abstract class GeneticData {
 	 */
 	public GeneticVariant getVariant(String id) {
 		return variants[variantIndices.get(id)];
+	}
+	
+	public GeneticVariant[] getVariants() {
+		return variants;
+	}
+	
+	public HashMap<String, Integer> getVariantIndices() {
+		return variantIndices;
+	}
+	
+	public Individual[] getInds() {
+		return inds;
+	}
+	
+	public HashMap<String, Integer> getIndIndices() {
+		return indIndices;
+	}
+	
+	public HashMap<String, Integer> getPopIndices() {
+		return popIndices;
+	}
+	
+	public HashMap<Integer, String> getPopIds() {
+		return popIds;
 	}
 	
 	/**
@@ -152,7 +175,7 @@ public abstract class GeneticData {
 		return popIndices.containsKey(id);
 	}
 	
-	public void performCount() {
+	public void performCount(CountBehavior countBehavior) {
 		alleleCounts = countBehavior.count();
 	}
 

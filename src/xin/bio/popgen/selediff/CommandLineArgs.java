@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import xin.bio.popgen.IO.Input;
-import xin.bio.popgen.fileformat.GeneticData;
-import xin.bio.popgen.fileformat.HaplotypeData;
-import xin.bio.popgen.fileformat.SimpleGeneticDataFactory;
+import xin.bio.popgen.count.CountAdmixedPopsAllele;
+import xin.bio.popgen.count.CountAncHaplotype;
+import xin.bio.popgen.count.CountAncSnp;
+import xin.bio.popgen.datatype.GeneticData;
+import xin.bio.popgen.datatype.PhasedHaplotype;
 
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.Parameter;
@@ -163,14 +166,27 @@ public class CommandLineArgs {
 			}
 		}
 		
-		GeneticData all = SimpleGeneticDataFactory.create(allInputs, allFormat, allThreshold);
-		GeneticData can = SimpleGeneticDataFactory.create(canInputs, canFormat, canThreshold);
-		Input.readAncAlleleFile(ancAlleleFileName, all);
-		Input.readAncAlleleFile(ancAlleleFileName, can);
+		GeneticData all = Input.create(allInputs, allFormat, allThreshold);
+		GeneticData can = Input.create(canInputs, canFormat, canThreshold);
+		HashMap<String, String[]> admixedPops = new HashMap<String, String[]>(); // a hash map stores the information of admixed populations
+        // key is the admixed population ID, value is a String array,
+        // the first two elements are the parental population IDs
+        // the third element is the admixed proportion from the first parental population
+		Input.readAncAlleleFile(ancAlleleFileName, all, can);
+		all.performCount(new CountAncSnp(all));
 		if (containsHaplotype) {
-			can = new HaplotypeData(can, canInputs.get(2));
+			can = new PhasedHaplotype(can, canInputs.get(2));
+			can.performCount(new CountAncHaplotype(can));
 		}
-		Analysis.estimateDelta(all, can, admixedPopulationFileName, divergenceTimeFileName, outputFileName, containsHaplotype);
+		else {
+			can.performCount(new CountAncSnp(can));
+		}
+		if (admixedPopulationFileName != null) {
+			admixedPops = Input.estimateAdmixedProportion(all, admixedPopulationFileName);
+			all.performCount(new CountAdmixedPopsAllele(all, admixedPops));
+			can.performCount(new CountAdmixedPopsAllele(can, admixedPops));
+		}
+		Model.estimateDelta(all, can, admixedPops, divergenceTimeFileName, outputFileName, containsHaplotype);
 
 	}
 	
@@ -213,9 +229,8 @@ public class CommandLineArgs {
 						throw new ParameterException("Parameter " + name + " " + value + " does not exist");
 				}
 			}
-			else 
-				if (!f.exists())  
-					throw new ParameterException("Parameter " + name + " " + value + " does not exist");
+			else if (!f.exists()) throw new ParameterException("Parameter " + name + " " + value + " does not exist");
+			else if (f.isDirectory()) throw new ParameterException("Parameter " + name + " " + value + " is a directory");
 		}
 		
 	}

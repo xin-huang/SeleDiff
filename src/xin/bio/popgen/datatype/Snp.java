@@ -1,4 +1,4 @@
-package xin.bio.popgen.fileformat;
+package xin.bio.popgen.datatype;
 
 import java.util.HashMap;
 

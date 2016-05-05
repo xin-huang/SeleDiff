@@ -6,7 +6,7 @@ import java.util.StringJoiner;
 
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
-import xin.bio.popgen.fileformat.GeneticVariant;
+import xin.bio.popgen.datatype.GeneticVariant;
 import xin.bio.popgen.selediff.Model;
 
 public class Output {

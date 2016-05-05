@@ -1,4 +1,4 @@
-package xin.bio.popgen.fileformat;
+package xin.bio.popgen.datatype;
 
 public class Individual {
 
@@ -20,7 +20,7 @@ public class Individual {
 	 * @param genotypes    the genotypes of the individual
 	 */
 	public Individual(String pop_id, String id, String paternal_id,
-			String maternal_id, String sex, String phenotype, String genotypes) {
+			String maternal_id, String sex, String phenotype) {
 		super();
 		this.pop_id = pop_id;
 		this.id = id;
