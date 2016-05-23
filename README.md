@@ -1,14 +1,14 @@
-# SelectionDiff
+# SeleDiff
 
 ## Introduction
-- `SelectionDiff.jar` is implemented with a probabilistic method for testing and estimating selection differences between populations<sup>1</sup>.
+- `SeleDiff.jar` is implemented with a probabilistic method for testing and estimating selection differences between populations<sup>1</sup>.
 - If you have any problem, please feel free to contact huangxin@picb.ac.cn.
 
 ## Usage
-- To use `SelectionDiff.jar`, you should have [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) first.
-- Once you have Java SE Runtime Environment 8, then you can run `SelectionDiff.jar` in the command line.
+- To use `SeleDiff.jar`, you should have [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) first.
+- Once you have Java SE Runtime Environment 8, then you can run `SeleDiff.jar` in the command line.
 
-		java -jar SelectionDiff.jar
+		java -jar SeleDiff.jar
 
 	This will show help information to help you run `SelectionDiff.jar`. The help information is as follow.
 
@@ -53,12 +53,7 @@ Using `SelectionDiff.jar`, we can obtain the result as follow.
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Apache Commons Math 3.5](https://commons.apache.org/proper/commons-math/index.html)
 - [JCommander 1.48](http://mvnrepository.com/artifact/com.beust/jcommander/1.48)
-- [Algs4](http://algs4.cs.princeton.edu/home/)
+
 
 ## References
 1. [He *et al*, Genome Research, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
-
-## License
-- Copyright 2015, Xin Huang.
-- `SelectionDiff.jar` is free software: You can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-- `SelectionDiff.jar` is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**; without even the implied warranty of **MERCHANTABILITY** or **FITNESS FOR A PARTICULAR PURPOSE**. See the GNU General Public License for more details.
