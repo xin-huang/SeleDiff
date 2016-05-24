@@ -70,14 +70,26 @@
 - Input files
     - `SeleDiff` accepts 3 kinds of file formats of genetic data as inputs. They are [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format, [Oxford GEN/SAMPLE](http://www.stats.ox.ac.uk/~marchini/software/gwas/file_format.html)
 format and [HAPS/SAMPLE](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#formats) format.
-    - `SeleDiff` uses `--ancestral-allele` option (required) to accept a file that specifies the ancestral allele of each SNP in the data.
-    - `SeleDiff` uses `--divergence-time` option (required) to accept a file that specifies divergence time between two populations.
-    - `SeleDiff` uses `--haplotype` option to accept a file that specifies haplotypes in the data. The content of the file looks like:
+    - `SeleDiff` uses `--ancestral-allele` option (required) to accept a *TAB* delimited file that specifies the ancestral allele of each SNP in the data. The content of the file looks like:
+    
+            rsId    ancestral allele
+            rs001   A
+            rs002   G
+            ...
+            
+    - `SeleDiff` uses `--divergence-time` option (required) to accept a *TAB* delimited file that specifies divergence time between two populations.
+    
+            Population1 Population2 time(generations)
+            EastAfrica  WesAfrica   2000
+            EastAfrica  EastSouthasia(EastAsia) 3600
+            ...
+            
+    - `SeleDiff` uses `--haplotype` option to accept a *TAB* delimited file that specifies haplotypes in the data. The content of the file looks like:
     
             rs001 rs002
             rs001 rs003 rs004
             
-        Each row represents a haplotype. Each SNP that belongs to the haplotype is separated by white space.
+        Each row represents a haplotype.
 - Output file
     - The output file from `SeleDiff` is *TAB* delimited. The first row is a header that describes the meaning of
 each column.
