@@ -3,35 +3,75 @@
 ## Introduction
 - `SeleDiff.jar` is implemented with a probabilistic method for testing and estimating selection differences between populations<sup>1</sup>.
 - If you have any problem, please feel free to contact huangxin@picb.ac.cn.
+- For more details, please see the manual.
 
 ## Usage
 - To use `SeleDiff.jar`, you should have [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) first.
-- Once you have Java SE Runtime Environment 8, then you can run `SeleDiff.jar` in the command line.
+- Once you have Java SE Runtime Environment 8, then you can run `SeleDiff.jar` without any parameter in the command line to look at help information.
 
 		java -jar SeleDiff.jar
 
-	This will show help information to help you run `SelectionDiff.jar`. The help information is as follow.
+The help information is as follow.
 
-		SelectionDiff - 1.0.0 2015/11/03 (Xin Huang)
+		Usage: SeleDiff [options]
+         Options:
+          --admixed-population
+            A file specifies admixed population.
+          --all-gen
+            A Oxford GEN file contains all the sample SNPs' information and genotype
+            data.
+          --all-gen-threshold
+            A threshold specifes the confidence of genotype in all the sample data,
+            if Oxford GEN/SAMPLE format is used.
+            Default: 0.9
+          --all-geno
+            A EIGENSTRAT GENO file contains all the sample genotype data.
+          --all-haps
+            A HAPS file contains all the sample SNPs' information and genotype data.
+          --all-ind
+            A EIGENSTRAT IND file contains all the sample individuals' information.
+          --all-sample
+            A Oxford SAMPLE file contains all the sample individuals' information.
+          --all-snp
+            A EIGENSTRAT SNP file contains all the sample SNPs' information.
+        * --ancestral-allele
+            A file specifies ancestral alleles.
+          --candidate-gen
+            A Oxford GEN file contains the candidate SNPs' information and genotype
+            data.
+          --candidate-gen-threshold
+            A threshold specifies the confidence of genotypes in the candidate data,
+            if Oxford GEN/SAMPLE format is used.
+            Default: 0.9
+          --candidate-geno
+            A EIGENSTRAT GENO file contains the candidate genotype data.
+          --candidate-haps
+            A HAPS file contains the candidate SNPs' information and genotype data.
+          --candidate-ind
+            A EIGENSTRAT IND file contains the candidate individuals' information.
+          --candidate-sample
+            A Oxford SAMPLE file contains the candidate individuals' information.
+          --candidate-snp
+            A EIGENSTRAT SNP file contains the candidate SNPs' information.
+        * --divergence-time
+            A file specifies divergence time.
+          --haplotype
+            A file specifies haplotypes.
+          --help
+            Show SeleDiff's usage.
+            Default: false
+          --log
+            Redirect log into a file.
+        * --output
+            The output file.
+        
+* indicates required options.
 
-		Usage: java -jar SelectionDiff.jar --geno <.geno file> --ind <.ind file> --snp <.snp file> --output <output file> --mode {o, d, s} [--omega <omega file>]
-
-		Options:
-		--geno		The .geno file contains genotype information, required
-		--ind		The .ind file contains individual information, required
-		--snp		The .snp file contains SNP information, required
-		--output	The file stores results, required
-		--mode		Select a analysis mode to perform, required
-					o: estimate the variance of pairwise population drift Omega only
-					d: estimate the delta statistics
-					s: estimate the delta statistics with the given Omega
-		--omega		The file stores the variance of pairwise population drift Omega
-					which can be obtained by performing mode o analysis first
 - Input files
 - Output files
 
 ## Example
-Here is an example to show how `SelectionDiff.jar` tests and estimates selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed.
+Here is an example to show how `SeleDiff.jar` tests and estimates selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed.
 
 For SNP rs12913832 of gene *HERC2*, there are two alleles. One is the ancestral allele A and the other is the derived allele G. The counts of alleles were summarized in below.
 
@@ -41,7 +81,7 @@ For SNP rs12913832 of gene *HERC2*, there are two alleles. One is the ancestral 
 | CEU | 47  | 177 |
 | CHS | 491 | 1   |
 
-Using `SelectionDiff.jar`, we can obtain the result as follow.
+Using `SeleDiff.jar`, we can obtain the result as follow.
 
 | SNP Id | Population 1 | Population 2 | log(Odds Ratio) | Var(log(Odds Ratio)) | Var(Omega) | delta | p-value |
 | ------ | ------------ | ------------ | --------------- | -------------------- | ---------- | ----- | ------- |
