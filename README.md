@@ -11,7 +11,7 @@
 
 		java -jar SeleDiff.jar
 
-The help information is as follow.
+    The help information is as follow.
 
 		Usage: SeleDiff [options]
          Options:
@@ -65,7 +65,7 @@ The help information is as follow.
         * --output
             The output file.
         
-* indicates required options.
+    \* indicates required options.
 
 - Input files
 - Output files
