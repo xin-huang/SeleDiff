@@ -70,6 +70,14 @@
 - Input files
     - `SeleDiff` accepts 3 kinds of file formats of genetic data as inputs. They are [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format, [Oxford GEN/SAMPLE](http://www.stats.ox.ac.uk/~marchini/software/gwas/file_format.html)
 format and [HAPS/SAMPLE](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#formats) format.
+    - `SeleDiff`
+    - `SeleDiff`
+    - `SeleDiff` uses `--haplotype` option to accept a file specifies haplotypes in the data. The content of the file looks like:
+    
+            rs001 rs002
+            rs001 rs003 rs004
+            
+        Each row represents a haplotype. 
 - Output file
     - The output file from `SeleDiff` is *TAB* delimited. The first row is a header that describes the meaning of
 each column.
