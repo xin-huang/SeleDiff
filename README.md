@@ -71,12 +71,30 @@
     - `SeleDiff` accepts 3 kinds of file formats of genetic data as inputs. They are [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format, [Oxford GEN/SAMPLE](http://www.stats.ox.ac.uk/~marchini/software/gwas/file_format.html)
 format and [HAPS/SAMPLE](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#formats) format.
 - Output file
-    - The output file from `SeleDiff` is TAB delimited. The first row is a header that describes the meaning of
+    - The output file from `SeleDiff` is *TAB* delimited. The first row is a header that describes the meaning of
 each column.
 
         | Column | Column Name | Description |
         | ------ | ----------- | ----------- |
-        | hah    |  hah        | hah         |
+        | 1 | SNP ID/Haplotype ID | The name of a SNP/haplotype |
+        | 2 | Ancestral Allele | The ancestral allele of a SNP/haplotype |
+        | 3 | Derived Allele | The derived allele of a SNP/haplotype |
+        | 4 | Population1 | The first population's ID |
+        | 5 | Ancestral Allele Count | The count of the ancestral allele in the first population |
+        | 6 | Derived Allele Count | The count of the derived allele in the first population |
+        | 7 | Population2 | The second population's ID |
+        | 8 | Ancestral Allele Count | The count of the ancestral allele in the second population |
+        | 9 | Derived Allele Count | The count of the derived allele in the second population | 
+        | 10 | Selection Difference | The selection difference between the first and second populations |
+        | | (Population1 - Population2) | |
+        | 11 | Std(Selection Difference) | The standard deviation of the selection difference |
+        | 12 | Divergence Time | The divergence time between the first and second populations |
+        | 13 | log(Odds Ratio) | The logarithm of Odds Ratio |
+        | 14 | Var(log(Odds Ratio)) | The variance of the logarithm of Odds Ratio |
+        | 15 | Population Variance | The drift strength $\hat{\text{Var}}(\Omega)$ between the first and second populations |
+        | | | without dividing the square of divergence time |
+        | 16 | Delta | The $\delta$ statistic for selection difference |
+        | 17 | p-value | The p-value of the $\delta$ statistic |
 
 
 ## Example
