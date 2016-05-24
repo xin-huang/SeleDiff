@@ -86,12 +86,12 @@ format and [HAPS/SAMPLE](https://mathgen.stats.ox.ac.uk/genetics_software/shapei
             EastAfrica  EastSouthasia(EastAsia) 3600
             ...
             
-        The first line is a header which will be skipped by `SeleDiff`. Here, EastSouthasia is a admixed population. We use its missing parental population in East Asia instead.
+        The first line is a header which will be skipped by `SeleDiff`. Here, EastSouthasia is a admixed population. We estimate and use its missing parental population in East Asia instead.
             
     - `SeleDiff` uses `--haplotype` option to accept a *TAB* delimited file that specifies haplotypes in the data. The content of the file looks like:
     
-            rs001 rs002
-            rs001 rs003 rs004
+            rs001   rs002
+            rs001   rs003   rs004
             
         Each row represents a haplotype.
         
