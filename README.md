@@ -68,6 +68,8 @@
     \* indicates required options.
 
 - Input files
+    - `SeleDiff` accepts 3 kinds of file formats of genetic data as inputs. They are [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format, (Oxford GEN/SAMPLE)[http://www.stats.ox.ac.uk/~marchini/software/gwas/file_format.html]
+format and [HAPS/SAMPLE](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#formats) format.
 - Output files
 
 ## Example
