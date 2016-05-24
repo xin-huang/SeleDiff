@@ -72,17 +72,21 @@
 format and [HAPS/SAMPLE](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#formats) format.
     - `SeleDiff` uses `--ancestral-allele` option (required) to accept a *TAB* delimited file that specifies the ancestral allele of each SNP in the data. The content of the file looks like:
     
-            rsId    ancestral allele
+            rsID    Ancestral Allele
             rs001   A
             rs002   G
             ...
             
+        The first line is a header which will be skipped by `SeleDiff`.
+            
     - `SeleDiff` uses `--divergence-time` option (required) to accept a *TAB* delimited file that specifies divergence time between two populations.
     
-            Population1 Population2 time(generations)
+            Population1 Population2 Time(generations)
             EastAfrica  WesAfrica   2000
             EastAfrica  EastSouthasia(EastAsia) 3600
             ...
+            
+        The first line is a header which will be skipped by `SeleDiff`. Here, EastSouthasia is a admixed population. We use its missing parental population in East Asia instead.
             
     - `SeleDiff` uses `--haplotype` option to accept a *TAB* delimited file that specifies haplotypes in the data. The content of the file looks like:
     
@@ -90,6 +94,7 @@ format and [HAPS/SAMPLE](https://mathgen.stats.ox.ac.uk/genetics_software/shapei
             rs001 rs003 rs004
             
         Each row represents a haplotype.
+        
 - Output file
     - The output file from `SeleDiff` is *TAB* delimited. The first row is a header that describes the meaning of
 each column.
