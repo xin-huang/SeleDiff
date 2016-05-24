@@ -2,7 +2,7 @@ package xin.bio.popgen.datatype;
 
 import java.util.HashMap;
 
-import xin.bio.popgen.count.CountBehavior;
+import xin.bio.popgen.count.CountStrategy;
 
 /**
  * The GeneticData class defines several variables and methods
@@ -33,6 +33,8 @@ public class GeneticData {
 	protected int[][][] alleleCounts;              // an integer array stores allele counts, the first dimension represents SNPs.
 	                                               // the second dimension represents populations.
 	                                               // the third dimension represents the reference allele (0) and the alternative allele (1).
+	protected double[][] varLogOdds;
+	
 	/**
 	 * Returns the i-th individual in the data.
 	 * @return the i-th individual in the data.
@@ -137,6 +139,10 @@ public class GeneticData {
 		return variantIndices.get(id);
 	}
 	
+	public double getVarLogOdds(int i, int j) {
+		return varLogOdds[i][j];
+	}
+	
 	/**
 	 * Returns the index of a population.
 	 * @param id  a population ID
@@ -175,10 +181,10 @@ public class GeneticData {
 		return popIndices.containsKey(id);
 	}
 	
-	public void performCount(CountBehavior countBehavior) {
-		alleleCounts = countBehavior.count();
+	public void performCount(CountStrategy countStrategy) {
+		countStrategy.count(this);
 	}
-
+	
 	public void setVariants(GeneticVariant[] variants) {
 		this.variants = variants;
 	}
@@ -205,6 +211,10 @@ public class GeneticData {
 
 	public void setAlleleCounts(int[][][] alleleCounts) {
 		this.alleleCounts = alleleCounts;
+	}
+	
+	public void setVarLogOdds(double[][] varLogOdds) {
+		this.varLogOdds = varLogOdds;
 	}
 	
 }

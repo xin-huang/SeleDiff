@@ -1,16 +1,21 @@
 package xin.bio.popgen.selediff;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import xin.bio.popgen.IO.Input;
+import xin.bio.popgen.IO.Output;
 import xin.bio.popgen.count.CountAdmixedPopsAllele;
-import xin.bio.popgen.count.CountAncHaplotype;
-import xin.bio.popgen.count.CountAncSnp;
+import xin.bio.popgen.count.CountHaplotype;
+import xin.bio.popgen.count.CountSnp;
+import xin.bio.popgen.count.EstimateVarLogOdds;
 import xin.bio.popgen.datatype.GeneticData;
 import xin.bio.popgen.datatype.PhasedHaplotype;
 
@@ -166,27 +171,51 @@ public class CommandLineArgs {
 			}
 		}
 		
-		GeneticData all = Input.create(allInputs, allFormat, allThreshold);
-		GeneticData can = Input.create(canInputs, canFormat, canThreshold);
-		HashMap<String, String[]> admixedPops = new HashMap<String, String[]>(); // a hash map stores the information of admixed populations
-        // key is the admixed population ID, value is a String array,
-        // the first two elements are the parental population IDs
-        // the third element is the admixed proportion from the first parental population
-		Input.readAncAlleleFile(ancAlleleFileName, all, can);
-		all.performCount(new CountAncSnp(all));
-		if (containsHaplotype) {
-			can = new PhasedHaplotype(can, canInputs.get(2));
-			can.performCount(new CountAncHaplotype(can));
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
+			Output.writeTitle(bw, containsHaplotype);
+			
+			GeneticData all = Input.create(allInputs, allFormat, allThreshold);
+			GeneticData can = Input.create(canInputs, canFormat, canThreshold);
+			
+			HashMap<String, String[]> admixedPops = new HashMap<String, String[]>(); 
+			// a hash map stores the information of admixed populations
+	        // key is the admixed population ID, value is a String array,
+	        // the first two elements are the parental population IDs
+	        // the third element is the admixed proportion from the first parental population
+			
+			Input.readAncAlleleFile(ancAlleleFileName, all, can);
+			
+			all.performCount(new CountSnp());
+			if (containsHaplotype) {
+				can = new PhasedHaplotype(can, canInputs.get(2));
+				can.performCount(new CountHaplotype());
+			}
+			else {
+				can.performCount(new CountSnp());
+			}
+			if (admixedPopulationFileName != null) {
+				admixedPops = Input.estimateAdmixedProportion(all, admixedPopulationFileName);
+				all.performCount(new CountAdmixedPopsAllele(admixedPops));
+				can.performCount(new CountAdmixedPopsAllele(admixedPops));
+			}
+			
+			HashMap<String, Double> divergenceTimes = Input.readDivergenceTimeFile(divergenceTimeFileName);
+			for (String id:divergenceTimes.keySet()) {
+				String[] pops = id.split("_");
+				if (!can.containsPop(pops[0]))
+					throw new IllegalArgumentException("Can't find population " + pops[0] 
+							+ " in the candidate data, while specified in the divergence time file " + divergenceTimeFileName);
+				else if (!can.containsPop(pops[1]))
+					throw new IllegalArgumentException("Can't find population " + pops[1] 
+							+ " in the candidate data, while specified in the divergence time file " + divergenceTimeFileName);
+			}
+			
+			all.performCount(new EstimateVarLogOdds(admixedPops));
+			Model.estimateDelta(all, can, admixedPops, divergenceTimes, bw);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		else {
-			can.performCount(new CountAncSnp(can));
-		}
-		if (admixedPopulationFileName != null) {
-			admixedPops = Input.estimateAdmixedProportion(all, admixedPopulationFileName);
-			all.performCount(new CountAdmixedPopsAllele(all, admixedPops));
-			can.performCount(new CountAdmixedPopsAllele(can, admixedPops));
-		}
-		Model.estimateDelta(all, can, admixedPops, divergenceTimeFileName, outputFileName, containsHaplotype);
 
 	}
 	

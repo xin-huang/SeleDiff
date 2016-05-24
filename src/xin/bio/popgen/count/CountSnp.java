@@ -3,16 +3,10 @@ package xin.bio.popgen.count;
 import xin.bio.popgen.datatype.GeneticData;
 import xin.bio.popgen.datatype.GeneticVariant;
 
-public class CountAncSnp implements CountBehavior {
+public class CountSnp implements CountStrategy {
 	
-	private GeneticData gd;
-	
-	public CountAncSnp(GeneticData gd) {
-		this.gd = gd;
-	}
-
 	@Override
-	public int[][][] count() {
+	public void count(GeneticData gd) {
 		int[][][] alleleCounts = new int[gd.getVariantSize()][][];
 		for (int i = 0; i < alleleCounts.length; i++) {
 			GeneticVariant variant = gd.getVariant(i);
@@ -26,7 +20,8 @@ public class CountAncSnp implements CountBehavior {
 			}
 			alleleCounts[i] = counts;
 		}
-		return alleleCounts;
+		
+		gd.setAlleleCounts(alleleCounts);
 	}
 	
 }

@@ -15,6 +15,7 @@ public class SeleDiff {
 	 * 22 Mar 2016
 	 */
 	public static void main(String[] args) {
+		//long start = System.currentTimeMillis();
 		CommandLineArgs cm = new CommandLineArgs();
 		JCommander jc = new JCommander(cm);
 		jc.setProgramName("SeleDiff");
@@ -34,7 +35,9 @@ public class SeleDiff {
 				cm.execute();
 			}
 		}
-		
+		//long end = System.currentTimeMillis();
+		//long diff = end - start;
+		//System.out.println(diff);
 	}
 	
 }

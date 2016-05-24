@@ -47,6 +47,7 @@ public class Input {
 	 * 22 Mar 2016
 	 */
 	public static HashMap<String, Double> readDivergenceTimeFile(String divergenceTimeFileName) {
+		System.out.println("Reading " + divergenceTimeFileName + " ... ");
 		HashMap<String, Double> divergenceTimes = new HashMap<String, Double>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(divergenceTimeFileName));
@@ -185,14 +186,32 @@ public class Input {
 							|| (genetic.getAlleleCount(s, descendant, 0) + genetic.getAlleleCount(s, descendant, 1) == 0)) {
 					}
 					else {
+						/*int ci = genetic.getAlleleCount(s, popi, 0);
+						int ti = genetic.getAlleleCount(s, popi, 0) + genetic.getAlleleCount(s, popi, 1);
+						int cj = genetic.getAlleleCount(s, popj, 0);
+						int tj = genetic.getAlleleCount(s, popj, 0) + genetic.getAlleleCount(s, popj, 1);
+						int cd = genetic.getAlleleCount(s, descendant, 0);
+						int td = genetic.getAlleleCount(s, descendant, 0) + genetic.getAlleleCount(s, descendant, 1);
+						
+						if (ci*tj-cj*ti != 0) {
+							double tmp = (double) ti*(cd*tj - cj*td) / (td*(ci*tj - cj*ti));
+							proportion += tmp;
+							System.out.print("admixture " + genetic.getVariant(s).getId() + " ");
+							System.out.print(ci + " " + ti + " " + cj + " " + tj + " " + cd + " " + td + " ");
+							System.out.print(tmp + " ");
+							//System.out.println((cd/td - cj/tj)/(ci/ti - cj/tj));
+							count++;
+						}*/
 						double fpopi = (double) genetic.getAlleleCount(s, popi, 0) 
 								/ (genetic.getAlleleCount(s, popi, 0) + genetic.getAlleleCount(s, popi, 1));
 						double fpopj = (double) genetic.getAlleleCount(s, popj, 0)
 								/ (genetic.getAlleleCount(s, popj, 0) + genetic.getAlleleCount(s, popj, 1));
 						double fdesc = (double) genetic.getAlleleCount(s, descendant, 0)
 								/ (genetic.getAlleleCount(s, descendant, 0) + genetic.getAlleleCount(s, descendant, 1));
-						if (Math.abs(fpopi - fpopj) > 1e-2) {
-							proportion += (fdesc - fpopj) / (fpopi - fpopj);
+						if (Math.abs(fpopi - fpopj) > 1e-3) {
+							double freq = (fdesc - fpopj) / (fpopi - fpopj);
+							//System.out.println(freq);
+							proportion += Model.round(freq);
 							count++;
 						}
 					}

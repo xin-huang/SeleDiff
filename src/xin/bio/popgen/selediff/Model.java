@@ -1,14 +1,12 @@
 package xin.bio.popgen.selediff;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
-import xin.bio.popgen.IO.Input;
 import xin.bio.popgen.IO.Output;
 import xin.bio.popgen.datatype.GeneticData;
 
@@ -39,6 +37,34 @@ public class Model {
 		return 1/correction(countAw) + 1/correction(countAm) + 1/correction(countBw) + 1/correction(countBm);
 	}
 	
+	public static double calAdmixedVarLogOdds(double lambda, int descAlleleCount, int descSampleSize,
+			int ancAlleleCount, int ancSampleSize) {
+		double freq = calMissFreq(lambda, descAlleleCount, descSampleSize, ancAlleleCount, ancSampleSize);
+		//System.out.println(freq);
+		//if (freq == 0) freq += 0.01;
+		//if (freq == 1) freq -= 0.01;
+		/*if (freq == 0)
+			freq = 0.5 / (descSampleSize + ancSampleSize);
+		else if (freq == 1) 
+			freq = 1 - 0.5 / (descSampleSize + ancSampleSize);*/
+		double freqPrime = 1 - freq;
+		double varFreq = (descAlleleCount * (descSampleSize - descAlleleCount) / Math.pow(descSampleSize, 3) 
+				+ Math.pow((1 - lambda), 2) * ancAlleleCount * (ancSampleSize - ancAlleleCount) / Math.pow(ancSampleSize, 3)) 
+				/ Math.pow(lambda, 2);
+		//System.out.println(descAlleleCount * (descSampleSize - descAlleleCount) / Math.pow(descSampleSize, 3));
+		//System.out.println(Math.pow((1 - lambda), 2) * ancAlleleCount * (ancSampleSize - ancAlleleCount) / Math.pow(ancSampleSize, 3));
+		//System.out.println(descAlleleCount * (descSampleSize - descAlleleCount) / Math.pow(descSampleSize, 3) 
+		//		+ Math.pow((1 - lambda), 2) * ancAlleleCount * (ancSampleSize - ancAlleleCount) / Math.pow(ancSampleSize, 3));
+		//System.out.println(Math.pow(lambda, 2));
+		//System.out.println(varFreq);
+		double varlogOdds = 0;
+		if ((freq != 0) && (freq != 1))
+			varlogOdds = varFreq / (freq*freq*freqPrime*freqPrime);
+		else
+			varlogOdds = Double.NaN;
+		return varlogOdds;
+	}
+	
 	/**
 	 * Helper function for calculating allele frequency in the missing parental population
 	 * @param lambda          the admixture proportion
@@ -60,7 +86,7 @@ public class Model {
 	 * @return
 	 * 31 Mar 2016
 	 */
-	private static double correction(double count) {
+	public static double correction(double count) {
 		return count < 5 ? count + 0.5 : count;
 	}
 	
@@ -82,7 +108,7 @@ public class Model {
 	 * @return the variance of Omega.
 	 * 22 Mar 2016
 	 */
-	public static double estimateVarOmega(String popiId, String popjId, GeneticData genetic) {
+	public static double estimatePopVar(String popiId, String popjId, GeneticData genetic) {
 		LinkedQueue<Double> omegaQueue = new LinkedQueue<Double>();
 		int[][][] alleleCounts = genetic.getAlleleCounts();
 		int i = genetic.getPopIndex(popiId);
@@ -91,8 +117,15 @@ public class Model {
 		for (int k = 0; k < variantSize; k++) {
 			if ((alleleCounts[k][i][0] + alleleCounts[k][i][1] == 0) || (alleleCounts[k][j][0] + alleleCounts[k][j][1] == 0))
 				continue;
+			if (Double.isNaN(genetic.getVarLogOdds(k, i)) || Double.isNaN(genetic.getVarLogOdds(k, j))) 
+				continue;
 			double logOdds = Model.calLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
-			double logOddsVar = Model.calVarLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
+			double logOddsVar = genetic.getVarLogOdds(k, i) + genetic.getVarLogOdds(k, j);
+			//double logOddsVar = Model.calVarLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
+			/*System.out.println(genetic.getVariant(k).getId() + " " 
+								+ popiId + " " + genetic.getVarLogOdds(k, i) + " "
+								+ popjId + " " + genetic.getVarLogOdds(k, j) + " "
+								+ (logOdds * logOdds / 0.455 - logOddsVar));*/
 			omegaQueue.enqueue(logOdds * logOdds / 0.455 - logOddsVar);
 		}
 		int effectedVariantSize = omegaQueue.size();
@@ -111,7 +144,8 @@ public class Model {
 	 * @param divergenceTimeFileName  the file stores divergence times of each pair of populations.
 	 */
 	public static void estimateDelta(GeneticData all, GeneticData candidates,
-			HashMap<String, String[]> admixedPops, String divergenceTimeFileName, String outputFileName, boolean containsHaploidType) {
+			HashMap<String, String[]> admixedPops, HashMap<String, Double> divergenceTimes, 
+			BufferedWriter bw) {
 		int popSize = candidates.getPopSize();
 		int variantSize = candidates.getVariantSize();
 		int[][][] alleleCounts = candidates.getAlleleCounts();
@@ -120,29 +154,12 @@ public class Model {
 		for (int i = 0; i < popSize; i++) {
 			for (int j = i + 1; j < popSize; j++) {
 				int index = (i * (2 * popSize - (i + 1)) + 2 * (j - i - 1)) / 2;
-				varOmegas[index] = estimateVarOmega(candidates.getPopId(i), candidates.getPopId(j), all);
+				varOmegas[index] = estimatePopVar(candidates.getPopId(i), candidates.getPopId(j), all);
 			}
 		}
-		HashMap<String, Double> divergenceTimes = Input.readDivergenceTimeFile(divergenceTimeFileName);
 		ChiSquaredDistribution chisq = new ChiSquaredDistribution(1); // Chi-square distribution for testing the delta statistic
 		
 		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
-			// write header of the output
-			if (containsHaploidType)
-				bw.write(new String("Haplotype\tAncestral Haplotype\tDerived Haplotype\t"
-					+ "Population1\tAncestral Haplotype Count\tDerived Haplotype Count\t"
-					+ "Population2\tAncestral Haplotype Count\tDerived Haplotype Count\t"
-					+ "Selection Difference (Population1 - Population2)\tStd(Selection Difference)\t"
-					+ "Divergence Time\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tPopulation Variance\tDelta\tp-value"));
-			else
-				bw.write(new String("SNP Id\tAncestral Allele\tDerived Allele\t"
-					+ "Population1\tAncestral Allele Count\tDerived Allele Count\t"
-					+ "Population2\tAncestral Allele Count\tDerived Allele Count\t"
-					+ "Selection Difference (Population1 - Population2)\tStd(Selection Difference)\t"
-					+ "Divergence Time\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tPopulation Variance\tDelta\tp-value"));
-			bw.newLine();
-			
 			for (int k = 0; k < variantSize; k++) {
 				for (int i = 0; i < popSize; i++) {
 					for (int j = i + 1; j < popSize; j++) {
@@ -178,6 +195,9 @@ public class Model {
 		double divergenceTime = 3000;
 		System.out.println(calLogOdds(countAw, countAm, countBw, countBm));
 		System.out.println(calLogOdds(countAw, countAm, countBw, countBm)/divergenceTime);
+		System.out.println(Math.pow(2, 3));
+		System.out.println(calAdmixedVarLogOdds(0.139975, 100, 100, 100, 100));
+		System.out.println(Double.NaN == Double.NaN);
 	}
 	
 }

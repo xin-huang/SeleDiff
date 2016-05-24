@@ -5,16 +5,10 @@ import xin.bio.popgen.datatype.GeneticVariant;
 import xin.bio.popgen.datatype.Haplotype;
 import xin.bio.popgen.datatype.Snp;
 
-public class CountAncHaplotype implements CountBehavior {
+public class CountHaplotype implements CountStrategy {
 
-	private GeneticData gd;
-	
-	public CountAncHaplotype(GeneticData gd) {
-		this.gd = gd;
-	}
-	
 	@Override
-	public int[][][] count() {
+	public void count(GeneticData gd) {
 		int[][][] alleleCounts = new int[gd.getVariantSize()][][];
 		for (int i = 0; i < alleleCounts.length; i++) {
 			GeneticVariant variant = gd.getVariant(i);
@@ -47,7 +41,8 @@ public class CountAncHaplotype implements CountBehavior {
 			}
 			alleleCounts[i] = count;
 		}
-		return alleleCounts;
+		
+		gd.setAlleleCounts(alleleCounts);
 	}
 
 }
