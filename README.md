@@ -85,14 +85,12 @@ each column.
         | 7 | Population2 | The second population's ID |
         | 8 | Ancestral Allele Count | The count of the ancestral allele in the second population |
         | 9 | Derived Allele Count | The count of the derived allele in the second population | 
-        | 10 | Selection Difference | The selection difference between the first and second populations |
-        | | (Population1 - Population2) | |
+        | 10 | Selection Difference (Population1 - Population2) | The selection difference between the first and second populations |
         | 11 | Std(Selection Difference) | The standard deviation of the selection difference |
         | 12 | Divergence Time | The divergence time between the first and second populations |
         | 13 | log(Odds Ratio) | The logarithm of Odds Ratio |
         | 14 | Var(log(Odds Ratio)) | The variance of the logarithm of Odds Ratio |
-        | 15 | Population Variance | The drift strength $\hat{\text{Var}}(\Omega)$ between the first and second populations |
-        | | | without dividing the square of divergence time |
+        | 15 | Population Variance | The drift strength $\hat{\text{Var}}(\Omega)$ between the first and second populations without dividing the square of divergence time |
         | 16 | Delta | The $\delta$ statistic for selection difference |
         | 17 | p-value | The p-value of the $\delta$ statistic |
 
