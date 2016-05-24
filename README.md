@@ -5,8 +5,8 @@
 - If you have any problem, please feel free to contact huangxin@picb.ac.cn.
 - For more details, please see the manual.
 
-## Usage
-- To use `SeleDiff.jar`, you should have [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) first.
+## Usages
+- To use `SeleDiff.jar`, you should install [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) first.
 - Once you have Java SE Runtime Environment 8, then you can run `SeleDiff.jar` without any parameter in the command line to look at help information.
 
 		java -jar SeleDiff.jar
@@ -93,6 +93,8 @@ each column.
         | 15 | Population Variance | The drift strength $\hat{\text{Var}}(\Omega)$ between the first and second populations without dividing the square of divergence time |
         | 16 | Delta | The $\delta$ statistic for selection difference |
         | 17 | p-value | The p-value of the $\delta$ statistic |
+        
+    Note: For a admixed population, the allele counts of its missing parental populations are estimated by their estimated allele frequecies multiply by 1000 (See Introduction section in the manual for estimating allele frequencies in missing parental populations).
 
 
 ## Example
