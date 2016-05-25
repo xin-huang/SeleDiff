@@ -127,15 +127,15 @@ Here is an example to show how `SeleDiff.jar` tests and estimates selection diff
 
 ### Estimate Selection Differences in SNPs
 
-### Estimate Selection Differences in Haplotypes
-
-For SNP rs12913832 of gene *HERC2*, there are two alleles. One is the ancestral allele A and the other is the derived allele G. The counts of alleles were summarized in below.
+The SNP rs12913832 in gene *HERC2* was associated with blue/non-blue eyes. It has two alleles. One is the ancestral allele A and the other is the derived allele G. The counts of alleles in our example data were summarized in below.
 
 | Population | Allele A counts | Allele G counts |
 | --- | --- | --- |
 | YRI | 294 | 0   |
 | CEU | 47  | 177 |
 | CHS | 491 | 1   |
+
+### Estimate Selection Differences in Haplotypes
 
 Using `SeleDiff.jar`, we can obtain the result as follow.
 
