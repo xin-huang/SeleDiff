@@ -153,15 +153,15 @@ In the command line, we type
 
         java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-geno example.candidate.geno --candidate-ind example.candidate.ind --candidate-snp example.candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --output example.result.tsv
         
-The result is stored in `examples/example.result.tsv`.
+The result is stored in `examples/example.result.tsv`. The main result is in below.
 
-| SNP Id | Population 1 | Population 2 | Selection Difference (Population1 - Population2) | Std(Selection Difference) | delta | p-value |
+| SNP ID | Population 1 | Population 2 | Selection Difference (Population1 - Population2) | Std(Selection Difference) | delta | p-value |
 | ------ | ------------ | ------------ | -------------- | --------- | --------- | -------- |
 | rs12913832 | YRI      | CEU          | -0.00214       | 3.96E-4   | 11.992941 | 5.34E-4  |
 | rs12913832 | YRI      | CHS          | -1.63E-4       | 4.54E-4   | 0.052621  | 0.818563 |
 | rs12913832 | CEU      | CHS          | 0.003558       | 4.17E-4   | 20.663794 | 5.0E-6   |
 
-
+From the result, we can see the selection coeffienct of rs12913832 in CEU is significantly higher than that in YRI or CHS, which indicates rs12913832 is under positive selection in CEU.
 
 ### Estimate Selection Differences in Haplotypes
 
