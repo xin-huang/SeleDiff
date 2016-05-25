@@ -125,6 +125,10 @@ each column.
 ## Examples
 Here is an example to show how `SeleDiff.jar` tests and estimates selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed.
 
+### Estimate Selection Differences in SNPs
+
+### Estimate Selection Differences in Haplotypes
+
 For SNP rs12913832 of gene *HERC2*, there are two alleles. One is the ancestral allele A and the other is the derived allele G. The counts of alleles were summarized in below.
 
 | Population | Allele A counts | Allele G counts |
