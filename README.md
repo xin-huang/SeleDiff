@@ -153,13 +153,13 @@ In the command line, we type
 
         java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-geno example.candidate.geno --candidate-ind example.candidate.ind --candidate-snp example.candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --output example.result.tsv
         
-The result is in below.
+The result is stored in `examples/example.result.tsv`.
 
-| SNP Id | Population 1 | Population 2 | log(Odds Ratio) | Var(log(Odds Ratio)) | Var(Omega) | delta | p-value |
-| ------ | ------------ | ------------ | --------------- | -------------------- | ---------- | ----- | ------- |
-| rs12913832 | CHS      | YRI          | -0.585748       | 2.672105         | 3.852386   | 0.052587 | 0.818622 |
-| rs12913832 | CHS      | CEU          | 7.116981        | 0.69563          | 1.875915   | 19.696884 | 9.0E-6  |
-| rs12913832 | YRI      | CEU          | 7.072729        | 2.030328         | 2.935674   | 11.947648 | 5.47E-4 |
+| SNP Id | Population 1 | Population 2 | Selection Difference (Population1 - Population2) | Std(Selection Difference) | delta | p-value |
+| ------ | ------------ | ------------ | -------------- | --------- | --------- | -------- |
+| rs12913832 | YRI      | CEU          | -0.00214       | 3.96E-4   | 11.992941 | 5.34E-4  |
+| rs12913832 | YRI      | CHS          | -1.63E-4       | 4.54E-4   | 0.052621  | 0.818563 |
+| rs12913832 | CEU      | CHS          | 0.003558       | 4.17E-4   | 20.663794 | 5.0E-6   |
 
 
 
