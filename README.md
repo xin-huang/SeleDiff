@@ -123,17 +123,23 @@ each column.
 
 
 ## Examples
-Here is an example to show how `SeleDiff.jar` tests and estimates selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed.
+Here is an example to show how `SeleDiff.jar` tests and estimates selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed. All the genetics data are stored in EIGENSTRAT format.
 
 ### Estimate Selection Differences in SNPs
 
-The SNP rs12913832 in gene *HERC2* was associated with blue/non-blue eyes. It has two alleles. One is the ancestral allele A and the other is the derived allele G. The counts of alleles in our example data were summarized in below.
+The SNP rs12913832 in gene *HERC2* was associated with blue/non-blue eyes. It has two alleles. One is the ancestral allele A and the other is the derived allele G. This information is stored in `examples/ancestral_allele.tsv`.
 
-| Population | Allele A counts | Allele G counts |
+The counts of alleles in our example data were summarized in below.
+
+| Population | Ancestral Allele Count | Derived Allele Count |
 | --- | --- | --- |
 | YRI | 294 | 0   |
 | CEU | 47  | 177 |
 | CHS | 491 | 1   |
+
+We assume the divergence time of YRI-CEU and YRI-CHS are both 3600 generations, while the divergence time of CEU-CHS is 2000 generations. This information is stored in `examples/divergence_time.tsv`.
+
+        java -jar SeleDiff.jar --all-geno test.geno --all-ind test.ind --all-snp test.snp --
 
 ### Estimate Selection Differences in Haplotypes
 
