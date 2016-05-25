@@ -151,7 +151,7 @@ We assume the divergence time of YRI-CEU and YRI-CHS are both 3600 generations, 
 
 In the command line, we type
 
-        java -jar SeleDiff.jar --all-geno test.geno --all-ind test.ind --all-snp test.snp --candidate-geno candidate.geno --candidate-ind candidate.ind --candidate-snp candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --output example.result
+        java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-geno example.candidate.geno --candidate-ind example.candidate.ind --candidate-snp example.candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --output example.result
         
 The result is in below.
 
@@ -167,7 +167,7 @@ The result is in below.
 
 In the command line, we type
 
-        java -jar SeleDiff.jar --all-geno test.geno --all-ind test.ind --all-snp test.snp --candidate-geno candidate.geno --candidate-ind candidate.ind --candidate-snp candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --haplotype haplotypes.list --output example.result
+        java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-geno example.candidate.geno --candidate-ind example.candidate.ind --candidate-snp example.candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --haplotype haplotypes.list --output example.result
 
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
