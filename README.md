@@ -136,7 +136,7 @@ Here is an example to show how `SeleDiff.jar` tests and estimates selection diff
 
 ### Estimate Selection Differences in SNPs
 
-The SNP rs12913832 in gene *HERC2* was associated with blue/non-blue eyes. It has two alleles. One is the ancestral allele A and the other is the derived allele G. This information is stored in `examples/ancestral_allele.tsv`.
+The SNP rs12913832 in gene *HERC2* was associated with blue/non-blue eyes. It has two alleles. One is the ancestral allele A and the other is the derived allele G. This information is stored in `examples/ancestral_alleles.tsv`.
 
 The counts of alleles in our example data were summarized in below.
 
@@ -146,13 +146,14 @@ The counts of alleles in our example data were summarized in below.
 | CEU | 47  | 177 |
 | CHS | 491 | 1   |
 
-We assume the divergence time of YRI-CEU and YRI-CHS are both 3600 generations, while the divergence time of CEU-CHS is 2000 generations. This information is stored in `examples/divergence_time.tsv`.
+We assume the divergence time of YRI-CEU and YRI-CHS are both 3600 generations, while the divergence time of CEU-CHS is 2000 generations. This information is stored in `examples/divergence_times.tsv`.
 
-        java -jar SeleDiff.jar --all-geno test.geno --all-ind test.ind --all-snp test.snp --candidate-geno candidate.geno --candidate-ind candidate.ind --candidate-snp candidate.snp --ancestral-allele ancestral_allele.tsv --divergence-time divergence_time.tsv --output example.result
 
-### Estimate Selection Differences in Haplotypes
+In the command line, we type
 
-Using `SeleDiff.jar`, we can obtain the result as follow.
+        java -jar SeleDiff.jar --all-geno test.geno --all-ind test.ind --all-snp test.snp --candidate-geno candidate.geno --candidate-ind candidate.ind --candidate-snp candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --output example.result
+        
+The result is in below.
 
 | SNP Id | Population 1 | Population 2 | log(Odds Ratio) | Var(log(Odds Ratio)) | Var(Omega) | delta | p-value |
 | ------ | ------------ | ------------ | --------------- | -------------------- | ---------- | ----- | ------- |
@@ -160,11 +161,18 @@ Using `SeleDiff.jar`, we can obtain the result as follow.
 | rs12913832 | CHS      | CEU          | 7.116981        | 0.69563          | 1.875915   | 19.696884 | 9.0E-6  |
 | rs12913832 | YRI      | CEU          | 7.072729        | 2.030328         | 2.935674   | 11.947648 | 5.47E-4 |
 
+
+
+### Estimate Selection Differences in Haplotypes
+
+In the command line, we type
+
+        java -jar SeleDiff.jar --all-geno test.geno --all-ind test.ind --all-snp test.snp --candidate-geno candidate.geno --candidate-ind candidate.ind --candidate-snp candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --haplotype haplotypes.list --output example.result
+
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Apache Commons Math 3.5](https://commons.apache.org/proper/commons-math/index.html)
 - [JCommander 1.48](http://mvnrepository.com/artifact/com.beust/jcommander/1.48)
-
 
 ## References
 1. [He *et al*, Genome Research, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
