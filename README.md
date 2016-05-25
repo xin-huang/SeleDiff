@@ -155,7 +155,7 @@ In the command line, we type
         
 The result is stored in `examples/example.result.tsv`. The main result is in below.
 
-| SNP ID | Population 1 | Population 2 | Selection Difference (Population1 - Population2) | Std(Selection Difference) | delta | p-value |
+| SNP ID | Population1 | Population2 | Selection Difference (Population1 - Population2) | Std(Selection Difference) | delta | p-value |
 | ------ | ------------ | ------------ | -------------- | --------- | --------- | -------- |
 | rs12913832 | YRI      | CEU          | -0.00214       | 3.96E-4   | 11.992941 | 5.34E-4  |
 | rs12913832 | YRI      | CHS          | -1.63E-4       | 4.54E-4   | 0.052621  | 0.818563 |
