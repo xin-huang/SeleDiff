@@ -231,18 +231,6 @@ public class CommandLineArgs {
 		
 	}
 	
-	public static class HapConfidenceValidator implements IParameterValidator {
-
-		@Override
-		public void validate(String name, String value)
-				throws ParameterException {
-			double n = Double.parseDouble(value);
-			if ((n > 1.0) || (n < 0.5))
-				throw new ParameterException("Parameter " + name + " should be between 0.5 and 1 (found " + value + ")");
-		}
-		
-	}
-	
 	public static class FileValidator implements IParameterValidator {
 
 		@Override

@@ -209,9 +209,9 @@ public class Input {
 						double fdesc = (double) genetic.getAlleleCount(s, descendant, 0)
 								/ (genetic.getAlleleCount(s, descendant, 0) + genetic.getAlleleCount(s, descendant, 1));
 						if (Math.abs(fpopi - fpopj) > 1e-3) {
-							double freq = (fdesc - fpopj) / (fpopi - fpopj);
+							double lambda = (fdesc - fpopj) / (fpopi - fpopj);
 							//System.out.println(freq);
-							proportion += Model.round(freq);
+							proportion += Model.round(lambda);
 							count++;
 						}
 					}
