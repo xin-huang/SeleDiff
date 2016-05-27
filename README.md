@@ -132,7 +132,7 @@ each column.
 
 
 ## Examples
-Here is an example to show how `SeleDiff.jar` tests and estimates selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed. All the genetics data are stored in EIGENSTRAT format.
+Here is an example to show how `SeleDiff.jar` tests and estimates selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed. All the genetic data are stored in EIGENSTRAT format.
 
 ### Estimate Selection Differences in SNPs
 
@@ -148,8 +148,7 @@ The counts of alleles in our example data were summarized in below.
 
 We assume the divergence time of YRI-CEU and YRI-CHS are both 3600 generations, while the divergence time of CEU-CHS is 2000 generations. This information is stored in `examples/divergence_times.tsv`.
 
-
-In the command line, we type
+To estimate selection differences, in the command line, we type
 
         java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-geno example.candidate.geno --candidate-ind example.candidate.ind --candidate-snp example.candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --output example.result.tsv
         
