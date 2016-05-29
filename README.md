@@ -136,7 +136,7 @@ Here is an example to show how `SeleDiff.jar` tests and estimates selection diff
 
 ### Estimate Selection Differences in SNPs
 
-The SNP rs12913832 in gene *HERC2* was associated with blue/non-blue eyes. It has two alleles. One is the ancestral allele A and the other is the derived allele G. This information is stored in `examples/ancestral_alleles.tsv`.
+The SNP rs12913832 in gene *HERC2* is associated with blue/non-blue eyes. Its ancestral allele is A and its derived allele is G. The SNP rs1800407 in gene *OCA2* is also associated with blue/non-blue eyes. Its ancestral allele is C and its derived allele is T. The ancestral allele information is stored in `examples/ancestral_alleles.tsv`.
 
 The counts of alleles in our example data were summarized in below.
 
