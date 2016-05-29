@@ -132,7 +132,7 @@ each column.
 
 
 ## Examples
-Here is an example to show how `SeleDiff.jar` tests and estimates selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed. All the genetic data are stored in EIGENSTRAT format.
+Here is an example to show how `SeleDiff.jar` tests and estimates selection differences between populations. 5 populations (YRI, CEU, CHB, CHD, ASW) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed by [PLINK 1.07](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml)(`--geno 0.01 --maf 0.05`). SNPs in strong linkage disequilibrium were removed, applying a window of 50 SNPs advanced by 5 SNPs and r<sup>2</sup> threshold of 0.01 (`--indep-pairwise 50 5 0.01`) in PLINK. All the genetic data are stored in EIGENSTRAT format.
 
 ### Estimate Selection Differences in SNPs
 
@@ -140,11 +140,14 @@ The SNP rs12913832 in gene *HERC2* was associated with blue/non-blue eyes. It ha
 
 The counts of alleles in our example data were summarized in below.
 
-| Population | Ancestral Allele Count | Derived Allele Count |
-| --- | --- | --- |
-| YRI | 294 | 0   |
-| CEU | 47  | 177 |
-| CHS | 491 | 1   |
+| SNP ID | Population | Ancestral Allele Count | Derived Allele Count |
+| ------ | --- | --- | --- |
+| rs12913832 | YRI | 294 | 0   |
+| rs12913832 | CEU | 47  | 177 |
+| rs12913832 | CHS | 491 | 1   |
+| rs1800407  | YRI | 290 | 0   |
+| rs1800407  | CEU | 207 | 17  |
+| rs1800407  | CHS | 486 | 4   |
 
 We assume the divergence time of YRI-CEU and YRI-CHS are both 3600 generations, while the divergence time of CEU-CHS is 2000 generations. This information is stored in `examples/divergence_times.tsv`.
 
