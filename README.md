@@ -159,11 +159,14 @@ The result is stored in `examples/example.result.tsv`. The main result is in bel
 
 | SNP ID | Population1 | Population2 | Selection Difference (Population1 - Population2) | Std(Selection Difference) | delta | p-value |
 | ------ | ------------ | ------------ | -------------- | --------- | --------- | -------- |
-| rs12913832 | YRI      | CEU          | -0.00214       | 3.96E-4   | 11.992941 | 5.34E-4  |
-| rs12913832 | YRI      | CHS          | -1.63E-4       | 4.54E-4   | 0.052621  | 0.818563 |
-| rs12913832 | CEU      | CHS          | 0.003558       | 4.17E-4   | 20.663794 | 5.0E-6   |
+| rs12913832 | YRI      | CEU          | -0.00214       | 3.96E-4   | 16.57374  | 4.7E-5   |
+| rs12913832 | YRI      | CHS          | -1.63E-4       | 4.54E-4   | 0.079586  | 0.777859 |
+| rs12913832 | CEU      | CHS          | 0.003558       | 4.17E-4   | 30.083597 | 0.0      |
+| rs1800407  | YRI      | CEU          | -0.001073      | 3.99E-4   | 4.127239  | 0.042198 |
+| rs1800407  | YRI      | CHS          | -4.67E-4       | 4.15E-4   | 0.730705  | 0.392655 |
+| rs1800407  | CEU      | CHS          | 0.001091       | 2.68E-4   | 3.733448  | 0.053333 |
 
-From the result, we can see the selection coeffienct of rs12913832 in CEU is significantly higher than that in YRI or CHS, which indicates rs12913832 is under positive selection in CEU.
+From the result, we can see the selection coefficient of rs12913832 in CEU is significantly higher than that in YRI or CHS, which indicates rs12913832 is under positive selection in CEU. While the selection coefficient of rs1800407 in CEU is marginal significantly higher than that in YRI or CHS.
 
 ### Estimate Selection Differences in Haplotypes
 
@@ -177,4 +180,4 @@ In the command line, we type
 - [JCommander 1.48](http://mvnrepository.com/artifact/com.beust/jcommander/1.48)
 
 ## References
-1. [He *et al*, Genome Research, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
+1. [He et al, *Genome Research*, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
