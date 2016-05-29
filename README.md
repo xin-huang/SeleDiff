@@ -168,11 +168,19 @@ The result is stored in `examples/example.result.tsv`. The main result is in bel
 
 From the result, we can see the selection coefficient of rs12913832 in CEU is significantly higher than that in YRI or CHS, which indicates rs12913832 is under positive selection in CEU. While the selection coefficient of rs1800407 in CEU is marginal significantly higher than that in YRI or CHS.
 
+ASW is an admixed population. We assume its parental populations are YRI and CEU. This information is stored in `examples/admixed_populations.tsv`.
+
+To estimate selection differences, in the command line, we type
+
+        java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-geno example.candidate.geno --candidate-ind example.candidate.ind --candidate-snp example.candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time admixed_divergence_times.tsv --admixed-population admixed_populations.tsv --output example.admixed.result.tsv
+        
+The result is stored in `examples/example.admixed.result.tsv`.
+
 ### Estimate Selection Differences in Haplotypes
 
 In the command line, we type
 
-        java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-geno example.candidate.geno --candidate-ind example.candidate.ind --candidate-snp example.candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --haplotype haplotypes.list --output example.result
+        java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-haps example.candidate.haps --candidate-sample example.candidate.sample --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --haplotype haplotype.list --output example.hap.result.tsv
 
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
