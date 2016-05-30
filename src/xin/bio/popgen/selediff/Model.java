@@ -40,23 +40,10 @@ public class Model {
 	public static double calAdmixedVarLogOdds(double lambda, int descAlleleCount, int descSampleSize,
 			int ancAlleleCount, int ancSampleSize) {
 		double freq = calMissFreq(lambda, descAlleleCount, descSampleSize, ancAlleleCount, ancSampleSize);
-		//System.out.println(freq);
-		//if (freq == 0) freq += 0.01;
-		//if (freq == 1) freq -= 0.01;
-		/*if (freq == 0)
-			freq = 0.5 / (descSampleSize + ancSampleSize);
-		else if (freq == 1) 
-			freq = 1 - 0.5 / (descSampleSize + ancSampleSize);*/
 		double freqPrime = 1 - freq;
 		double varFreq = (descAlleleCount * (descSampleSize - descAlleleCount) / Math.pow(descSampleSize, 3) 
 				+ Math.pow((1 - lambda), 2) * ancAlleleCount * (ancSampleSize - ancAlleleCount) / Math.pow(ancSampleSize, 3)) 
 				/ Math.pow(lambda, 2);
-		//System.out.println(descAlleleCount * (descSampleSize - descAlleleCount) / Math.pow(descSampleSize, 3));
-		//System.out.println(Math.pow((1 - lambda), 2) * ancAlleleCount * (ancSampleSize - ancAlleleCount) / Math.pow(ancSampleSize, 3));
-		//System.out.println(descAlleleCount * (descSampleSize - descAlleleCount) / Math.pow(descSampleSize, 3) 
-		//		+ Math.pow((1 - lambda), 2) * ancAlleleCount * (ancSampleSize - ancAlleleCount) / Math.pow(ancSampleSize, 3));
-		//System.out.println(Math.pow(lambda, 2));
-		//System.out.println(varFreq);
 		double varlogOdds = 0;
 		if ((freq != 0) && (freq != 1))
 			varlogOdds = varFreq / (freq*freq*freqPrime*freqPrime);
@@ -122,10 +109,6 @@ public class Model {
 			double logOdds = Model.calLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
 			double logOddsVar = genetic.getVarLogOdds(k, i) + genetic.getVarLogOdds(k, j);
 			//double logOddsVar = Model.calVarLogOdds(alleleCounts[k][i][0], alleleCounts[k][i][1], alleleCounts[k][j][0], alleleCounts[k][j][1]);
-			/*System.out.println(genetic.getVariant(k).getId() + " " 
-								+ popiId + " " + genetic.getVarLogOdds(k, i) + " "
-								+ popjId + " " + genetic.getVarLogOdds(k, j) + " "
-								+ (logOdds * logOdds / 0.455 - logOddsVar));*/
 			omegaQueue.enqueue(logOdds * logOdds / 0.455 - logOddsVar);
 		}
 		int effectedVariantSize = omegaQueue.size();
@@ -160,7 +143,23 @@ public class Model {
 		ChiSquaredDistribution chisq = new ChiSquaredDistribution(1); // Chi-square distribution for testing the delta statistic
 		
 		try {
-			for (int k = 0; k < variantSize; k++) {
+			for (int i = 0; i < popSize; i++) {
+				for (int j = i + 1; j < popSize; j++) {
+					int index = (i * (2 * popSize - (i + 1)) + 2 * (j - i - 1)) / 2;
+					String popiId = candidates.getPopId(i);
+					String popjId = candidates.getPopId(j);
+					if (admixedPops.containsKey(popiId) || admixedPops.containsKey(popjId) 
+							|| !divergenceTimes.containsKey(popiId + "_" + popjId)) {
+						continue;
+					}
+					for (int k = 0; k < variantSize; k++) {
+						Output.getResults(candidates.getVariant(k), popiId, popjId, 
+								alleleCounts[k][i], alleleCounts[k][j], varOmegas[index], 
+								divergenceTimes.get(popiId + "_" + popjId), chisq, bw);
+					}
+				}
+			}
+			/*for (int k = 0; k < variantSize; k++) {
 				for (int i = 0; i < popSize; i++) {
 					for (int j = i + 1; j < popSize; j++) {
 						int index = (i * (2 * popSize - (i + 1)) + 2 * (j - i - 1)) / 2;
@@ -169,12 +168,15 @@ public class Model {
 						if (admixedPops.containsKey(popiId) || admixedPops.containsKey(popjId)) {
 							continue;
 						}
+						if (!divergenceTimes.containsKey(popiId + "_" + popjId)) {
+							continue;
+						}
 						Output.getResults(candidates.getVariant(k), popiId, popjId, 
 									alleleCounts[k][i], alleleCounts[k][j], varOmegas[index], 
 									divergenceTimes.get(popiId + "_" + popjId), chisq, bw);
 					}
 				}
-			}
+			}*/
 			bw.flush();
 			bw.close();
 		} catch (IOException e) {

@@ -85,7 +85,6 @@ public class Input {
 				String[] elements = line.trim().split("\\s+");
 				String snpId     = elements[0];
 				String ancAllele = elements[1];
-				// System.out.println(snpId);
 				if (all.containsVariant(snpId) || candidate.containsVariant(snpId)) {
 					ancAlleles.put(snpId, ancAllele);
 				}
@@ -113,6 +112,16 @@ public class Input {
 			String ancAllele = ancAlleles.get(snp.getId());
 			String snpRefAllele = snp.getRefAllele();
 			String snpAltAllele = snp.getAltAlleles()[0];
+			if (!complementaryAllele.containsKey(snpRefAllele)) {
+				throw new IllegalArgumentException("SNP ID " + snp.getId() 
+						+ "'s reference allele " + snpRefAllele + " is not any character of ATCG (find "
+						+ snpRefAllele + ")");
+			}
+			if (!complementaryAllele.containsKey(snpAltAllele)) {
+				throw new IllegalArgumentException("SNP ID " + snp.getId() 
+						+ "'s alternative allele " + snpAltAllele + " is not any character of ATCG (find "
+						+ snpAltAllele + ")");
+			}
 			if (snpRefAllele.equals(complementaryAllele.get(snpAltAllele))) {
 				System.out.println("WARNING: SNP ID " + snp.getId() 
 						+ "'s reference allele " + snpRefAllele 
@@ -186,22 +195,6 @@ public class Input {
 							|| (genetic.getAlleleCount(s, descendant, 0) + genetic.getAlleleCount(s, descendant, 1) == 0)) {
 					}
 					else {
-						/*int ci = genetic.getAlleleCount(s, popi, 0);
-						int ti = genetic.getAlleleCount(s, popi, 0) + genetic.getAlleleCount(s, popi, 1);
-						int cj = genetic.getAlleleCount(s, popj, 0);
-						int tj = genetic.getAlleleCount(s, popj, 0) + genetic.getAlleleCount(s, popj, 1);
-						int cd = genetic.getAlleleCount(s, descendant, 0);
-						int td = genetic.getAlleleCount(s, descendant, 0) + genetic.getAlleleCount(s, descendant, 1);
-						
-						if (ci*tj-cj*ti != 0) {
-							double tmp = (double) ti*(cd*tj - cj*td) / (td*(ci*tj - cj*ti));
-							proportion += tmp;
-							System.out.print("admixture " + genetic.getVariant(s).getId() + " ");
-							System.out.print(ci + " " + ti + " " + cj + " " + tj + " " + cd + " " + td + " ");
-							System.out.print(tmp + " ");
-							//System.out.println((cd/td - cj/tj)/(ci/ti - cj/tj));
-							count++;
-						}*/
 						double fpopi = (double) genetic.getAlleleCount(s, popi, 0) 
 								/ (genetic.getAlleleCount(s, popi, 0) + genetic.getAlleleCount(s, popi, 1));
 						double fpopj = (double) genetic.getAlleleCount(s, popj, 0)
@@ -210,7 +203,6 @@ public class Input {
 								/ (genetic.getAlleleCount(s, descendant, 0) + genetic.getAlleleCount(s, descendant, 1));
 						if (Math.abs(fpopi - fpopj) > 1e-3) {
 							double lambda = (fdesc - fpopj) / (fpopi - fpopj);
-							//System.out.println(freq);
 							proportion += Model.round(lambda);
 							count++;
 						}
@@ -218,7 +210,6 @@ public class Input {
 				}
 				
 				double lambda = proportion / count;
-				// System.out.println(lambda);
 				admixedPops.put(elements[2], new String[] {elements[0], elements[1], String.valueOf(Model.round(lambda))});
 			}
 			br.close();
