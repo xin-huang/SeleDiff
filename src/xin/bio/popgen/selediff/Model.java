@@ -159,24 +159,6 @@ public class Model {
 					}
 				}
 			}
-			/*for (int k = 0; k < variantSize; k++) {
-				for (int i = 0; i < popSize; i++) {
-					for (int j = i + 1; j < popSize; j++) {
-						int index = (i * (2 * popSize - (i + 1)) + 2 * (j - i - 1)) / 2;
-						String popiId = candidates.getPopId(i);
-						String popjId = candidates.getPopId(j);
-						if (admixedPops.containsKey(popiId) || admixedPops.containsKey(popjId)) {
-							continue;
-						}
-						if (!divergenceTimes.containsKey(popiId + "_" + popjId)) {
-							continue;
-						}
-						Output.getResults(candidates.getVariant(k), popiId, popjId, 
-									alleleCounts[k][i], alleleCounts[k][j], varOmegas[index], 
-									divergenceTimes.get(popiId + "_" + popjId), chisq, bw);
-					}
-				}
-			}*/
 			bw.flush();
 			bw.close();
 		} catch (IOException e) {
