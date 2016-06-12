@@ -187,8 +187,9 @@ To estimate selection differences, we have to store candidate data in HAPS/SAMPL
         
 The result is stored in `examples/example.hap.result.tsv`. The main result is in below.
 
-| SNP ID | Ancestral Haplotype | Derived Haplotype |Population1 | Population2 | Selection Difference (Population1 - Population2) | Std(Selection Difference) | delta | p-value |
+| SNP ID | Ancestral Haplotype | Derived Haplotype | Population1 | Population2 | Selection Difference (Population1 - Population2) | Std(Selection Difference) | delta | p-value |
 | ------ | - | - | ------------ | ------------ | -------------- | --------- | --------- | -------- |
+| rs12913832,rs1800407 | AC | AT | YRI | CEU | -0.001474 | 4.04E-4 | 7.682875 | 0.005575 |
 
 
 ## Dependencies
