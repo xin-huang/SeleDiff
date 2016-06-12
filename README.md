@@ -183,7 +183,7 @@ It was reported that the derived allele of rs1800407 increased the penetrance of
 
 To estimate selection differences, we have to store candidate data in HAPS/SAMPLE format. In the command line, we type
 
-        java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-haps example.candidate.haps --candidate-sample example.candidate.sample --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --haplotype haplotype.list --output example.hap.result.tsv
+        java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-haps example.candidate.chr15.phased.haps --candidate-sample example.candidate.chr15.phased.sample --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --haplotype haplotype.list --output example.hap.result.tsv
 
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
