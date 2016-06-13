@@ -1,4 +1,5 @@
 # SeleDiff
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 ## Introduction
 - `SeleDiff` is implemented with a probabilistic method for testing and estimating selection differences between populations<sup>1</sup>.
