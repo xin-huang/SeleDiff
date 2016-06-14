@@ -2,14 +2,14 @@
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 ## Introduction
-- `SeleDiff` is implemented with a probabilistic method for testing and estimating selection differences between populations<sup>1</sup>.
+- `SeleDiff` is implemented with a probabilistic method for testing and estimating selection coefficient differences between populations<sup>1</sup>.
 - If you have any problem, please feel free to contact huangxin@picb.ac.cn.
 - If you use `SeleDiff`, please cite
 - For more details, please see the manual.
 
 ## Usages
 - To use `SeleDiff`, you should install [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) first.
-- Once you have Java SE Runtime Environment 8, then you can run `SeleDiff` without any parameter in the command line to look at help information.
+- Once you have Java SE Runtime Environment 8, then you can run `SeleDiff` without any parameter or with `--help` option in the command line to look at help information.
 
 		java -jar SeleDiff.jar
 
@@ -134,9 +134,9 @@ each column.
 
 
 ## Examples
-Here is an example to show how `SeleDiff` tests and estimates selection differences between populations. 5 populations (YRI, CEU, CHB, CHD, ASW) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed by [PLINK 1.07](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml)(`--geno 0.01 --maf 0.05`). SNPs in strong linkage disequilibrium were removed, applying a window of 50 SNPs advanced by 5 SNPs and r<sup>2</sup> threshold of 0.01 (`--indep-pairwise 50 5 0.01`) in PLINK. All the genetic data are stored in EIGENSTRAT format.
+Here is an example to show how `SeleDiff` tests and estimates selection coefficient differences between populations. 5 populations (YRI, CEU, CHB, CHD, ASW) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed by [PLINK 1.07](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml)(`--geno 0.01 --maf 0.05`). SNPs in strong linkage disequilibrium were removed, applying a window of 50 SNPs advanced by 5 SNPs and r<sup>2</sup> threshold of 0.01 (`--indep-pairwise 50 5 0.01`) in PLINK. All the genetic data are stored in EIGENSTRAT format.
 
-### Estimate Selection Differences in SNPs
+### Estimate Selection Coefficient Differences in SNPs
 
 The SNP rs12913832 in gene *HERC2* is associated with blue/non-blue eyes. Its ancestral allele is A and its derived allele is G. The SNP rs1800407 in gene *OCA2* is also associated with blue/non-blue eyes. Its ancestral allele is C and its derived allele is T. The ancestral allele information is stored in `examples/ancestral_alleles.tsv`.
 
@@ -153,13 +153,13 @@ The counts of alleles in our example data were summarized in below.
 
 We assume the divergence time of YRI-CEU and YRI-CHS are both 3600 generations, while the divergence time of CEU-CHS is 2000 generations. This information is stored in `examples/divergence_times.tsv`.
 
-To estimate selection differences, in the command line, we type
+To estimate selection coefficient differences, in the command line, we type
 
         java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-geno example.candidate.geno --candidate-ind example.candidate.ind --candidate-snp example.candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --output example.result.tsv
         
 The result is stored in `examples/example.result.tsv`. The main result is in below.
 
-| SNP ID | Population1 | Population2 | Selection Difference (Population1 - Population2) | Std(Selection Difference) | delta | p-value |
+| SNP ID | Population1 | Population2 | Selection Coefficient Difference (Population1 - Population2) | Std(Selection Coefficient Difference) | delta | p-value |
 | ------ | ------------ | ------------ | -------------- | --------- | --------- | -------- |
 | rs12913832 | YRI      | CEU          | -0.00214       | 3.96E-4   | 16.57374  | 4.7E-5   |
 | rs12913832 | YRI      | CHS          | -1.63E-4       | 4.54E-4   | 0.079586  | 0.777859 |
@@ -168,21 +168,21 @@ The result is stored in `examples/example.result.tsv`. The main result is in bel
 | rs1800407  | YRI      | CHS          | -4.67E-4       | 4.15E-4   | 0.730705  | 0.392655 |
 | rs1800407  | CEU      | CHS          | 0.001091       | 2.68E-4   | 3.733448  | 0.053333 |
 
-From the result, we can see the selection coefficient of rs12913832 in CEU is significantly higher than that in YRI or CHS, which indicates rs12913832 is under positive selection in CEU. While the selection coefficient of rs1800407 in CEU is marginal significantly higher than that in YRI or CHS.
+From the result, we can see the selection coefficient coefficient of rs12913832 in CEU is significantly higher than that in YRI or CHS, which indicates rs12913832 is under positive selection in CEU. While the selection coefficient of rs1800407 in CEU is marginal significantly higher than that in YRI or CHS.
 
-When estimating selection differences in admixed populations, we have to correct for its admixed proportions from parental populations. In our example, ASW is an admixed population. We assume its parental populations are YRI and CEU. This information is stored in `examples/admixed_populations.tsv`.
+When estimating selection coefficient differences in admixed populations, we have to correct for its admixed proportions from parental populations. In our example, ASW is an admixed population. We assume its parental populations are YRI and CEU. This information is stored in `examples/admixed_populations.tsv`.
 
-To estimate selection differences, we have to use `--admixed-population` to specify the information of admixed populations. In the command line, we type
+To estimate selection coefficient differences, we have to use `--admixed-population` to specify the information of admixed populations. In the command line, we type
 
         java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-geno example.candidate.geno --candidate-ind example.candidate.ind --candidate-snp example.candidate.snp --ancestral-allele ancestral_alleles.tsv --divergence-time admixed_divergence_times.tsv --admixed-population admixed_populations.tsv --output example.admixed.result.tsv
         
 From the log information generated by `SeleDiff`, we can see the admixed proportion of ASW from YRI is approximately equal to  0.8. The result is stored in `examples/example.admixed.result.tsv`.
 
-### Estimate Selection Differences in Haplotypes
+### Estimate Selection Coefficient Differences in Haplotypes
 
 It was reported that the derived allele of rs1800407 increased the penetrance of the blue eye phenotype associated with the derived allele of rs12913832. We used [IMPUTE2](http://mathgen.stats.ox.ac.uk/impute/impute_v2.html) to phase chromosome 15 (`-phase -int 24e6 27e6 -Ne 10000 -m genetic_map_chr15_combined_b36.txt`) in our example data and stored the phased data in `examples/example.candidate.chr15.phased.haps` and `examples/example.candidate.chr15.phased.sample`. The genetic map was downloaded from [IMPUTE2](https://mathgen.stats.ox.ac.uk/impute/data_download_hapmap3_r2.html). We specified the haplotype by the haplotype list file, which is stored in `examples/haplotype.list`.
 
-To estimate selection differences, we have to store candidate data in HAPS/SAMPLE format and use `--haplotype` to specify the information of haplotypes. In the command line, we type
+To estimate selection coefficient differences, we have to store candidate data in HAPS/SAMPLE format and use `--haplotype` to specify the information of haplotypes. In the command line, we type
 
         java -jar SeleDiff.jar --all-geno example.geno --all-ind example.ind --all-snp example.snp --candidate-haps example.candidate.chr15.phased.haps --candidate-sample example.candidate.chr15.phased.sample --ancestral-allele ancestral_alleles.tsv --divergence-time divergence_times.tsv --haplotype haplotype.list --output example.hap.result.tsv
         
