@@ -121,8 +121,8 @@ each column.
         | 7 | Population2 | The second population's ID |
         | 8 | Ancestral Allele Count | The count of the ancestral allele in the second population |
         | 9 | Derived Allele Count | The count of the derived allele in the second population | 
-        | 10 | Selection Difference (Population1 - Population2) | The selection difference between the first and second populations |
-        | 11 | Std(Selection Difference) | The standard deviation of the selection difference |
+        | 10 | Selection Coefficient Difference (Population1 - Population2) | The selection difference between the first and second populations |
+        | 11 | Std | The standard deviation of the selection difference |
         | 12 | Divergence Time | The divergence time between the first and second populations |
         | 13 | log(Odds Ratio) | The logarithm of Odds Ratio |
         | 14 | Var(log(Odds Ratio)) | The variance of the logarithm of Odds Ratio |
