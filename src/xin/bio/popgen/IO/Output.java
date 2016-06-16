@@ -26,13 +26,13 @@ public class Output {
 						"Haplotype\tAncestral Haplotype\tDerived Haplotype\t"
 						+ "Population1\tAncestral Haplotype Count\tDerived Haplotype Count\t"
 						+ "Population2\tAncestral Haplotype Count\tDerived Haplotype Count\t"
-						+ "Selection Difference (Population1 - Population2)\tStd(Selection Difference)\t"
+						+ "Selection Coefficient Difference (Population1 - Population2)\tStd\t"
 						+ "Divergence Time\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tPopulation Variance\tDelta\tp-value"));
 			else
 				bw.write(new String("SNP Id\tAncestral Allele\tDerived Allele\t"
 					+ "Population1\tAncestral Allele Count\tDerived Allele Count\t"
 					+ "Population2\tAncestral Allele Count\tDerived Allele Count\t"
-					+ "Selection Difference (Population1 - Population2)\tStd(Selection Difference)\t"
+					+ "Selection Coefficient Difference (Population1 - Population2)\tStd\t"
 					+ "Divergence Time\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tPopulation Variance\tDelta\tp-value"));
 			bw.newLine();
 		} catch (IOException e) {
