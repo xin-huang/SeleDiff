@@ -1,4 +1,4 @@
-Haplotype	Ancestral Haplotype	Derived Haplotype	Population1	Ancestral Haplotype Count	Derived Haplotype Count	Population2	Ancestral Haplotype Count	Derived Haplotype Count	Selection Difference (Population1 - Population2)	Std(Selection Difference)	Divergence Time	log(Odds Ratio)	Var(log(Odds Ratio))	Population Variance	Delta	p-value
+Haplotype	Ancestral Haplotype	Derived Haplotype	Population1	Ancestral Haplotype Count	Derived Haplotype Count	Population2	Ancestral Haplotype Count	Derived Haplotype Count	Selection Coefficient Difference (Population1 - Population2)	Std	Divergence Time	log(Odds Ratio)	Var(log(Odds Ratio))	Population Variance	Delta	p-value
 rs12913832,rs1800407	AC	AT	YRI	294	0	CEU	35	12	-0.001474	4.04E-4	3600	-5.306286	2.115306	1.549555	7.682875	0.005575
 rs12913832,rs1800407	AC	GC	YRI	294	0	CEU	35	172	-0.002214	3.97E-4	3600	-7.968873	2.037787	1.549555	17.701952	2.6E-5
 rs12913832,rs1800407	AC	GT	YRI	294	0	CEU	35	5	-0.001231	4.15E-4	3600	-4.430817	2.231973	1.549555	5.19159	0.022696

@@ -1,4 +1,4 @@
-SNP Id	Ancestral Allele	Derived Allele	Population1	Ancestral Allele Count	Derived Allele Count	Population2	Ancestral Allele Count	Derived Allele Count	Selection Difference (Population1 - Population2)	Std(Selection Difference)	Divergence Time	log(Odds Ratio)	Var(log(Odds Ratio))	Population Variance	Delta	p-value
+SNP Id	Ancestral Allele	Derived Allele	Population1	Ancestral Allele Count	Derived Allele Count	Population2	Ancestral Allele Count	Derived Allele Count	Selection Coefficient Difference (Population1 - Population2)	Std	Divergence Time	log(Odds Ratio)	Var(log(Odds Ratio))	Population Variance	Delta	p-value
 rs1800407	C	T	YRI	290	0	CEU	207	17	-0.001073	3.99E-4	3600	-3.863523	2.067103	1.549555	4.127239	0.042198
 rs12913832	A	G	YRI	294	0	CEU	47	177	-0.00214	3.96E-4	3600	-7.702729	2.030328	1.549555	16.57374	4.7E-5
 rs1800407	C	T	YRI	290	0	CHS	486	4	-4.67E-4	4.15E-4	3600	-1.680897	2.227728	1.638969	0.730705	0.392655
