@@ -123,12 +123,13 @@ each column.
         | 9 | Derived Allele Count | The count of the derived allele in the second population | 
         | 10 | Selection Coefficient Difference (Population1 - Population2) | The selection coefficient difference between the first and second populations |
         | 11 | Std | The standard deviation of the selection coefficient difference |
-        | 12 | Divergence Time | The divergence time between the first and second populations |
-        | 13 | log(Odds Ratio) | The logarithm of Odds Ratio |
-        | 14 | Var(log(Odds Ratio)) | The variance of the logarithm of Odds Ratio |
-        | 15 | Population Variance | The drift strength $\hat{\text{Var}}(\Omega)$ between the first and second populations without dividing the square of divergence time |
-        | 16 | Delta | The $\delta$ statistic for selection difference |
-        | 17 | p-value | The p-value of the $\delta$ statistic |
+        | 12 | 95% Confidence Interval | 95% confidence interval of the selection coefficient difference |
+        | 13 | Divergence Time | The divergence time between the first and second populations |
+        | 14 | log(Odds Ratio) | The logarithm of Odds Ratio |
+        | 15 | Var(log(Odds Ratio)) | The variance of the logarithm of Odds Ratio |
+        | 16 | Population Variance | The drift strength $\hat{\text{Var}}(\Omega)$ between the first and second populations without dividing the square of divergence time |
+        | 17 | Delta | The $\delta$ statistic for selection difference |
+        | 18 | p-value | The p-value of the $\delta$ statistic |
         
     Note: For a admixed population, the allele counts of its missing parental populations are estimated by their estimated allele frequecies multiply by 1000 (See Introduction section in the manual for estimating allele frequencies in missing parental populations).
 
@@ -159,14 +160,14 @@ To estimate selection coefficient differences, in the command line, we type
         
 The result is stored in `examples/example.result.tsv`. The main result is in below.
 
-| SNP ID | Population1 | Population2 | Selection Coefficient Difference (Population1 - Population2) | Std(Selection Coefficient Difference) | delta | p-value |
-| ------ | ------------ | ------------ | -------------- | --------- | --------- | -------- |
-| rs12913832 | YRI      | CEU          | -0.00214       | 3.96E-4   | 16.57374  | 4.7E-5   |
-| rs12913832 | YRI      | CHS          | -1.63E-4       | 4.54E-4   | 0.079586  | 0.777859 |
-| rs12913832 | CEU      | CHS          | 0.003558       | 4.17E-4   | 30.083597 | 0.0      |
-| rs1800407  | YRI      | CEU          | -0.001073      | 3.99E-4   | 4.127239  | 0.042198 |
-| rs1800407  | YRI      | CHS          | -4.67E-4       | 4.15E-4   | 0.730705  | 0.392655 |
-| rs1800407  | CEU      | CHS          | 0.001091       | 2.68E-4   | 3.733448  | 0.053333 |
+| SNP ID | Population1 | Population2 | Selection Coefficient Difference (Population1 - Population2) | Std | 95% Confidence Interval | delta | p-value |
+| ------ | ------------ | ------------ | -------------- | --------- | ------------------- | --------- | -------- |
+| rs12913832 | YRI      | CEU          | -0.00214       | 3.96E-4   | [-0.002915,-0.001364] | 16.57374  | 4.7E-5   |
+| rs12913832 | YRI      | CHS          | -1.63E-4       | 4.54E-4   | [-0.001053,7.27E-4] | 0.079586  | 0.777859 |
+| rs12913832 | CEU      | CHS          | 0.003558       | 4.17E-4   | [0.002741,0.004376] | 30.083597 | 0.0      |
+| rs1800407  | YRI      | CEU          | -0.001073      | 3.99E-4   | [-0.001856,-2.9E-4] | 4.127239  | 0.042198 |
+| rs1800407  | YRI      | CHS          | -4.67E-4       | 4.15E-4   | [-0.00128,3.46E-4] | 0.730705  | 0.392655 |
+| rs1800407  | CEU      | CHS          | 0.001091       | 2.68E-4   | [5.65E-4,0.001617] | 3.733448  | 0.053333 |
 
 From the result, we can see the selection coefficient coefficient of rs12913832 in CEU is significantly higher than that in YRI or CHS, which indicates rs12913832 is under positive selection in CEU. While the selection coefficient of rs1800407 in CEU is marginal significantly higher than that in YRI or CHS.
 
