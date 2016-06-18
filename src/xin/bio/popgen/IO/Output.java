@@ -27,12 +27,14 @@ public class Output {
 						+ "Population1\tAncestral Haplotype Count\tDerived Haplotype Count\t"
 						+ "Population2\tAncestral Haplotype Count\tDerived Haplotype Count\t"
 						+ "Selection Coefficient Difference (Population1 - Population2)\tStd\t"
+						+ "95% Confidence Interval\t"
 						+ "Divergence Time\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tPopulation Variance\tDelta\tp-value"));
 			else
 				bw.write(new String("SNP Id\tAncestral Allele\tDerived Allele\t"
 					+ "Population1\tAncestral Allele Count\tDerived Allele Count\t"
 					+ "Population2\tAncestral Allele Count\tDerived Allele Count\t"
 					+ "Selection Coefficient Difference (Population1 - Population2)\tStd\t"
+					+ "95% Confidence Interval\t" 
 					+ "Divergence Time\tlog(Odds Ratio)\tVar(log(Odds Ratio))\tPopulation Variance\tDelta\tp-value"));
 			bw.newLine();
 		} catch (IOException e) {
@@ -107,6 +109,8 @@ public class Output {
 					.add(String.valueOf((int) countBm))
 					.add(String.valueOf(Model.round(seleStrength)))
 					.add(String.valueOf(Model.round(stdSeleStrength)))
+					.add("["+String.valueOf(Model.round(seleStrength-1.96*stdSeleStrength))
+							+","+String.valueOf(Model.round(seleStrength+1.96*stdSeleStrength))+"]")
 					.add(String.valueOf((int) divergenceTime))
 					.add(String.valueOf(Model.round(logOdds)))
 					.add(String.valueOf(Model.round(varLogOdds)))
