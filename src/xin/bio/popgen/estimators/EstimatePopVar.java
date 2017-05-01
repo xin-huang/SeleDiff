@@ -74,7 +74,7 @@ public final class EstimatePopVar extends Estimator {
         for (int i = 0; i < popPairNum; i++) {
             String[] popPair = sampleInfo.getPopPair(i);
             StringJoiner sj = new StringJoiner("\t");
-            sj.add(popPair[0]).add(popPair[1]).add(String.valueOf(round(popPairVarMedians[i])));
+            sj.add(popPair[0]).add(popPair[1]).add(String.valueOf(Model.round(popPairVarMedians[i])));
             bw.write(sj.toString());
             bw.newLine();
         }

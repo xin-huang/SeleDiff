@@ -86,6 +86,8 @@ public final class VcfInfo implements Info {
         samplePopNum = sampleInfo.getPopNum();
         readFile(vcfFileName);
         snpNum = refAlleles.keySet().size();
+
+        System.out.println(snpNum + " variants are read from " + vcfFileName);
     }
 
     /**
@@ -177,7 +179,10 @@ public final class VcfInfo implements Info {
 
     @Override
     public void parseLine(String line) {
-        if (line.startsWith("#C")) {
+    	if (line.startsWith("##")) {
+    		return;
+    	}
+    	else if (line.startsWith("#C")) {
             String[] elements = line.trim().split("\\s+");
             int vcfIndNum = elements.length - 9;
             if (vcfIndNum != sampleIndNum)
@@ -196,7 +201,7 @@ public final class VcfInfo implements Info {
             derAlleles.put(snpId, elements[4]);
             int[][] alleleCounts = new int[samplePopNum][2];
             for (int i = 9; i < elements.length; i++) {
-                int popIndex = sampleInfo.getPopIndex(sampleInfo.getPopId(indIds[i-9]));
+            	int popIndex = sampleInfo.getPopIndex(sampleInfo.getPopId(indIds[i-9]));
                 String gt = elements[i].split(":")[0];
                 String[] alleles = gt.split("[|/]");
                 if (!alleles[0].equals("."))

@@ -82,15 +82,4 @@ public abstract class Estimator {
      */
     abstract void writeHeader(BufferedWriter bw) throws IOException;
 
-    /**
-     * Rounds a double value to 6 decimal points.
-     *
-     * @param value a value to be rounded
-     * @return the rounded value
-     */
-    double round(double value) {
-        return (new Double(value).equals(Double.NaN)) ? value
-                : ((double) Math.round(value * 1000000d) / 1000000d);
-    }
-
 }

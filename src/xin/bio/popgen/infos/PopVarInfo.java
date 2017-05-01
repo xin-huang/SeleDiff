@@ -37,10 +37,13 @@ public final class PopVarInfo implements Info {
      * @param sampleInfo a SampleInfo instance containing sample information
      */
     public PopVarInfo(String popVarFileName, SampleInfo sampleInfo) {
+        int popPairNum = sampleInfo.getPopNum() * (sampleInfo.getPopNum() - 1)/2;
         this.sampleInfo = sampleInfo;
-        popVars = new Double[sampleInfo.getPopNum() * (sampleInfo.getPopNum() - 1)/2];
+        popVars = new Double[popPairNum];
         readFile(popVarFileName);
         checkPopPairs();
+
+        System.out.println(popPairNum + " population pairs with variances of drift are read from " + popVarFileName);
     }
 
     /**

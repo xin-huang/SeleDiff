@@ -70,6 +70,9 @@ public final class SampleInfo implements Info {
             popIndex.put(popId,i);
             popIds[i++] = popId;
         }
+
+        System.out.println(indNum + " individuals with " + popNum
+                + " populations are read from " + sampleFileName);
     }
 
     /**
@@ -79,6 +82,8 @@ public final class SampleInfo implements Info {
      * @return the population ID
      */
     public String getPopId(String indId) {
+    	if (!ind2pop.containsKey(indId)) 
+    		throw new IllegalArgumentException("Cannot find individual " + indId + " in the sample file");
         return ind2pop.get(indId);
     }
 

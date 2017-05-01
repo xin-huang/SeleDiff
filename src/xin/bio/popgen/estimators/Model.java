@@ -26,6 +26,7 @@ final class Model {
 
     /**
      * Calculates the logarithm of Odds ratio.
+     *
      * @param countAw counts of ancestral allele in population A
      * @param countAm counts of derived allele in population A
      * @param countBw counts of ancestral allele in population B
@@ -33,12 +34,13 @@ final class Model {
      * @return the logarithm of Odds ratio
      */
     static double calLogOdds(int countAw, int countAm, int countBw, int countBm) {
-        return Math.log((correctContinuous(countAm) * correctContinuous(countBw))
-                / (correctContinuous(countAw) * correctContinuous(countBm)));
+        return round(Math.log((correctContinuous(countAm) * correctContinuous(countBw))
+                / (correctContinuous(countAw) * correctContinuous(countBm))));
     }
 
     /**
      * Calculates the variance of the logarithm of Odds ratio.
+     *
      * @param countAw counts of ancestral allele in population A
      * @param countAm counts of derived allele in population A
      * @param countBw counts of ancestral allele in population B
@@ -46,12 +48,13 @@ final class Model {
      * @return the variance of the logarithm of Odds ratio
      */
     static double calVarLogOdds(int countAw, int countAm, int countBw, int countBm) {
-        return 1/correctContinuous(countAw) + 1/correctContinuous(countAm)
-                + 1/correctContinuous(countBw) + 1/correctContinuous(countBm);
+        return round(1/correctContinuous(countAw) + 1/correctContinuous(countAm)
+                + 1/correctContinuous(countBw) + 1/correctContinuous(countBm));
     }
 
     /**
      * Calculates the drift variance between two populations.
+     *
      * @param countAw counts of ancestral allele in population A
      * @param countAm counts of derived allele in population A
      * @param countBw counts of ancestral allele in population B
@@ -61,17 +64,29 @@ final class Model {
     static double calDriftVar(int countAw, int countAm, int countBw, int countBm) {
         double logOdds = calLogOdds(countAw, countAm, countBw, countBm);
         double varLogOdds = calVarLogOdds(countAw, countAm, countBw, countBm);
-        return logOdds * logOdds / 0.455 - varLogOdds;
+        return round(logOdds * logOdds / 0.455 - varLogOdds);
     }
 
 
     /**
      * Helper function for continuously correction when count < 5.
+     *
      * @param count a count number for correction
      * @return the corrected count
      */
     private static double correctContinuous(int count) {
         return count < 5 ? count + 0.5 : count;
+    }
+
+    /**
+     * Rounds a double value to 6 decimal points.
+     *
+     * @param value a value to be rounded
+     * @return the rounded value
+     */
+    static double round(double value) {
+        return (new Double(value).equals(Double.NaN)) ? value
+                : ((double) Math.round(value * 1000000d) / 1000000d);
     }
 
 }

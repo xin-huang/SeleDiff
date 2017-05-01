@@ -44,10 +44,14 @@ public final class TimeInfo implements Info {
      * @param sampleInfo a SampleInfo instance
      */
     public TimeInfo(String timeFileName, SampleInfo sampleInfo) {
-        times = new Integer[(sampleInfo.getPopNum()*(sampleInfo.getPopNum()-1))/2];
+        int popPairNum = (sampleInfo.getPopNum()*(sampleInfo.getPopNum()-1))/2;
+        times = new Integer[popPairNum];
         this.sampleInfo = sampleInfo;
         readFile(timeFileName);
         checkPopPairs();
+
+        System.out.println(popPairNum + " population pairs with divergence times are read from "
+                + timeFileName);
     }
 
     /**

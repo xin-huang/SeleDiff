@@ -129,14 +129,14 @@ public final class EstimateSeleDiff extends Estimator {
                         .add(popPair[1])
                         .add(String.valueOf(vcfInfo.getAlleleCount(snpId, sampleInfo.getPopIndex(popPair[1]), 0)))
                         .add(String.valueOf(vcfInfo.getAlleleCount(snpId, sampleInfo.getPopIndex(popPair[1]), 1)))
-                        .add(String.valueOf(round(diff[i])))
-                        .add(String.valueOf(round(std[i])))
-                        .add(String.valueOf(round(diff[i]-1.96*std[i])))
-                        .add(String.valueOf(round(diff[i]+1.96*std[i])))
+                        .add(String.valueOf(Model.round(diff[i])))
+                        .add(String.valueOf(Model.round(std[i])))
+                        .add(String.valueOf(Model.round(diff[i]-1.96*std[i])))
+                        .add(String.valueOf(Model.round(diff[i]+1.96*std[i])))
                         .add(String.valueOf(timeInfo.getTime(i)))
-                        .add(String.valueOf(popVarInfo.getPopVar(i)))
-                        .add(String.valueOf(round(delta[i])))
-                        .add(String.valueOf(round(pvalue[i])));
+                        .add(String.valueOf(Model.round(popVarInfo.getPopVar(i))))
+                        .add(String.valueOf(Model.round(delta[i])))
+                        .add(String.valueOf(Model.round(pvalue[i])));
                 bw.write(sj.toString());
                 bw.newLine();
             }
