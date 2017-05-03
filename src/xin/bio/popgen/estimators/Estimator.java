@@ -19,7 +19,7 @@ package xin.bio.popgen.estimators;
 
 import xin.bio.popgen.infos.SampleInfo;
 import xin.bio.popgen.infos.TimeInfo;
-import xin.bio.popgen.infos.VcfInfo;
+import xin.bio.popgen.infos.VCFInfo;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -47,7 +47,7 @@ public abstract class Estimator {
      *
      * @param vcfInfo a VcfInfo instance containing variant information
      */
-    public abstract void estimate(VcfInfo vcfInfo);
+    public abstract void estimate(VCFInfo vcfInfo);
 
     /**
      * An abstract method for outputting results to files.

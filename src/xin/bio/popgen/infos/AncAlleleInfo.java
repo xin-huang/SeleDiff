@@ -26,7 +26,7 @@ package xin.bio.popgen.infos;
 public final class AncAlleleInfo implements Info {
 
     // a VcfInfo instance stores variant information
-    private final VcfInfo vcfInfo;
+    private final VCFInfo vcfInfo;
 
     /**
      * Constructor of class {@code AncAlleleInfo}.
@@ -38,7 +38,7 @@ public final class AncAlleleInfo implements Info {
      * @param ancFileName the file name of an ancestral allele file
      * @param vcfInfo a VcfInfo instance containing variant information
      */
-    public AncAlleleInfo(String ancFileName, VcfInfo vcfInfo) {
+    public AncAlleleInfo(String ancFileName, VCFInfo vcfInfo) {
         this.vcfInfo = vcfInfo;
         readFile(ancFileName);
     }

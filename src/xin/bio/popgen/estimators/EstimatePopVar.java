@@ -18,7 +18,7 @@
 package xin.bio.popgen.estimators;
 
 import xin.bio.popgen.infos.SampleInfo;
-import xin.bio.popgen.infos.VcfInfo;
+import xin.bio.popgen.infos.VCFInfo;
 import xin.bio.popgen.utils.LinkedQueue;
 
 import java.io.BufferedWriter;
@@ -49,7 +49,7 @@ public final class EstimatePopVar extends Estimator {
     }
 
     @Override
-    public void estimate(VcfInfo vcfInfo) {
+    public void estimate(VCFInfo vcfInfo) {
         LinkedQueue[] popPairVars = new LinkedQueue[popPairNum];
         for (int i = 0; i < popPairNum; i++) {
             popPairVars[i] = new LinkedQueue();
@@ -91,14 +91,57 @@ public final class EstimatePopVar extends Estimator {
             for (Object d:popPairVars[i]) {
                 vars[j++] = (double) d;
             }
-            Arrays.sort(vars);
-            popPairVarMedians[i] = vars[effectedSize/2];
+            
+            // popPairVarMedians[i] = naiveMedian(vars);
+            popPairVarMedians[i] = quickSelectMedian(vars);
         }
     }
+    
+    /**
+     * Finds median with sort algorithm O(n^2).
+     * 
+     * @param arr an double array
+     * @return the median of the array
+     */
+    private double naiveMedian(double[] arr) {
+    	Arrays.sort(arr);
+    	return arr[arr.length/2];
+    }
 
+    /**
+     * Finds median with quick select algorithm O(n).
+     * 
+     * @param arr an double array
+     * @return the median of the array
+     */
     private double quickSelectMedian(double[] arr) {
         int k = arr.length / 2;
-        return 0;
+        int from = 0;
+        int to = arr.length - 1;
+        
+        while (from < to) {
+        	int r = from;
+        	int w = to;
+        	double mid = arr[(r+w)/2];
+        	
+        	while (r < w) {
+        		if (arr[r] >= mid) {
+        			double tmp = arr[w];
+        			arr[w] = arr[r];
+        			arr[r] = tmp;
+        			w--;
+        		}
+        		else r++;
+        	}
+        	
+        	if (arr[r] > mid) r--;
+        	
+        	if (k <= r) to = r;
+        	else from = r + 1;
+        	
+        }
+        
+        return arr[k];
     }
 
 }

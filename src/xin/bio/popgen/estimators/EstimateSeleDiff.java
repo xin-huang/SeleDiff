@@ -21,7 +21,7 @@ import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 import xin.bio.popgen.infos.PopVarInfo;
 import xin.bio.popgen.infos.SampleInfo;
 import xin.bio.popgen.infos.TimeInfo;
-import xin.bio.popgen.infos.VcfInfo;
+import xin.bio.popgen.infos.VCFInfo;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public final class EstimateSeleDiff extends Estimator {
     private final PopVarInfo popVarInfo;
 
     // a VcfInfo instance stores the variant information of the sample
-    private VcfInfo vcfInfo;
+    private VCFInfo vcfInfo;
 
     // a HashMap stores selection differences of each variants between populations
     // key: SNP ID
@@ -81,7 +81,7 @@ public final class EstimateSeleDiff extends Estimator {
     }
 
     @Override
-    public void estimate(VcfInfo vcfInfo) {
+    public void estimate(VCFInfo vcfInfo) {
         ChiSquaredDistribution chisq = new ChiSquaredDistribution(1);
         this.vcfInfo = vcfInfo;
         for (String snpId:vcfInfo.getSnps()) {

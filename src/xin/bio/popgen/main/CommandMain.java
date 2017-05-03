@@ -91,7 +91,7 @@ final class CommandMain {
 
         SampleInfo sampleInfo = new SampleInfo(sampleFileName);
 
-        VcfInfo vcfInfo = new VcfInfo(vcfFileName, sampleInfo);
+        VCFInfo vcfInfo = new VCFInfo(vcfFileName, sampleInfo);
 
         if (ancAlleleFileName != null) {
             new AncAlleleInfo(ancAlleleFileName, vcfInfo);

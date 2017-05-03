@@ -27,6 +27,9 @@ import com.beust.jcommander.JCommander;
 public final class SeleDiff {
 
     public static void main(String[] args) {
+    	
+    	long start = System.currentTimeMillis();
+    	
         CommandMain cm = new CommandMain();
         JCommander jc = new JCommander(cm);
         jc.setProgramName("SeleDiff");
@@ -39,6 +42,10 @@ public final class SeleDiff {
             jc.parse(args);
             cm.execute();
         }
+        
+        long end = System.currentTimeMillis();
+        long diff = end - start;
+        System.out.println(diff/1000 + " seconds");
     }
 
 }
