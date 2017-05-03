@@ -35,6 +35,7 @@ public interface Info {
      * @param fileName a file name
      */
     default void readFile(String fileName) {
+    	//long end = System.currentTimeMillis();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(fileName));
@@ -53,6 +54,8 @@ public interface Info {
                 e.printStackTrace();
             }
         }
+        //long start = System.currentTimeMillis();
+        //System.out.println("Read " + fileName + " time: " + ((end-start)/1000));
     }
 
     /**

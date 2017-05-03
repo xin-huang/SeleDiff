@@ -1,3 +1,4 @@
+package xin.bio.popgen.infos;
 /*
   Copyright (C) 2017 Xin Huang
 
@@ -15,10 +16,12 @@
   You should have received a copy of the GNU General Public License
   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package xin.bio.popgen.infos;
+
 
 import java.util.HashMap;
 import java.util.HashSet;
+
+import xin.bio.popgen.utils.LinkedQueue;
 
 /**
  * Class {@code SampleInfo} stores the sample information, including:
@@ -28,9 +31,13 @@ import java.util.HashSet;
  */
 public final class SampleInfo implements Info {
 
-    // a HashMap stores individual IDs and their corresponding population IDs
-    // key: individual ID; value: population ID
-    private final HashMap<String, String> ind2pop;
+	// a String array stores population IDs for each individuals
+	// The order of individual IDs in the sample file should be 
+	// CONSISTENT with those in the header of the VCF file
+    private final String[] ind2pop;
+    
+    // a LinkedQueue stores population IDs for each individuals 
+    private final LinkedQueue<String> ind2popQueue;
 
     // a HashMap stores population IDs and their corresponding indices
     // key: population ID; value: index
@@ -57,13 +64,19 @@ public final class SampleInfo implements Info {
      * @param sampleFileName the file name of a sample file
      */
     public SampleInfo(String sampleFileName) {
-        ind2pop = new HashMap<>(); // key: individual id; value: pop id
+        ind2popQueue = new LinkedQueue<String>();
         popIndex = new HashMap<>(); // key: pop id; value: pop index
         popSet = new HashSet<>();
         readFile(sampleFileName);
-
+        
         int i = 0;
-        indNum = ind2pop.keySet().size();
+        ind2pop = new String[ind2popQueue.size()];
+        for (String popId:ind2popQueue) {
+        	ind2pop[i++] = popId;
+        }
+        
+        i = 0;
+        indNum = ind2pop.length;
         popNum = popSet.size();
         popIds = new String[popNum];
         for (String popId:popSet) {
@@ -78,13 +91,11 @@ public final class SampleInfo implements Info {
     /**
      * Returns the population ID of an individual.
      *
-     * @param indId a individual ID
+     * @param i a individual index
      * @return the population ID
      */
-    public String getPopId(String indId) {
-    	if (!ind2pop.containsKey(indId)) 
-    		throw new IllegalArgumentException("Cannot find individual " + indId + " in the sample file");
-        return ind2pop.get(indId);
+    public String ind2PopId(int i) {
+        return ind2pop[i];
     }
 
     /**
@@ -172,15 +183,8 @@ public final class SampleInfo implements Info {
     @Override
     public void parseLine(String line) {
         String[] elements = line.trim().split("\\s+");
-        // elements[0]: individual id
-        // elements[1]: pop id
-        if (ind2pop.containsKey(elements[0])) {
-            throw new IllegalArgumentException("Find duplicated individual id: " + elements[0]);
-        }
-        else {
-            popSet.add(elements[1]);
-            ind2pop.put(elements[0], elements[1]);
-        }
+        ind2popQueue.enqueue(elements[1]);
+        popSet.add(elements[1]);
     }
 
 }

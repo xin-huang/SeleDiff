@@ -17,7 +17,6 @@
  */
 package xin.bio.popgen.infos;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -204,8 +203,8 @@ public final class VCFInfo implements Info {
 				st.nextToken();
 			}
 			int[][] alleleCounts = new int[samplePopNum][2];
-			for (int i = 9; i < sampleIndNum + 9; i++) {
-				int popIndex = sampleInfo.getPopIndex(sampleInfo.getPopId(indIds[i-9]));
+			for (int i = 0; i < sampleIndNum; i++) {
+				int popIndex = sampleInfo.getPopIndex(sampleInfo.ind2PopId(i));
 				String gt = new StringTokenizer(st.nextToken(),":").nextToken();
 				int allele1 = gt.charAt(0)-48;
 				int allele2 = gt.charAt(2)-48;
@@ -216,38 +215,6 @@ public final class VCFInfo implements Info {
 			}
 			counts.put(snpId, alleleCounts);
 		}
-    	/*if (line.startsWith("##")) {
-    		return;
-    	}
-    	else if (line.startsWith("#C")) {
-            String[] elements = line.trim().split("\\s+");
-            int vcfIndNum = elements.length - 9;
-            if (vcfIndNum != sampleIndNum)
-                throw new IllegalArgumentException("Individual number NOT matched: Find "
-                        + vcfIndNum + " individuals in VCF file, while find "
-                        + sampleIndNum + " individuals in sample file.");
-            indIds = new String[sampleIndNum];
-            indIds = Arrays.copyOfRange(elements, 9, elements.length);
-        }
-        else {
-            String[] elements = line.trim().split("\\s+");
-            String snpId = elements[2];
-            refAlleles.put(snpId, elements[3]);
-            altAlleles.put(snpId, elements[4]);
-            ancAlleles.put(snpId, elements[3]);
-            derAlleles.put(snpId, elements[4]);
-            int[][] alleleCounts = new int[samplePopNum][2];
-            for (int i = 9; i < elements.length; i++) {
-            	int popIndex = sampleInfo.getPopIndex(sampleInfo.getPopId(indIds[i-9]));
-                String gt = elements[i].split(":")[0];
-                String[] alleles = gt.split("[|/]");
-                if (!alleles[0].equals("."))
-                    alleleCounts[popIndex][Integer.parseInt(alleles[0])]++;
-                if (!alleles[1].equals("."))
-                    alleleCounts[popIndex][Integer.parseInt(alleles[1])]++;
-            }
-            counts.put(snpId, alleleCounts);
-        }*/
     }
 
 }
