@@ -23,7 +23,6 @@ import xin.bio.popgen.utils.LinkedQueue;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.StringJoiner;
 
 /**
@@ -92,22 +91,10 @@ public final class EstimatePopVar extends Estimator {
                 vars[j++] = (double) d;
             }
             
-            // popPairVarMedians[i] = naiveMedian(vars);
             popPairVarMedians[i] = quickSelectMedian(vars);
         }
     }
     
-    /**
-     * Finds median with sort algorithm O(n^2).
-     * 
-     * @param arr an double array
-     * @return the median of the array
-     */
-    private double naiveMedian(double[] arr) {
-    	Arrays.sort(arr);
-    	return arr[arr.length/2];
-    }
-
     /**
      * Finds median with quick select algorithm O(n).
      * 
@@ -138,7 +125,6 @@ public final class EstimatePopVar extends Estimator {
         	
         	if (k <= r) to = r;
         	else from = r + 1;
-        	
         }
         
         return arr[k];

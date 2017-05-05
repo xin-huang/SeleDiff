@@ -45,7 +45,9 @@ final class CommandMain {
             description = "The sample file stores individual information. " +
                     "A sample file is space delimited without header, " +
                     "where the first column is individual ID, " +
-                    "and the second column is population ID.", validateWith = FileValidator.class)
+                    "and the second column is population ID. " + 
+                    "The order of individual IDs should be consistent with " +
+                    "those in the VCF file", validateWith = FileValidator.class)
     private String sampleFileName;
 
     @Parameter(names = "--time", required = true,

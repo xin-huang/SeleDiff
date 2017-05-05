@@ -19,7 +19,6 @@ package xin.bio.popgen.infos;
 
 import java.util.HashMap;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 /**
  * Class {@code VcfInfo} stores variant information of the sample.
@@ -180,40 +179,44 @@ public final class VCFInfo implements Info {
     @Override
     public void parseLine(String line) {
     	if (line.startsWith("##")) return;
-    	else if (line.startsWith("#C")) {
-    		StringTokenizer st = new StringTokenizer(line.trim());
-            for (int i = 0; i < 9; i++) {
-            	st.nextToken();
-            }
-            indIds = new String[sampleIndNum];
-            int vcfIndNum = 0;
-            while (st.hasMoreTokens()) {
-            		indIds[vcfIndNum++] = st.nextToken();
-            }
-    	}
-		else { 
-			StringTokenizer st = new StringTokenizer(line.trim());
-			st.nextToken();
-			String snpId = st.nextToken();
-			refAlleles.put(snpId, st.nextToken());
-            altAlleles.put(snpId, st.nextToken());
-            ancAlleles.put(snpId, st.nextToken());
-            derAlleles.put(snpId, st.nextToken());
-			for (int i = 6; i < 9; i++) {
-				st.nextToken();
+    	else if(line.startsWith("#C")) {
+			int start = 0, end = 0, vcfIndNum = 0;;
+			indIds = new String[sampleIndNum];
+			for (int i = 0; i < 9; i++) {
+				end = line.indexOf("\t", start);
+				start = end + 1;
 			}
+			while ((end = line.indexOf("\t", start)) > 0) {
+				indIds[vcfIndNum++] = line.substring(start, end);
+				start = end + 1;
+			}
+		}
+		else {
 			int[][] alleleCounts = new int[samplePopNum][2];
-			for (int i = 0; i < sampleIndNum; i++) {
-				int popIndex = sampleInfo.getPopIndex(sampleInfo.ind2PopId(i));
-				String gt = new StringTokenizer(st.nextToken(),":").nextToken();
-				int allele1 = gt.charAt(0)-48;
-				int allele2 = gt.charAt(2)-48;
+			int start = 0, end = 0, i = 0;
+			String snpId = null;
+			for (i = 0; i < 9; i++) {
+				end = line.indexOf("\t", start);
+				if (i == 2) snpId = line.substring(start, end);
+				if (i == 3) refAlleles.put(snpId, line.substring(start, end));
+				if (i == 4) altAlleles.put(snpId, line.substring(start, end));
+				start = end + 1;
+			}
+			ancAlleles.put(snpId, "");
+            derAlleles.put(snpId, "");
+            i = 0;
+            while ((end = line.indexOf("\t", start)) > 0) {
+				int popIndex = sampleInfo.getPopIndex(sampleInfo.ind2PopId(i++));
+				String gt = line.substring(start, end);
+				int allele1 = gt.charAt(0) - 48;
+				int allele2 = gt.charAt(2) - 48;
 				if (allele1 >= 0)
 					alleleCounts[popIndex][allele1]++;
 				if (allele2 >= 0)
 					alleleCounts[popIndex][allele2]++;
+				start = end + 1;
 			}
-			counts.put(snpId, alleleCounts);
+            counts.put(snpId, alleleCounts);
 		}
     }
 

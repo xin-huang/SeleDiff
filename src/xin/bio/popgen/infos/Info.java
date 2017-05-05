@@ -27,7 +27,7 @@ import java.io.IOException;
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-public interface Info {
+interface Info {
 
     /**
      * Helper function for reading files.
@@ -57,7 +57,7 @@ public interface Info {
         //long start = System.currentTimeMillis();
         //System.out.println("Read " + fileName + " time: " + ((end-start)/1000));
     }
-
+    
     /**
      * Helper function for parsing a line in a file.
      *
