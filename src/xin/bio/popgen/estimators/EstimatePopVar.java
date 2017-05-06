@@ -19,11 +19,12 @@ package xin.bio.popgen.estimators;
 
 import xin.bio.popgen.infos.SampleInfo;
 import xin.bio.popgen.infos.VCFInfo;
-import xin.bio.popgen.utils.LinkedQueue;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.StringJoiner;
+
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 
 /**
  * Class {@code EstimatePopVar} extends {@code Estimator} to
@@ -49,10 +50,10 @@ public final class EstimatePopVar extends Estimator {
 
     @Override
     public void estimate(VCFInfo vcfInfo) {
-        LinkedQueue[] popPairVars = new LinkedQueue[popPairNum];
-        for (int i = 0; i < popPairNum; i++) {
-            popPairVars[i] = new LinkedQueue();
-        }
+    	DoubleArrayList[] popPairVars = new DoubleArrayList[popPairNum];
+    	for (int i = 0; i < popPairNum; i++) {
+    		popPairVars[i] = new DoubleArrayList();
+    	}
         for (String snpId:vcfInfo.getSnps()) {
             int[][] tmp = vcfInfo.getCounts(snpId);
             for (int m = 0; m < tmp.length; m++) {
@@ -60,7 +61,7 @@ public final class EstimatePopVar extends Estimator {
                     int popPairIndex = sampleInfo.getPopPairIndex(m,n);
                     if ((tmp[m][0] + tmp[m][1] == 0) || (tmp[n][0] + tmp[n][1] == 0))
                         continue;
-                    popPairVars[popPairIndex].enqueue(Model.calDriftVar(tmp[m][0],tmp[m][1],tmp[n][0],tmp[n][1]));
+                    popPairVars[popPairIndex].add(Model.calDriftVar(tmp[m][0],tmp[m][1],tmp[n][0],tmp[n][1]));
                 }
             }
         }
@@ -82,16 +83,17 @@ public final class EstimatePopVar extends Estimator {
     @Override
     void writeHeader(BufferedWriter bw) throws IOException {}
 
-    private void findMedians(LinkedQueue[] popPairVars) {
+    private void findMedians(DoubleArrayList[] popPairVars) {
         for (int i = 0; i < popPairVars.length; i++) {
-            int effectedSize = popPairVars[i].size();
-            double[] vars = new double[effectedSize];
-            int j = 0;
-            for (Object d:popPairVars[i]) {
-                vars[j++] = (double) d;
-            }
-            
-            popPairVarMedians[i] = quickSelectMedian(vars);
+        	int length = popPairVars[i].size();
+        	if (length % 2 != 0) {
+        		popPairVarMedians[i] = quickSelectMedian(popPairVars[i].toDoubleArray(), length/2);
+        	}
+        	else {
+        		double left = quickSelectMedian(popPairVars[i].toDoubleArray(), length/2-1);
+        		double right = quickSelectMedian(popPairVars[i].toDoubleArray(), length/2);
+        		popPairVarMedians[i] = (left + right) / 2;
+        	}
         }
     }
     
@@ -101,8 +103,7 @@ public final class EstimatePopVar extends Estimator {
      * @param arr an double array
      * @return the median of the array
      */
-    private double quickSelectMedian(double[] arr) {
-        int k = arr.length / 2;
+    private double quickSelectMedian(double[] arr, int k) {
         int from = 0;
         int to = arr.length - 1;
         

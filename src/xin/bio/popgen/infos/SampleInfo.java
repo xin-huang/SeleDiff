@@ -18,10 +18,9 @@ package xin.bio.popgen.infos;
  */
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import xin.bio.popgen.utils.LinkedQueue;
 
 /**
  * Class {@code SampleInfo} stores the sample information, including:
@@ -34,10 +33,10 @@ public final class SampleInfo implements Info {
 	// a String array stores population IDs for each individuals
 	// The order of individual IDs in the sample file should be 
 	// CONSISTENT with those in the header of the VCF file
-    private final String[] ind2pop;
+    private String[] ind2pop;
     
     // a LinkedQueue stores population IDs for each individuals 
-    private final LinkedQueue<String> ind2popQueue;
+    private final ArrayList<String> ind2popQueue;
 
     // a HashMap stores population IDs and their corresponding indices
     // key: population ID; value: index
@@ -64,18 +63,15 @@ public final class SampleInfo implements Info {
      * @param sampleFileName the file name of a sample file
      */
     public SampleInfo(String sampleFileName) {
-        ind2popQueue = new LinkedQueue<String>();
+        ind2popQueue = new ArrayList<String>();
         popIndex = new HashMap<>(); // key: pop id; value: pop index
         popSet = new HashSet<>();
         readFile(sampleFileName);
         
-        int i = 0;
         ind2pop = new String[ind2popQueue.size()];
-        for (String popId:ind2popQueue) {
-        	ind2pop[i++] = popId;
-        }
+        ind2pop = ind2popQueue.toArray(ind2pop);
         
-        i = 0;
+        int i = 0;
         indNum = ind2pop.length;
         popNum = popSet.size();
         popIds = new String[popNum];
@@ -137,9 +133,9 @@ public final class SampleInfo implements Info {
     public int getPopPairIndex(int i, int j) {
         int k;
         if (i < j)
-            k = i * popNum - i * (i+1)/2 + j - i - 1;
+            k = i*popNum - (i+2)*(i+1)/2 + j;
         else
-            k = j * popNum - j * (j+1)/2 + i - j - 1;
+            k = j*popNum - (j+2)*(j+1)/2 + i;
         return k;
     }
 
@@ -150,9 +146,11 @@ public final class SampleInfo implements Info {
      * @return the IDs of the population pair
      */
     public String[] getPopPair(int k) {
-        int i = 2 * (k + 1) / popNum - 1;
-        if (i < 0) i = 0;
-        int j = k - i * popNum + i * (i+1)/2 + i + 1;
+    	int i = 0;
+    	while (((k+(i+1)*(i+2)/2)/popNum) != i) {
+    		i++;
+    	}
+        int j = k - i * popNum + (i+2)*(i+1)/2;
         return new String[]{getPopId(i), getPopId(j)};
     }
 
@@ -183,7 +181,7 @@ public final class SampleInfo implements Info {
     @Override
     public void parseLine(String line) {
         String[] elements = line.trim().split("\\s+");
-        ind2popQueue.enqueue(elements[1]);
+        ind2popQueue.add(elements[1]);
         popSet.add(elements[1]);
     }
 

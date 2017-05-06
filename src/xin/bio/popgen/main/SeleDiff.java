@@ -19,6 +19,8 @@ package xin.bio.popgen.main;
 
 import com.beust.jcommander.JCommander;
 
+import xin.bio.popgen.utils.TimeMeasurement;
+
 /**
  * Class {@code SeleDiff} is the entry class for the SeleDiff program.
  *
@@ -29,6 +31,9 @@ public final class SeleDiff {
     public static void main(String[] args) {
     	
     	long start = System.currentTimeMillis();
+    	long startSystemTimeNano = TimeMeasurement.getSystemTime();
+    	long startUserTimeNano = TimeMeasurement.getUserTime();
+    	long startCpuTimeNano = TimeMeasurement.getCpuTime();
     	
         CommandMain cm = new CommandMain();
         JCommander jc = new JCommander(cm);
@@ -43,9 +48,14 @@ public final class SeleDiff {
             cm.execute();
         }
         
-        long end = System.currentTimeMillis();
-        long diff = end - start;
-        System.out.println(diff/1000 + " seconds");
+        long taskWallTime = System.currentTimeMillis() - start;
+        long taskCpuTimeNano = TimeMeasurement.getCpuTime() - startCpuTimeNano;
+        long taskUserTimeNano = TimeMeasurement.getUserTime() - startUserTimeNano;
+        long taskSystemTimeNano = TimeMeasurement.getSystemTime() - startSystemTimeNano;
+        System.out.println("Wall time: " + taskWallTime/1000);
+        System.out.println("CPU time: " + taskCpuTimeNano/1000000000);
+        System.out.println("User Time: " + taskUserTimeNano/1000000000);
+        System.out.println("System Time: " + taskSystemTimeNano/1000000000);
     }
 
 }
