@@ -54,9 +54,20 @@ public final class PopVarMedianEstimator extends Estimator {
         }
     }
 
+    @Override
+    public void estimate() { findMedians(popPairVars); }
+    
 	@Override
-	public void accept(int[][] alleleCounts) {
-		for (int m = 0; m < alleleCounts.length; m++) {
+	public void parseSnpInfo(String line) {
+		// Read SNP information
+		int start = 0, end = 0;
+		for (int i = 0; i < 9; i++) {
+			end = line.indexOf("\t", start);
+			start = end + 1;
+		}
+        // Read allele counts of individuals
+		int[][] alleleCounts = countAlleles(line, start);
+        for (int m = 0; m < alleleCounts.length; m++) {
 			for (int n = m + 1; n < alleleCounts.length; n++) {
 				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
                 if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
@@ -67,13 +78,6 @@ public final class PopVarMedianEstimator extends Estimator {
 			}
 		}
 	}
-    
-    @Override
-    public void estimate() { findMedians(popPairVars); }
-    
-	@Override
-	public void addSnpInfo(String snpId, 
-			String refAllele, String altAllele) {}
 
     @Override
     void writeLine(BufferedWriter bw) throws IOException {

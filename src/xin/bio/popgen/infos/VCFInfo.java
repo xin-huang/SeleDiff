@@ -27,9 +27,6 @@ import xin.bio.popgen.estimators.Estimator;
  */
 public final class VCFInfo implements Info  {
 
-    // a SampleInfo instance stores sample information
-    private final SampleInfo sampleInfo;
-    
     // an Estimator instance stores which kind of estimation to be performed
     private final Estimator estimator;
     
@@ -38,9 +35,6 @@ public final class VCFInfo implements Info  {
 
     // an integer stores how many individuals in the sample
     private final int sampleIndNum;
-
-    // an integer stores how many populations in the sample
-    private final int samplePopNum;
 
     // a String array stores individual IDs in the VCF file
     private String[] indIds;
@@ -51,13 +45,11 @@ public final class VCFInfo implements Info  {
      * @param vcfFileName the file name of a VCF file
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public VCFInfo(String vcfFileName, SampleInfo sampleInfo, Estimator estimator) {
-        this.sampleInfo = sampleInfo;
+    public VCFInfo(String vcfFileName, int sampleIndNum, Estimator estimator) {
         this.estimator = estimator;
         snpNum = 0;
         
-        sampleIndNum = sampleInfo.getIndNum();
-        samplePopNum = sampleInfo.getPopNum();
+        this.sampleIndNum = sampleIndNum;
         
         readFile(vcfFileName);
         estimator.estimate();
@@ -83,31 +75,7 @@ public final class VCFInfo implements Info  {
 		}
 		else {
 			snpNum++;
-			int[][] alleleCounts = new int[samplePopNum][2];
-			// Read SNP information
-			String snpId = null, refAllele = null, altAllele = null;
-			int start = 0, end = 0, i = 0;
-			for (i = 0; i < 9; i++) {
-				end = line.indexOf("\t", start);
-				if (i == 2) snpId = line.substring(start, end);
-				if (i == 3) refAllele = line.substring(start, end);
-				if (i == 4) altAllele = line.substring(start, end);
-				start = end + 1;
-			}
-			estimator.addSnpInfo(snpId, refAllele, altAllele);
-            // Read allele counts of individuals
-            i = 0;
-            while ((end = line.indexOf("\t", start)) > 0) {
-				int popIndex = sampleInfo.getPopIndex(sampleInfo.ind2PopId(i++));
-				int allele1 = line.charAt(start) - 48;
-				int allele2 = line.charAt(end-1) - 48;
-				if (allele1 >= 0)
-					alleleCounts[popIndex][allele1]++;
-				if (allele2 >= 0)
-					alleleCounts[popIndex][allele2]++;
-				start = end + 1;
-			}
-            estimator.accept(alleleCounts);
+			estimator.parseSnpInfo(line);
 		}
     }
 

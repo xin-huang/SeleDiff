@@ -107,7 +107,7 @@ final class CommandMain {
             estimator = new SeleDiffEstimator(ancAlleleFileName, popVarInfo, sampleInfo, timeInfo);
         }
 
-        new VCFInfo(vcfFileName, sampleInfo, estimator);
+        new VCFInfo(vcfFileName, sampleInfo.getIndNum(), estimator);
     
         estimator.writeResults(outputFileName);
     }

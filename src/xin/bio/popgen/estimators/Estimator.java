@@ -39,6 +39,8 @@ public abstract class Estimator {
     // a TimeInfo instance stores the information of divergence times
     TimeInfo timeInfo;
 
+    int samplePopNum;
+    
     // an integer stores how many population pairs in the sample
     int popPairNum;
     
@@ -63,7 +65,8 @@ public abstract class Estimator {
     public Estimator(SampleInfo sampleInfo, TimeInfo timeInfo) {
     	this.sampleInfo = sampleInfo;
     	this.timeInfo = timeInfo;
-    	popPairNum = (sampleInfo.getPopNum() * (sampleInfo.getPopNum() - 1))/2;
+    	samplePopNum = sampleInfo.getPopNum();
+    	popPairNum = (samplePopNum * (samplePopNum - 1))/2;
     	
     	// get population Ids of different pairs
     	popPairIds = new String[popPairNum][2];
@@ -72,13 +75,6 @@ public abstract class Estimator {
     	}
     }
     
-    /**
-     * An abstract method for performing estimations from variant counts.
-     * 
-     * @param alleleCounts an integer array containing allele counts
-     */
-    public abstract void accept(int[][] alleleCounts);
-
     /**
      *An abstract method for running estimation.
      */
@@ -91,7 +87,7 @@ public abstract class Estimator {
      * @param refAllele a reference allele
      * @param altAllele an alternative allele
      */
-    public abstract void addSnpInfo(String snpId, String refAllele, String altAllele);
+    public abstract void parseSnpInfo(String line);
 
     /**
      * An abstract method for outputting results to files.
@@ -108,6 +104,30 @@ public abstract class Estimator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Helper function for counting alleles 
+     * 
+     * @param line a String containing genotypes of each indiviudal
+     * @param start the start index of the first genotype in the line
+     * @return a 2-D integer array containing counts of each allele
+     */
+    int[][] countAlleles(String line, int start) {
+    	int[][] alleleCounts = new int[samplePopNum][2];
+    	int i = 0;
+    	int end;
+        while ((end = line.indexOf("\t", start)) > 0) {
+			int popIndex = sampleInfo.getPopIndex(sampleInfo.ind2PopId(i++));
+			int allele1 = line.charAt(start) - 48;
+			int allele2 = line.charAt(end-1) - 48;
+			if (allele1 >= 0)
+				alleleCounts[popIndex][allele1]++;
+			if (allele2 >= 0)
+				alleleCounts[popIndex][allele2]++;
+			start = end + 1;
+		}
+        return alleleCounts;
     }
 
     /**

@@ -38,12 +38,6 @@ public final class PopVarMeanEstimator extends Estimator {
 	void writeHeader(BufferedWriter bw) throws IOException {}
 
 	@Override
-	public void accept(int[][] alleleCounts) {
-		
-	}
-
-	@Override
-	public void addSnpInfo(String snpId, 
-			String refAllele, String altAllele) {}
+	public void parseSnpInfo(String line) {}
 
 }

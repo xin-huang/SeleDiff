@@ -166,7 +166,7 @@ public final class SampleInfo implements Info {
      *
      * @return how many individuals in the sample
      */
-    int getIndNum() { return indNum; }
+    public int getIndNum() { return indNum; }
 
     /**
      * Checks whether a population ID exists in the sample.
