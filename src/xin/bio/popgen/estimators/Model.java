@@ -75,7 +75,7 @@ final class Model {
      * @return the corrected count
      */
     private static double correctContinuous(int count) {
-        return count < 5 ? count + 0.5 : count;
+        return (count < 5 ? count + 0.5 : count);
     }
 
     /**
@@ -84,9 +84,9 @@ final class Model {
      * @param value a value to be rounded
      * @return the rounded value
      */
-    static double round(double value) {
-        return (new Double(value).equals(Double.NaN)) ? value
-                : ((double) Math.round(value * 1000000d) / 1000000d);
+    static float round(double value) {
+        return (float) ((new Double(value).equals(Double.NaN)) ? value
+                : ((float) Math.round(value * 1000000d) / 1000000d));
     }
 
 }

@@ -34,7 +34,7 @@ public final class VCFInfo implements Info  {
     private final Estimator estimator;
     
     // an integer stores how many variants in the sample
-    private int snpNum;
+    private long snpNum;
 
     // an integer stores how many individuals in the sample
     private final int sampleIndNum;

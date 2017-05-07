@@ -17,13 +17,14 @@
  */
 package xin.bio.popgen.estimators;
 
+import static xin.bio.popgen.estimators.Model.calDriftVar;
 import xin.bio.popgen.infos.SampleInfo;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.StringJoiner;
 
-import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import it.unimi.dsi.fastutil.floats.FloatArrayList;
 
 /**
  * Class {@code PopVarMedianEstimator} extends {@code Estimator} to
@@ -34,10 +35,10 @@ import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 public final class PopVarMedianEstimator extends Estimator {
 
     // a double array stores medians of variances of drift
-    private final double[] popPairVarMedians;
+    private final float[] popPairVarMedians;
     
     // a DoubleArrayList stores variances of drift between populations
-    private final DoubleArrayList[] popPairVars;
+    private final FloatArrayList[] popPairVars;
 
     /**
      * Constructor of class {@code PopVarMedianEstimator}.
@@ -46,10 +47,10 @@ public final class PopVarMedianEstimator extends Estimator {
      */
     public PopVarMedianEstimator(SampleInfo sampleInfo) {
     	super(sampleInfo, null);
-        popPairVarMedians = new double[popPairNum];
-        popPairVars = new DoubleArrayList[popPairNum];
+        popPairVarMedians = new float[popPairNum];
+        popPairVars = new FloatArrayList[popPairNum];
         for (int i = 0; i < popPairNum; i++) {
-        	popPairVars[i] = new DoubleArrayList();
+        	popPairVars[i] = new FloatArrayList();
         }
     }
 
@@ -61,7 +62,7 @@ public final class PopVarMedianEstimator extends Estimator {
                 if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
                 		|| (alleleCounts[n][0] + alleleCounts[n][1] == 0))
                     continue;
-                popPairVars[popPairIndex].add(Model.calDriftVar(alleleCounts[m][0],alleleCounts[m][1],
+                popPairVars[popPairIndex].add((float) calDriftVar(alleleCounts[m][0],alleleCounts[m][1],
                 		alleleCounts[n][0],alleleCounts[n][1]));
 			}
 		}
@@ -80,7 +81,7 @@ public final class PopVarMedianEstimator extends Estimator {
             StringJoiner sj = new StringJoiner("\t");
             sj.add(popPairIds[i][0])
             	.add(popPairIds[i][1])
-            	.add(String.valueOf(Model.round(popPairVarMedians[i])));
+            	.add(String.valueOf(popPairVarMedians[i]));
             bw.write(sj.toString());
             bw.newLine();
         }
@@ -93,15 +94,15 @@ public final class PopVarMedianEstimator extends Estimator {
      * Helper function for finding medians of variances of drift between populations.
      * @param popPairVars a DoubleArrayList containing variances of drift between populations
      */
-    private void findMedians(DoubleArrayList[] popPairVars) {
+    private void findMedians(FloatArrayList[] popPairVars) {
         for (int i = 0; i < popPairVars.length; i++) {
         	int length = popPairVars[i].size();
         	if (length % 2 != 0) {
-        		popPairVarMedians[i] = quickSelect(popPairVars[i].toDoubleArray(), length/2);
+        		popPairVarMedians[i] = quickSelect(popPairVars[i].toFloatArray(), length/2);
         	}
         	else {
-        		double left = quickSelect(popPairVars[i].toDoubleArray(), length/2-1);
-        		double right = quickSelect(popPairVars[i].toDoubleArray(), length/2);
+        		float left = quickSelect(popPairVars[i].toFloatArray(), length/2-1);
+        		float right = quickSelect(popPairVars[i].toFloatArray(), length/2);
         		popPairVarMedians[i] = (left + right) / 2;
         	}
         }
@@ -113,7 +114,7 @@ public final class PopVarMedianEstimator extends Estimator {
      * @param arr an double array
      * @return the median of the array
      */
-    private double quickSelect(double[] arr, int k) {
+    private float quickSelect(float[] arr, int k) {
         int from = 0;
         int to = arr.length - 1;
         while (from < to) {
@@ -122,7 +123,7 @@ public final class PopVarMedianEstimator extends Estimator {
         	double mid = arr[(r+w)/2];
         	while (r < w) {
         		if (arr[r] >= mid) {
-        			double tmp = arr[w];
+        			float tmp = arr[w];
         			arr[w] = arr[r];
         			arr[r] = tmp;
         			w--;
