@@ -99,9 +99,8 @@ public final class VCFInfo implements Info  {
             i = 0;
             while ((end = line.indexOf("\t", start)) > 0) {
 				int popIndex = sampleInfo.getPopIndex(sampleInfo.ind2PopId(i++));
-				String gt = line.substring(start, end);
-				int allele1 = gt.charAt(0) - 48;
-				int allele2 = gt.charAt(2) - 48;
+				int allele1 = line.charAt(start) - 48;
+				int allele2 = line.charAt(end-1) - 48;
 				if (allele1 >= 0)
 					alleleCounts[popIndex][allele1]++;
 				if (allele2 >= 0)
