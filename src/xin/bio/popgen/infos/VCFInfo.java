@@ -17,47 +17,24 @@
  */
 package xin.bio.popgen.infos;
 
-import java.util.HashMap;
-import java.util.Set;
+import xin.bio.popgen.estimators.Estimator;
+
 
 /**
  * Class {@code VcfInfo} stores variant information of the sample.
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-public final class VCFInfo implements Info {
+public final class VCFInfo implements Info  {
 
     // a SampleInfo instance stores sample information
     private final SampleInfo sampleInfo;
-
-    // a HashMap stores allele counts of each variant in different populations
-    // key: SNP ID
-    // value: an integer array, the first dimension is the population index
-    // the second dimension is the allele: 0, reference allele; 1, alternative allele
-    private final HashMap<String, int[][]> counts;
-
-    // a HashMap stores reference alleles of each variant
-    // key: SNP ID
-    // value: reference allele, SeleDiff assumes reference alleles are in the forward strand of the reference genome
-    private final HashMap<String, String> refAlleles;
-
-    // a HashMap stores alternative alleles of each variant
-    // key: SNP ID
-    // value: alternative allele, SeleDiff assumes alternative alleles are in the forward strand of the reference genome
-    private final HashMap<String, String> altAlleles;
-
-    // a HashMap stores ancestral alleles of each variant
-    // key: SNP ID
-    // value: ancestral allele, SeleDiff assumes ancestral alleles are in the forward strand of the reference genome
-    private final HashMap<String, String> ancAlleles;
-
-    // a HashMap stores derived alleles of each variant
-    // key: SNP ID
-    // value: derived allele, SeleDiff assumes derived alleles are in the forward strand of the reference genome
-    private final HashMap<String, String> derAlleles;
-
+    
+    // an Estimator instance stores which kind of estimation to be performed
+    private final Estimator estimator;
+    
     // an integer stores how many variants in the sample
-    private final int snpNum;
+    private int snpNum;
 
     // an integer stores how many individuals in the sample
     private final int sampleIndNum;
@@ -67,120 +44,33 @@ public final class VCFInfo implements Info {
 
     // a String array stores individual IDs in the VCF file
     private String[] indIds;
-
+    
     /**
      * Constructor of class {@code VcfInfo}.
      *
      * @param vcfFileName the file name of a VCF file
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public VCFInfo(String vcfFileName, SampleInfo sampleInfo) {
+    public VCFInfo(String vcfFileName, SampleInfo sampleInfo, Estimator estimator) {
         this.sampleInfo = sampleInfo;
-        counts = new HashMap<>();
-        refAlleles = new HashMap<>();
-        altAlleles = new HashMap<>();
-        ancAlleles = new HashMap<>();
-        derAlleles = new HashMap<>();
+        this.estimator = estimator;
+        snpNum = 0;
+        
         sampleIndNum = sampleInfo.getIndNum();
         samplePopNum = sampleInfo.getPopNum();
+        
         readFile(vcfFileName);
-        snpNum = refAlleles.keySet().size();
+        estimator.estimate();
 
         System.out.println(snpNum + " variants are read from " + vcfFileName);
     }
-
-    /**
-     * Returns an ancestral allele with a given SNP ID.
-     *
-     * @param snpId a SNP ID
-     * @return an ancestral allele
-     */
-    public String getAncAllele(String snpId) { return ancAlleles.get(snpId); }
-
-    /**
-     * Sets the ancestral allele of a given SNP ID.
-     *
-     * @param snpId a SNP ID
-     * @param ancAllele an ancestral allele
-     */
-    void setAncAllele(String snpId, String ancAllele) { ancAlleles.put(snpId, ancAllele); }
-
-    /**
-     * Returns a derived allele with a given SNP ID.
-     *
-     * @param snpId a SNP ID
-     * @return a derived allele
-     */
-    public String getDerAllele(String snpId) { return derAlleles.get(snpId); }
-
-    /**
-     * Sets the derived allele of a given SNP ID.
-     *
-     * @param snpId a SNP ID
-     * @param derAllele a derived allele
-     */
-    void setDerAllele(String snpId, String derAllele) { derAlleles.put(snpId, derAllele); }
-
-    /**
-     * Returns an integer array stores allele counts for a given SNP in different populations.
-     *
-     * @return an integer array containing allele counts for each SNP
-     */
-    public int[][] getCounts(String snpId) { return counts.get(snpId); }
-
-    /**
-     * Returns a reference allele with a given SNP ID.
-     *
-     * @param snpId a SNP ID
-     * @return a reference allele
-     */
-    String getRefAllele(String snpId) { return refAlleles.get(snpId); }
-
-    /**
-     * Returns an alternative allele with a given SNP ID.
-     *
-     * @param snpId a SNP ID
-     * @return an alternative allele
-     */
-    String getAltAllele(String snpId) { return altAlleles.get(snpId); }
-
-    /**
-     * Returns SNP IDs in the sample.
-     *
-     * @return SNP IDs in the sample
-     */
-    public Set<String> getSnps() { return refAlleles.keySet(); }
-
-    /**
-     * Checks whether a SNP is in the sample or not.
-     *
-     * @param snpId a SNP ID
-     * @return true, the SNP is in; otherwise, false
-     */
-    boolean containsSnp(String snpId) { return refAlleles.containsKey(snpId); }
-
-    /**
-     * Returns how many variants in the sample.
-     *
-     * @return how many variants in the sample
-     */
-    public int getSnpNum() { return snpNum; }
-
-    /**
-     * Returns allele count of a given SNP ID in a given population
-     *
-     * @param snpId a SNP ID
-     * @param popIndex a population index
-     * @param allele an allele: 0, the reference allele; 1, the alternative allele.
-     * @return allele count of a given SNP ID in a given population
-     */
-    public int getAlleleCount(String snpId, int popIndex, int allele) { return counts.get(snpId)[popIndex][allele]; }
 
     @Override
     public void parseLine(String line) {
     	if (line.startsWith("##")) return;
     	else if(line.startsWith("#C")) {
-			int start = 0, end = 0, vcfIndNum = 0;;
+			int start = 0, end = 0, vcfIndNum = 0;
+			// Read individual IDs
 			indIds = new String[sampleIndNum];
 			for (int i = 0; i < 9; i++) {
 				end = line.indexOf("\t", start);
@@ -192,18 +82,20 @@ public final class VCFInfo implements Info {
 			}
 		}
 		else {
+			snpNum++;
 			int[][] alleleCounts = new int[samplePopNum][2];
+			// Read SNP information
+			String snpId = null, refAllele = null, altAllele = null;
 			int start = 0, end = 0, i = 0;
-			String snpId = null;
 			for (i = 0; i < 9; i++) {
 				end = line.indexOf("\t", start);
 				if (i == 2) snpId = line.substring(start, end);
-				if (i == 3) refAlleles.put(snpId, line.substring(start, end));
-				if (i == 4) altAlleles.put(snpId, line.substring(start, end));
+				if (i == 3) refAllele = line.substring(start, end);
+				if (i == 4) altAllele = line.substring(start, end);
 				start = end + 1;
 			}
-			ancAlleles.put(snpId, "");
-            derAlleles.put(snpId, "");
+			estimator.addSnpInfo(snpId, refAllele, altAllele);
+            // Read allele counts of individuals
             i = 0;
             while ((end = line.indexOf("\t", start)) > 0) {
 				int popIndex = sampleInfo.getPopIndex(sampleInfo.ind2PopId(i++));
@@ -216,7 +108,7 @@ public final class VCFInfo implements Info {
 					alleleCounts[popIndex][allele2]++;
 				start = end + 1;
 			}
-            counts.put(snpId, alleleCounts);
+            estimator.accept(alleleCounts);
 		}
     }
 

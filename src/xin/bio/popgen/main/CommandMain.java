@@ -21,9 +21,10 @@ import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
-import xin.bio.popgen.estimators.EstimatePopVar;
-import xin.bio.popgen.estimators.EstimateSeleDiff;
+import xin.bio.popgen.estimators.PopVarMedianEstimator;
+import xin.bio.popgen.estimators.SeleDiffEstimator;
 import xin.bio.popgen.estimators.Estimator;
+import xin.bio.popgen.estimators.PopVarMeanEstimator;
 import xin.bio.popgen.infos.*;
 
 import java.io.File;
@@ -63,7 +64,7 @@ final class CommandMain {
     private String outputFileName;
 
     @Parameter(names = "--estimator", required = true,
-            description = "The type of an estimator to used: pop-var | sele-diff.",
+            description = "The type of an estimator to used: pop-var-mean | pop-var-median | sele-diff.",
             validateWith = EstimatorValidator.class)
     private String estimatorType;
 
@@ -92,30 +93,23 @@ final class CommandMain {
             throw new ParameterException("--popvar should be used when --estimator sele-diff is used");
 
         SampleInfo sampleInfo = new SampleInfo(sampleFileName);
-
-        VCFInfo vcfInfo = new VCFInfo(vcfFileName, sampleInfo);
-
-        if (ancAlleleFileName != null) {
-            new AncAlleleInfo(ancAlleleFileName, vcfInfo);
-        }
-
         TimeInfo timeInfo = new TimeInfo(timeFileName, sampleInfo);
-
         Estimator estimator = null;
-
-        if (estimatorType.equals("pop-var")) {
-            estimator = new EstimatePopVar(sampleInfo);
+        // Select one kind of estimators
+        if (estimatorType.equals("pop-var-median")) {
+            estimator = new PopVarMedianEstimator(sampleInfo);
         }
-
-        if (estimatorType.equals("sele-diff")) {
+        else if (estimatorType.equals("pop-var-mean")) {
+        	estimator = new PopVarMeanEstimator(sampleInfo);
+        }
+        else if (estimatorType.equals("sele-diff")) {
             PopVarInfo popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
-            estimator = new EstimateSeleDiff(popVarInfo, sampleInfo, timeInfo);
+            estimator = new SeleDiffEstimator(ancAlleleFileName, popVarInfo, sampleInfo, timeInfo);
         }
 
-        if (estimator != null) {
-            estimator.estimate(vcfInfo);
-            estimator.writeResults(outputFileName);
-        }
+        new VCFInfo(vcfFileName, sampleInfo, estimator);
+    
+        estimator.writeResults(outputFileName);
     }
 
     /**
@@ -148,7 +142,9 @@ final class CommandMain {
 
         @Override
         public void validate(String name, String value) throws ParameterException {
-            if (!value.equals("pop-var")&&!value.equals("sele-diff")) {
+            if (!value.equals("pop-var-median")
+            		&&!value.equals("pop-var-mean")
+            		&&!value.equals("sele-diff")) {
                 throw new ParameterException("Parameter " + name + " does not accept " + value);
             }
         }
