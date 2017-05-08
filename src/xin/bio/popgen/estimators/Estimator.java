@@ -95,14 +95,20 @@ public abstract class Estimator {
      * @param outputFileName the output file name
      */
     public void writeResults(String outputFileName) {
+    	BufferedWriter bw = null;
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
+            bw = new BufferedWriter(new FileWriter(outputFileName));
             writeHeader(bw);
             writeLine(bw);
             bw.flush();
-            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+        	try {
+				bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
     

@@ -38,10 +38,11 @@ import java.io.File;
 @Parameters(commandDescription = "The main command line of SeleDiff")
 final class CommandMain {
 
-    @Parameter(names = "--vcf", required = true,
-            description = "The VCF file stores variant information.", validateWith = FileValidator.class)
+	@Parameter(names = "--vcf", required = true,
+            description = "The VCF file stores variant information.", 
+            validateWith = FileValidator.class)
     private String vcfFileName;
-
+    
     @Parameter(names = "--sample", required = true,
             description = "The sample file stores individual information. " +
                     "A sample file is space delimited without header, " +
@@ -120,7 +121,7 @@ final class CommandMain {
         @Override
         public void validate(String name, String value) throws ParameterException {
             File f = new File(value);
-
+            
             if (name.equals("--output")) {
                 String path = f.getPath();
                 if (path.lastIndexOf(File.separator) > 0) {
@@ -129,12 +130,14 @@ final class CommandMain {
                         throw new ParameterException("Parameter " + name + " " + value + " does not exist");
                 }
             }
-            else if (!f.exists()) throw new ParameterException("Parameter " + name + " " + value + " does not exist");
-            else if (f.isDirectory()) throw new ParameterException("Parameter " + name + " " + value + " is a directory");
+            else if (!f.exists()) 
+            	throw new ParameterException("Parameter " + name + " " + value + " does not exist");
+            else if (f.isDirectory()) 
+            	throw new ParameterException("Parameter " + name + " " + value + " is a directory");
         }
 
     }
-
+    
     /**
      * Validates select a correct estimator in SeleDiff.
      */

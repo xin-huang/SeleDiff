@@ -102,11 +102,11 @@ public final class PopVarMedianEstimator extends Estimator {
         for (int i = 0; i < popPairVars.length; i++) {
         	int length = popPairVars[i].size();
         	if (length % 2 != 0) {
-        		popPairVarMedians[i] = quickSelect(popPairVars[i].toFloatArray(), length/2);
+        		popPairVarMedians[i] = quickSelect(popPairVars[i], length/2);
         	}
         	else {
-        		float left = quickSelect(popPairVars[i].toFloatArray(), length/2-1);
-        		float right = quickSelect(popPairVars[i].toFloatArray(), length/2);
+        		float left = quickSelect(popPairVars[i], length/2-1);
+        		float right = quickSelect(popPairVars[i], length/2);
         		popPairVarMedians[i] = (left + right) / 2;
         	}
         }
@@ -115,30 +115,31 @@ public final class PopVarMedianEstimator extends Estimator {
     /**
      * Finds median with quick select algorithm O(n).
      * 
-     * @param arr an double array
+     * @param arrList a FloatArrayList
+     * @param k the k-th element to be selected
      * @return the median of the array
      */
-    private float quickSelect(float[] arr, int k) {
+    private float quickSelect(FloatArrayList arrList, int k) {
         int from = 0;
-        int to = arr.length - 1;
+        int to = arrList.size() - 1;
         while (from < to) {
         	int r = from;
         	int w = to;
-        	double mid = arr[(r+w)/2];
+        	float mid = arrList.getFloat((r+w)/2);
         	while (r < w) {
-        		if (arr[r] >= mid) {
-        			float tmp = arr[w];
-        			arr[w] = arr[r];
-        			arr[r] = tmp;
+        		if (arrList.getFloat(r) >= mid) {
+        			float tmp = arrList.getFloat(w);
+        			arrList.set(w, arrList.getFloat(r));
+        			arrList.set(r, tmp);
         			w--;
         		}
         		else r++;
         	}
-        	if (arr[r] > mid) r--;
+        	if (arrList.getFloat(r) > mid) r--;
         	if (k <= r) to = r;
         	else from = r + 1;
         }
-        return arr[k];
+        return arrList.getFloat(k);
     }
-
+    
 }

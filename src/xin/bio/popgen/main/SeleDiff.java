@@ -34,6 +34,7 @@ public final class SeleDiff {
     	long startSystemTimeNano = TimeMeasurement.getSystemTime();
     	long startUserTimeNano = TimeMeasurement.getUserTime();
     	long startCpuTimeNano = TimeMeasurement.getCpuTime();
+    	long beforeUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
     	
         CommandMain cm = new CommandMain();
         JCommander jc = new JCommander(cm);
@@ -48,14 +49,16 @@ public final class SeleDiff {
             cm.execute();
         }
         
+        long afterUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         long taskWallTime = System.currentTimeMillis() - start;
         long taskCpuTimeNano = TimeMeasurement.getCpuTime() - startCpuTimeNano;
         long taskUserTimeNano = TimeMeasurement.getUserTime() - startUserTimeNano;
         long taskSystemTimeNano = TimeMeasurement.getSystemTime() - startSystemTimeNano;
-        System.out.println("Wall time: " + taskWallTime/1000);
-        System.out.println("CPU time: " + taskCpuTimeNano/1000000000);
-        System.out.println("User Time: " + taskUserTimeNano/1000000000);
-        System.out.println("System Time: " + taskSystemTimeNano/1000000000);
+        System.out.println("Wall time: " + taskWallTime/1000 + " seconds");
+        System.out.println("CPU time: " + taskCpuTimeNano/1000000000 + " seconds");
+        System.out.println("User Time: " + taskUserTimeNano/1000000000 + " seconds");
+        System.out.println("System Time: " + taskSystemTimeNano/1000000000 + " seconds");
+        System.out.println("Actual Used Memory: " + ((afterUsedMem - beforeUsedMem)/1000000) + "MB");
     }
 
 }
