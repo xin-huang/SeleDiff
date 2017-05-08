@@ -69,7 +69,8 @@ public final class VCFInfo implements Info  {
     }
     
     /**
-     * Helper function for checking whether a file is gzipped
+     * Helper function for checking whether a file is gzipped.
+     * 
      * @param fileName the name of a file
      * @return true, if gzipped; false, otherwise
      */
@@ -95,7 +96,8 @@ public final class VCFInfo implements Info  {
     }
 
     /**
-     * Helper function for reading a VCF file
+     * Helper function for reading a VCF file.
+     * 
      * @param fileName the name of a VCF file
      * @param isGzip indicates whether the file is gzipped
      */

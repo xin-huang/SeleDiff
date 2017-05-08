@@ -41,6 +41,8 @@ public abstract class Estimator {
 
     int samplePopNum;
     
+    int sampleIndNum;
+    
     // an integer stores how many population pairs in the sample
     int popPairNum;
     
@@ -66,6 +68,7 @@ public abstract class Estimator {
     	this.sampleInfo = sampleInfo;
     	this.timeInfo = timeInfo;
     	samplePopNum = sampleInfo.getPopNum();
+    	sampleIndNum = sampleInfo.getIndNum();
     	popPairNum = (samplePopNum * (samplePopNum - 1))/2;
     	
     	// get population Ids of different pairs
@@ -119,20 +122,18 @@ public abstract class Estimator {
      * @param start the start index of the first genotype in the line
      * @return a 2-D integer array containing counts of each allele
      */
-    int[][] countAlleles(String line, int start) {
+    int[][] countAlleles(String line, int start, int sampleIndNum) {
     	int[][] alleleCounts = new int[samplePopNum][2];
-    	int i = 0;
-    	int end;
-        while ((end = line.indexOf("\t", start)) > 0) {
-			int popIndex = sampleInfo.getPopIndex(sampleInfo.ind2PopId(i++));
-			int allele1 = line.charAt(start) - 48;
-			int allele2 = line.charAt(end-1) - 48;
-			if (allele1 >= 0)
+    	for (int i = 0; i < sampleIndNum; i++) {
+    		int popIndex = sampleInfo.getPopIndex(i);
+    		int allele1 = line.charAt(start) - 48;
+    		int allele2 = line.charAt(start+2) - 48;
+    		if (allele1 >= 0)
 				alleleCounts[popIndex][allele1]++;
 			if (allele2 >= 0)
 				alleleCounts[popIndex][allele2]++;
-			start = end + 1;
-		}
+    		start += 4;
+    	}
         return alleleCounts;
     }
 

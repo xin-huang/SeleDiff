@@ -33,7 +33,8 @@ public final class SampleInfo implements Info {
 	// a String array stores population IDs for each individuals
 	// The order of individual IDs in the sample file should be 
 	// CONSISTENT with those in the header of the VCF file
-    private String[] ind2pop;
+    
+    private int[] indId2popIndex;
     
     // a LinkedQueue stores population IDs for each individuals 
     private final ArrayList<String> ind2popQueue;
@@ -68,30 +69,22 @@ public final class SampleInfo implements Info {
         popSet = new HashSet<>();
         readFile(sampleFileName);
         
-        ind2pop = new String[ind2popQueue.size()];
-        ind2pop = ind2popQueue.toArray(ind2pop);
-        
         int i = 0;
-        indNum = ind2pop.length;
+        indNum = ind2popQueue.size();
         popNum = popSet.size();
         popIds = new String[popNum];
         for (String popId:popSet) {
             popIndex.put(popId,i);
             popIds[i++] = popId;
         }
+        
+        indId2popIndex = new int[indNum];
+        for (int j = 0; j < indNum; j++) {
+        	indId2popIndex[j] = popIndex.get(ind2popQueue.get(j));
+        }
 
         System.out.println(indNum + " individuals with " + popNum
                 + " populations are read from " + sampleFileName);
-    }
-
-    /**
-     * Returns the population ID of an individual.
-     *
-     * @param i a individual index
-     * @return the population ID
-     */
-    public String ind2PopId(int i) {
-        return ind2pop[i];
     }
 
     /**
@@ -110,6 +103,10 @@ public final class SampleInfo implements Info {
      */
     public int getPopIndex(String popId) {
         return popIndex.get(popId);
+    }
+    
+    public int getPopIndex(int i) {
+    	return indId2popIndex[i];
     }
 
     /**

@@ -93,7 +93,7 @@ public final class SeleDiffEstimator extends Estimator {
 			start = end + 1;
 		}
         // Read allele counts of individuals
-		int[][] alleleCounts = countAlleles(line, start);
+		int[][] alleleCounts = countAlleles(line, start, sampleIndNum);
     	for (int m = 0; m < alleleCounts.length; m++) {
 			for (int n = m + 1; n < alleleCounts.length; n++) {
 				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
