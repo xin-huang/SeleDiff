@@ -22,7 +22,10 @@ import xin.bio.popgen.infos.SampleInfo;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringJoiner;
+import java.util.concurrent.*;
 
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
 
@@ -34,11 +37,11 @@ import it.unimi.dsi.fastutil.floats.FloatArrayList;
  */
 public final class PopVarMedianEstimator extends Estimator {
 
-    // a double array stores medians of variances of drift
-    private final float[] popPairVarMedians;
-    
     // a DoubleArrayList stores variances of drift between populations
     private final FloatArrayList[] popPairVars;
+    
+    // a List of Future instances stores results of medians of variance of drift between populations
+    private List<Future<String>> futures;
 
     /**
      * Constructor of class {@code PopVarMedianEstimator}.
@@ -47,19 +50,16 @@ public final class PopVarMedianEstimator extends Estimator {
      */
     public PopVarMedianEstimator(SampleInfo sampleInfo) {
     	super(sampleInfo, null);
-        popPairVarMedians = new float[popPairNum];
         popPairVars = new FloatArrayList[popPairNum];
         for (int i = 0; i < popPairNum; i++) {
         	popPairVars[i] = new FloatArrayList();
         }
+        futures = new ArrayList<>();
     }
 
     @Override
     public void estimate() {
-    	long start = System.currentTimeMillis();
     	findMedians(popPairVars);
-    	long end = System.currentTimeMillis();
-    	System.out.println("Used time for finding medians: " + ((end-start)/1000) + " seconds");
     }
     
 	@Override
@@ -89,14 +89,16 @@ public final class PopVarMedianEstimator extends Estimator {
 
     @Override
     void writeLine(BufferedWriter bw) throws IOException {
-        for (int i = 0; i < popPairNum; i++) {
-            StringJoiner sj = new StringJoiner("\t");
-            sj.add(popPairIds[i][0])
-            	.add(popPairIds[i][1])
-            	.add(String.valueOf(popPairVarMedians[i]));
-            bw.write(sj.toString());
-            bw.newLine();
-        }
+    	for (Future<String> f:futures) {
+    		try {
+				bw.write(f.get());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+    		bw.newLine();
+    	}
     }
 
     @Override
@@ -107,21 +109,18 @@ public final class PopVarMedianEstimator extends Estimator {
      * @param popPairVars a DoubleArrayList containing variances of drift between populations
      */
     private void findMedians(FloatArrayList[] popPairVars) {
+    	ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    	CountDownLatch doneSignal = new CountDownLatch(popPairVars.length);
         for (int i = 0; i < popPairVars.length; i++) {
-        	long start = System.currentTimeMillis();
-        	int length = popPairVars[i].size();
-        	if (length % 2 != 0) {
-        		popPairVarMedians[i] = quickSelect(popPairVars[i], length/2);
-        	}
-        	else {
-        		float left = quickSelect(popPairVars[i], length/2-1);
-        		float right = quickSelect(popPairVars[i], length/2);
-        		popPairVarMedians[i] = (left + right) / 2;
-        	}
-        	long end = System.currentTimeMillis();
-        	System.out.println("Used time for finding median of" 
-        	+ i + "-th pair: " + ((end-start)/1000) + " seconds");
+        	futures.add(executor.submit(new Worker(popPairIds[i][0], popPairIds[i][1], 
+        			popPairVars[i], doneSignal)));
         }
+        try {
+			doneSignal.await();
+			executor.shutdown();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -132,6 +131,7 @@ public final class PopVarMedianEstimator extends Estimator {
      * @return the median of the array
      */
     private float quickSelect(FloatArrayList arrList, int k) {
+    	//TODO: Replace FloatArrayList to float[]?
         int from = 0;
         int to = arrList.size() - 1;
         while (from < to) {
@@ -154,4 +154,37 @@ public final class PopVarMedianEstimator extends Estimator {
         return arrList.getFloat(k);
     }
     
+    private class Worker implements Callable<String> {
+
+        private final FloatArrayList arrList;
+        private final CountDownLatch doneSignal;
+        private final String popi;
+        private final String popj;
+
+        Worker(String popi, String popj, 
+        		FloatArrayList arrList, CountDownLatch doneSignal) {
+        	this.popi = popi;
+        	this.popj = popj;
+            this.arrList = arrList;
+            this.doneSignal = doneSignal;
+        }
+
+        @Override
+        public String call() throws Exception {
+        	float median;
+        	int length = arrList.size();
+        	if (length % 2 != 0) {
+        		median = quickSelect(arrList, length/2);
+        	}
+        	else {
+        		float left = quickSelect(arrList, length/2-1);
+        		float right = quickSelect(arrList, length/2);
+        		median = (left + right) / 2;
+        	}
+        	StringJoiner sj = new StringJoiner("\t");
+        	sj.add(popi).add(popj).add(String.valueOf(median));
+            doneSignal.countDown();
+            return sj.toString();
+        }
+    }
 }
