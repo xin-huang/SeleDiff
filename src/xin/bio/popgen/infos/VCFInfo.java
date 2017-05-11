@@ -44,10 +44,10 @@ public final class VCFInfo implements Info  {
     private long snpNum;
 
     // an integer stores how many individuals in the sample
-    private final int sampleIndNum;
+    //private final int sampleIndNum;
 
     // a String array stores individual IDs in the VCF file
-    private String[] indIds;
+    //private String[] indIds;
     
     /**
      * Constructor of class {@code VcfInfo}.
@@ -59,10 +59,11 @@ public final class VCFInfo implements Info  {
         this.estimator = estimator;
         snpNum = 0;
         
-        this.sampleIndNum = sampleIndNum;
+        //this.sampleIndNum = sampleIndNum;
         boolean isGzip = isGzipped(vcfFileName);
 
         readFile(vcfFileName, isGzip);
+        System.out.println("Used time for counting: " + estimator.getTime()/1000 + " seconds");
         estimator.estimate();
 
         System.out.println(snpNum + " variants are read from " + vcfFileName);
@@ -132,20 +133,7 @@ public final class VCFInfo implements Info  {
     
     @Override
     public void parseLine(String line) {
-    	if (line.startsWith("##")) return;
-    	else if(line.startsWith("#C")) {
-			int start = 0, end = 0, vcfIndNum = 0;
-			// Read individual IDs
-			indIds = new String[sampleIndNum];
-			for (int i = 0; i < 9; i++) {
-				end = line.indexOf("\t", start);
-				start = end + 1;
-			}
-			while ((end = line.indexOf("\t", start)) > 0) {
-				indIds[vcfIndNum++] = line.substring(start, end);
-				start = end + 1;
-			}
-		}
+    	if (line.startsWith("#")) return;
 		else {
 			snpNum++;
 			estimator.parseSnpInfo(line);

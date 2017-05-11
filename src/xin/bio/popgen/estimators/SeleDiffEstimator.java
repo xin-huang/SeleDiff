@@ -125,14 +125,14 @@ public final class SeleDiffEstimator extends Estimator {
 				String snpId = elements[0];
 				String ancAllele = elements[1];
 				if (snpIndices.containsKey(snpId)) {
-					int index = snpIndices.get(snpId);
-					String refAllele = refAlleles.get(index);
-					if (!ancAllele.equals(refAlleles.get(index))) {
-						altAlleles.set(index, refAllele);
-						refAlleles.set(index, ancAllele);
+					int snpIndex = snpIndices.get(snpId);
+					String refAllele = refAlleles.get(snpIndex);
+					if (!ancAllele.equals(refAlleles.get(snpIndex))) {
+						altAlleles.set(snpIndex, refAllele);
+						refAlleles.set(snpIndex, ancAllele);
 						for (int j = 0; j < popPairNum; j++) {
-							double logOdd = logOdds[index].getDouble(j);
-							logOdds[index].set(j, -1*logOdd);
+							double logOdd = logOdds[j].getDouble(snpIndex);
+							logOdds[j].set(snpIndex, -1*logOdd);
 						}
 					}
 				}

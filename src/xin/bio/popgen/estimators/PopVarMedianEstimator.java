@@ -55,10 +55,16 @@ public final class PopVarMedianEstimator extends Estimator {
     }
 
     @Override
-    public void estimate() { findMedians(popPairVars); }
+    public void estimate() {
+    	long start = System.currentTimeMillis();
+    	findMedians(popPairVars);
+    	long end = System.currentTimeMillis();
+    	System.out.println("Used time for finding medians: " + ((end-start)/1000) + " seconds");
+    }
     
 	@Override
 	public void parseSnpInfo(String line) {
+		long startTime = System.currentTimeMillis();
 		// Read SNP information
 		int start = 0, end = 0;
 		for (int i = 0; i < 9; i++) {
@@ -77,6 +83,8 @@ public final class PopVarMedianEstimator extends Estimator {
                 		alleleCounts[n][0],alleleCounts[n][1]));
 			}
 		}
+        long endTime = System.currentTimeMillis();
+        time += endTime - startTime;
 	}
 
     @Override
@@ -100,6 +108,7 @@ public final class PopVarMedianEstimator extends Estimator {
      */
     private void findMedians(FloatArrayList[] popPairVars) {
         for (int i = 0; i < popPairVars.length; i++) {
+        	long start = System.currentTimeMillis();
         	int length = popPairVars[i].size();
         	if (length % 2 != 0) {
         		popPairVarMedians[i] = quickSelect(popPairVars[i], length/2);
@@ -109,6 +118,9 @@ public final class PopVarMedianEstimator extends Estimator {
         		float right = quickSelect(popPairVars[i], length/2);
         		popPairVarMedians[i] = (left + right) / 2;
         	}
+        	long end = System.currentTimeMillis();
+        	System.out.println("Used time for finding median of" 
+        	+ i + "-th pair: " + ((end-start)/1000) + " seconds");
         }
     }
     

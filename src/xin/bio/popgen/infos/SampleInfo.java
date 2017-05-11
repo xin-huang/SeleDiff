@@ -48,7 +48,7 @@ public final class SampleInfo implements Info {
 
     // a String array stores population IDs
     private final String[] popIds;
-
+    
     // an integer stores how many populations in the sample
     private final int popNum;
 

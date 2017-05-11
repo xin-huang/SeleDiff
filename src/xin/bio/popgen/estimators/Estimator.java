@@ -58,6 +58,8 @@ public abstract class Estimator {
     // an ArrayList stores alternative alleles
     ArrayList<String> altAlleles;
     
+    long time;
+    
     /**
      * Constructor of {@code Estimator}.
      * 
@@ -76,6 +78,12 @@ public abstract class Estimator {
     	for (int i = 0; i < popPairNum; i++) {
     		popPairIds[i] = sampleInfo.getPopPair(i);
     	}
+    	
+    	time = 0;
+    }
+    
+    public long getTime() {
+    	return time;
     }
     
     /**
