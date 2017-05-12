@@ -36,8 +36,8 @@ import java.util.concurrent.Future;
 import xin.bio.popgen.infos.IndInfo;
 
 /**
- * Class {@code PopVarMedianEstimator} extends {@code Estimator} to
- * estimate variances of drift between populations.
+ * Class {@code ConcurrentPopVarMedianEstimator} extends {@code Estimator} to
+ * estimate variances of drift between populations concurrently.
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
@@ -47,7 +47,7 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
     private final float[][] popPairVars;
     
     // a List of Future instances stores results of medians of variances of drift between populations
-    private List<Future<String>> futures;
+    private List<Future<String>> results;
     
     private final int snpNum;
 
@@ -55,7 +55,7 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
     private final int thread;
 
     /**
-     * Constructor of class {@code PopVarMedianEstimator}.
+     * Constructor of class {@code ConcurrentPopVarMedianEstimator}.
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
@@ -64,7 +64,7 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
     	this.snpNum = snpNum;
     	this.thread = thread;
         popPairVars = new float[popPairNum][snpNum];
-        futures = new ArrayList<>();
+        results = new ArrayList<>();
     }
 
 	@Override
@@ -75,9 +75,9 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
     
     @Override
     void writeLine(BufferedWriter bw) throws IOException {
-    	for (Future<String> f:futures) {
+    	for (Future<String> r:results) {
     		try {
-				bw.write(f.get());
+				bw.write(r.get());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (ExecutionException e) {
@@ -145,7 +145,7 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
     	ExecutorService executor = Executors.newFixedThreadPool(thread);
     	CountDownLatch doneSignal = new CountDownLatch(popPairVars.length);
         for (int i = 0; i < popPairVars.length; i++) {
-        	futures.add(executor.submit(new Worker(popPairIds[i][0], popPairIds[i][1], 
+        	results.add(executor.submit(new Worker(popPairIds[i][0], popPairIds[i][1], 
         			popPairVars[i], doneSignal)));
         }
         try {
@@ -157,6 +157,9 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
 		}
     }
     
+    /**
+     * Helper class for counting alleles concurrently.
+     */
     private class Counter implements Runnable {
     	
     	private final String[] lines;
@@ -190,6 +193,9 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
     	
     }
     
+    /**
+     * Helper class for finding medians of variances of drift concurrently.
+     */
     private class Worker implements Callable<String> {
 
         private final float[] arr;

@@ -19,22 +19,18 @@ package xin.bio.popgen.estimators;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.StringJoiner;
 
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
-import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 import xin.bio.popgen.infos.IndInfo;
 import xin.bio.popgen.infos.PopVarInfo;
 import xin.bio.popgen.infos.TimeInfo;
 
 /**
- * Class {@code SeleDiffEstimator} extends {@code Estimator} to
- * estimate selection differences between populations.
+ * Class {@code ConcurrentSeleDiffEstimator} extends {@code Estimator} to
+ * estimate selection differences between populations concurrently.
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
@@ -43,54 +39,51 @@ public final class ConcurrentSeleDiffEstimator extends Estimator {
     // a PopVarInfo instance stores variances of drift between populations
     private final PopVarInfo popVarInfo;
     
+    // a TimeInfo instance stores divergence times of population pairs
     private final TimeInfo timeInfo;
 
-    // a double array stores log-Odds ratios between populations
-    private final DoubleArrayList[] logOdds;
-    
-    // a double array stores variances of log-Odds ratios between populations
-    private final DoubleArrayList[] varLogOdds;
-    
-    // a ChiSquaredDistribution instance for performing chi-square tests
-    private final ChiSquaredDistribution chisq;
-    
     // a String stores the name of the file containing ancestral allele information
     private final String ancAlleleFileName;
     
     // an ArrayList stores SNP IDs
-    private final ArrayList<String> snpIds;
+    private final String[] snpIds;
     
     // an ArrayList stores reference alleles
-    private final ArrayList<String> refAlleles;
+    private final String[] refAlleles;
     
     // an ArrayList stores alternative alleles
-    private final ArrayList<String> altAlleles;
+    private final String[] altAlleles;
+    
+    // a double array stores log-Odds ratios between populations
+    private final float[][] logOdds;
+    
+    // a double array stores variances of log-Odds ratios between populations
+    private final float[][] varLogOdds;
+    
+    // a ChiSquaredDistribution instance for performing chi-square tests
+    private final ChiSquaredDistribution chisq;
     
     /**
-     * Constructor of class {@code SeleDiffEstimator}.
+     * Constructor of class {@code ConcurrentSeleDiffEstimator}.
      *
      * @param ancAlleleFileName the name of the file containing ancestral allele information
      * @param popVarInfo a PopVarInfo instance containing variances of drift between populations
      * @param sampleInfo a SampleInfo instance containing sample information
      * @param timeInfo a TimeInfo instance containing divergence times between populations
      */
-    public ConcurrentSeleDiffEstimator(String ancAlleleFileName, 
+    public ConcurrentSeleDiffEstimator(String ancAlleleFileName, int snpNum, 
     		PopVarInfo popVarInfo, IndInfo sampleInfo, TimeInfo timeInfo) {
     	super(sampleInfo);
         this.popVarInfo = popVarInfo;
         this.timeInfo = timeInfo;
         this.chisq = new ChiSquaredDistribution(1);
         this.ancAlleleFileName = ancAlleleFileName;
-        this.snpIds = new ArrayList<>();
-        this.refAlleles = new ArrayList<>();
-        this.altAlleles = new ArrayList<>();
+        this.snpIds = new String[snpNum];
+        this.refAlleles = new String[snpNum];
+        this.altAlleles = new String[snpNum];
         
-        logOdds = new DoubleArrayList[popPairNum];
-        varLogOdds = new DoubleArrayList[popPairNum];
-        for (int i = 0; i < popPairNum; i++) {
-        	logOdds[i] = new DoubleArrayList();
-        	varLogOdds[i] = new DoubleArrayList();
-        }
+        logOdds = new float[popPairNum][snpNum];
+        varLogOdds = new float[popPairNum][snpNum];
     }
     
    /* @Override
@@ -148,14 +141,14 @@ public final class ConcurrentSeleDiffEstimator extends Estimator {
 
     @Override
     void writeLine(BufferedWriter bw) throws IOException {
-    	int snpNum = snpIds.size();
+    	int snpNum = snpIds.length;
     	for (int i = 0; i < snpNum; i++) {
-    		String snpId = snpIds.get(i);
-    		String ancAllele = refAlleles.get(i);
-    		String derAllele = altAlleles.get(i);
+    		String snpId = snpIds[i];
+    		String ancAllele = refAlleles[i];
+    		String derAllele = altAlleles[i];
     		for (int j = 0; j < popPairNum; j++) {
-    			double logOdd = logOdds[j].getDouble(i);
-    			double varLogOdd = varLogOdds[j].getDouble(i);
+    			float logOdd = logOdds[j][i];
+    			float varLogOdd = varLogOdds[j][i];
     			double diff = logOdd / timeInfo.getTime(j);
     			double std = Math.sqrt(varLogOdd + popVarInfo.getPopVar(j))
     					/ timeInfo.getTime(j);

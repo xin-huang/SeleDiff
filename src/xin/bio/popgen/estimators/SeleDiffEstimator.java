@@ -19,17 +19,16 @@ package xin.bio.popgen.estimators;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringJoiner;
 
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
-import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 import xin.bio.popgen.infos.IndInfo;
+import xin.bio.popgen.infos.Info;
 import xin.bio.popgen.infos.PopVarInfo;
+import xin.bio.popgen.infos.SnpInfo;
 import xin.bio.popgen.infos.TimeInfo;
 
 /**
@@ -38,33 +37,31 @@ import xin.bio.popgen.infos.TimeInfo;
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-public final class SeleDiffEstimator extends Estimator {
+public final class SeleDiffEstimator extends Estimator implements Info {
 
     // a PopVarInfo instance stores variances of drift between populations
     private final PopVarInfo popVarInfo;
     
+    // a TimeInfo instance stores divergence times of population pairs
     private final TimeInfo timeInfo;
+    
+    // a SnpInfo instance stores information of SNPs
+    private final SnpInfo snpInfo;
 
+    // a String stores the name of the file containing ancestral allele information
+    private final BufferedReader ancAlleleFile;
+    
     // a double array stores log-Odds ratios between populations
-    private final DoubleArrayList[] logOdds;
+    private final float[][] logOdds;
     
     // a double array stores variances of log-Odds ratios between populations
-    private final DoubleArrayList[] varLogOdds;
+    private final float[][] varLogOdds;
     
     // a ChiSquaredDistribution instance for performing chi-square tests
     private final ChiSquaredDistribution chisq;
     
-    // a String stores the name of the file containing ancestral allele information
-    private final String ancAlleleFileName;
-    
-    // an ArrayList stores SNP IDs
-    private final ArrayList<String> snpIds;
-    
-    // an ArrayList stores reference alleles
-    private final ArrayList<String> refAlleles;
-    
-    // an ArrayList stores alternative alleles
-    private final ArrayList<String> altAlleles;
+    // an integer to record the index of the SNP currently parsing
+    private int snpIndex = 0;
     
     /**
      * Constructor of class {@code SeleDiffEstimator}.
@@ -74,28 +71,27 @@ public final class SeleDiffEstimator extends Estimator {
      * @param sampleInfo a SampleInfo instance containing sample information
      * @param timeInfo a TimeInfo instance containing divergence times between populations
      */
-    public SeleDiffEstimator(String ancAlleleFileName, 
-    		PopVarInfo popVarInfo, IndInfo sampleInfo, TimeInfo timeInfo) {
+    public SeleDiffEstimator(BufferedReader ancAlleleFile, int snpNum, 
+    		PopVarInfo popVarInfo, IndInfo sampleInfo, SnpInfo snpInfo, TimeInfo timeInfo) {
     	super(sampleInfo);
         this.popVarInfo = popVarInfo;
         this.timeInfo = timeInfo;
+        this.snpInfo = snpInfo;
         this.chisq = new ChiSquaredDistribution(1);
-        this.ancAlleleFileName = ancAlleleFileName;
-        this.snpIds = new ArrayList<>();
-        this.refAlleles = new ArrayList<>();
-        this.altAlleles = new ArrayList<>();
+        this.ancAlleleFile = ancAlleleFile;
         
-        logOdds = new DoubleArrayList[popPairNum];
-        varLogOdds = new DoubleArrayList[popPairNum];
-        for (int i = 0; i < popPairNum; i++) {
-        	logOdds[i] = new DoubleArrayList();
-        	varLogOdds[i] = new DoubleArrayList();
-        }
+        logOdds = new float[popPairNum][snpNum];
+        varLogOdds = new float[popPairNum][snpNum];
     }
     
-   /* @Override
-    public void parseSnpInfo(String line, int snpIndex) {
-        // Read allele counts of individuals
+	@Override
+	public void analyze(BufferedReader br) {
+		readFile(br);
+		alignAncAllele();
+	}
+	
+	@Override
+	public void parseLine(String line) {
 		int[][] alleleCounts = countAlleles(line);
     	for (int m = 0; m < alleleCounts.length; m++) {
 			for (int n = m + 1; n < alleleCounts.length; n++) {
@@ -103,59 +99,63 @@ public final class SeleDiffEstimator extends Estimator {
 				if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
 						|| (alleleCounts[n][0] + alleleCounts[n][1] == 0))
                     continue;
-				logOdds[popPairIndex].add(Model.calLogOdds(alleleCounts[m][0], alleleCounts[m][1], 
-						alleleCounts[n][0], alleleCounts[n][1]));
-				varLogOdds[popPairIndex].add(Model.calVarLogOdds(alleleCounts[m][0], alleleCounts[m][1], 
-						alleleCounts[n][0], alleleCounts[n][1]));
+				logOdds[popPairIndex][snpIndex] = (float) Model.calLogOdds(alleleCounts[m][0], 
+						alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
+				varLogOdds[popPairIndex][snpIndex] = (float) Model.calVarLogOdds(alleleCounts[m][0], 
+						alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
 			}
 		}
-    }
+    	snpIndex++;
+	}
     
-    @Override
-    public void estimate() {
-    	if (ancAlleleFileName == null)
+    public void alignAncAllele() {
+    	if (ancAlleleFile == null)
     		return;
     	int i = 0;
-    	HashMap<String, Integer> snpIndices = new HashMap<>(snpIds.size());
-    	for (String snpId:snpIds) {
+    	HashMap<String, Integer> snpIndices = new HashMap<>(snpInfo.getSnpIds().length);
+    	for (String snpId:snpInfo.getSnpIds()) {
     		snpIndices.put(snpId, i++);
     	}
     	try {
-			BufferedReader br = new BufferedReader(new FileReader(ancAlleleFileName));
 			String line;
-			while ((line = br.readLine()) != null) {
-				String[] elements = line.trim().split("\\s+");
-				String snpId = elements[0];
-				String ancAllele = elements[1];
+			while ((line = ancAlleleFile.readLine().trim()) != null) {
+				int start = 0;
+				int end = line.indexOf("\\s+");
+				String snpId = line.substring(start, end);
+				String ancAllele = line.substring(end+1);
 				if (snpIndices.containsKey(snpId)) {
 					int snpIndex = snpIndices.get(snpId);
-					String refAllele = refAlleles.get(snpIndex);
-					if (!ancAllele.equals(refAlleles.get(snpIndex))) {
-						altAlleles.set(snpIndex, refAllele);
-						refAlleles.set(snpIndex, ancAllele);
+					String refAllele = snpInfo.getRefAlleles()[snpIndex];
+					if (!ancAllele.equals(snpInfo.getRefAlleles()[snpIndex])) {
+						snpInfo.getAltAlleles()[snpIndex] = refAllele;
+						snpInfo.getRefAlleles()[snpIndex] = ancAllele;
 						for (int j = 0; j < popPairNum; j++) {
-							double logOdd = logOdds[j].getDouble(snpIndex);
-							logOdds[j].set(snpIndex, -1*logOdd);
+							logOdds[j][snpIndex] = -logOdds[j][snpIndex];
 						}
 					}
 				}
 			}
-			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				ancAlleleFile.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-    }*/
+    }
 
     @Override
     void writeLine(BufferedWriter bw) throws IOException {
-    	int snpNum = snpIds.size();
+    	int snpNum = snpInfo.getSnpIds().length;
     	for (int i = 0; i < snpNum; i++) {
-    		String snpId = snpIds.get(i);
-    		String ancAllele = refAlleles.get(i);
-    		String derAllele = altAlleles.get(i);
+    		String snpId = snpInfo.getSnpIds()[i];
+    		String ancAllele = snpInfo.getRefAlleles()[i];
+    		String derAllele = snpInfo.getAltAlleles()[i];
     		for (int j = 0; j < popPairNum; j++) {
-    			double logOdd = logOdds[j].getDouble(i);
-    			double varLogOdd = varLogOdds[j].getDouble(i);
+    			float logOdd = logOdds[j][i];
+    			float varLogOdd = varLogOdds[j][i];
     			double diff = logOdd / timeInfo.getTime(j);
     			double std = Math.sqrt(varLogOdd + popVarInfo.getPopVar(j))
     					/ timeInfo.getTime(j);
@@ -201,11 +201,5 @@ public final class SeleDiffEstimator extends Estimator {
         bw.write(sj.toString());
         bw.newLine();
     }
-
-	@Override
-	public void analyze(BufferedReader br) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

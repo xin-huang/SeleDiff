@@ -32,6 +32,7 @@ import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 
 import xin.bio.popgen.estimators.ConcurrentPopVarMedianEstimator;
+import xin.bio.popgen.estimators.ConcurrentSeleDiffEstimator;
 import xin.bio.popgen.estimators.Estimator;
 import xin.bio.popgen.estimators.PopVarMeanEstimator;
 import xin.bio.popgen.estimators.PopVarMedianEstimator;
@@ -39,6 +40,7 @@ import xin.bio.popgen.estimators.SeleDiffEstimator;
 import xin.bio.popgen.infos.CountSnpNumInfo;
 import xin.bio.popgen.infos.IndInfo;
 import xin.bio.popgen.infos.PopVarInfo;
+import xin.bio.popgen.infos.SnpInfo;
 import xin.bio.popgen.infos.TimeInfo;
 
 /**
@@ -137,16 +139,24 @@ final class CommandMain {
      */
     private Estimator newEstimator() {
     	IndInfo sampleInfo = new IndInfo(indFileName, getBufferedReader(indFileName));
+    	int snpNum = new CountSnpNumInfo(snpFileName, 
+    			getBufferedReader(snpFileName)).getSnpNum();
     	if (estimatorType.equals("sele-diff")) {
     		PopVarInfo popVarInfo = new PopVarInfo(popVarFileName, 
     				getBufferedReader(popVarFileName), sampleInfo);
     		TimeInfo timeInfo = new TimeInfo(timeFileName, 
     				getBufferedReader(timeFileName), sampleInfo);
-    		return new SeleDiffEstimator(ancAlleleFileName, popVarInfo, sampleInfo, timeInfo);
+    		SnpInfo snpInfo = new SnpInfo(getBufferedReader(snpFileName), snpNum);
+    		switch (thread) {
+	    		case 1:
+	    			return new SeleDiffEstimator(getBufferedReader(ancAlleleFileName), snpNum,
+	    					popVarInfo, sampleInfo, snpInfo, timeInfo);
+    			default:
+    				return new ConcurrentSeleDiffEstimator(ancAlleleFileName, snpNum,
+    						popVarInfo, sampleInfo, timeInfo);
+    		}
     	}
     	else if (estimatorType.equals("pop-var-median")) {
-    		int snpNum = new CountSnpNumInfo(snpFileName, 
-    				getBufferedReader(snpFileName)).getSnpNum();
     		switch (thread) {
 	    		case 1:
 	    			return new PopVarMedianEstimator(sampleInfo, snpNum);
@@ -166,6 +176,8 @@ final class CommandMain {
      * @return a BufferedReader instance from a ungzipped or gzipped file
      */
     private BufferedReader getBufferedReader(String fileName) {
+    	if (fileName == null)
+    		return null;
     	InputStream in = null;
     	try {
 			in = new FileInputStream(new File(fileName));
