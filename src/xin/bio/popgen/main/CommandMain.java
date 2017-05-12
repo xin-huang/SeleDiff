@@ -17,17 +17,29 @@
  */
 package xin.bio.popgen.main;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.zip.GZIPInputStream;
+
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
-import xin.bio.popgen.estimators.PopVarMedianEstimator;
-import xin.bio.popgen.estimators.SeleDiffEstimator;
+
+import xin.bio.popgen.estimators.ConcurrentPopVarMedianEstimator;
 import xin.bio.popgen.estimators.Estimator;
 import xin.bio.popgen.estimators.PopVarMeanEstimator;
-import xin.bio.popgen.infos.*;
-
-import java.io.File;
+import xin.bio.popgen.estimators.PopVarMedianEstimator;
+import xin.bio.popgen.estimators.SeleDiffEstimator;
+import xin.bio.popgen.infos.CountSnpNumInfo;
+import xin.bio.popgen.infos.IndInfo;
+import xin.bio.popgen.infos.PopVarInfo;
+import xin.bio.popgen.infos.TimeInfo;
 
 /**
  * Class {@code CommandMain} is the class for parsing command line arguments
@@ -37,27 +49,32 @@ import java.io.File;
  */
 @Parameters(commandDescription = "The main command line of SeleDiff")
 final class CommandMain {
-
-	@Parameter(names = "--vcf", required = true,
-            description = "The VCF file stores variant information.", 
-            validateWith = FileValidator.class)
-    private String vcfFileName;
+	
+	@Parameter(names = "--geno", required = true, 
+			description = "The EIGENSTRAT GENO file stores allele counts: "
+					+ "0, zero copy of the reference allele; 1, one copy of the reference allele "
+					+ "and one copy of the alternative allele; 2, two copies of the reference allele; "
+					+ "9, missing values.", 
+					validateWith = FileValidator.class)
+    private String genoFileName;
     
-    @Parameter(names = "--sample", required = true,
-            description = "The sample file stores individual information. " +
-                    "A sample file is space delimited without header, " +
-                    "where the first column is individual ID, " +
-                    "and the second column is population ID. " + 
-                    "The order of individual IDs should be consistent with " +
-                    "those in the VCF file", validateWith = FileValidator.class)
-    private String sampleFileName;
+    @Parameter(names = "--snp", required = true, 
+    		description = "The EIGENSTRAT SNP file stores information of variants.", 
+    		validateWith = FileValidator.class)
+    private String snpFileName;
+    
+    @Parameter(names = "--ind", required = true, 
+    		description = "The EIGENSTRAT IND file stores information of individuals and populations.", 
+    		validateWith = FileValidator.class)
+    private String indFileName;
 
-    @Parameter(names = "--time", required = true,
+    @Parameter(names = "--time",
             description = "The file stores divergence times between populations. " +
                     "A divergence time file is space delimited without header, " +
                     "where the first column is the population ID of the first population, " +
                     "the second column is the population ID of the second population, " +
-                    "the third column is the divergence time of this population pair.", validateWith = FileValidator.class)
+                    "the third column is the divergence time of this population pair. "
+                    + "This file is needed when estimating selection differences.", validateWith = FileValidator.class)
     private String timeFileName;
 
     @Parameter(names = "--output", required = true,
@@ -65,7 +82,7 @@ final class CommandMain {
     private String outputFileName;
 
     @Parameter(names = "--estimator", required = true,
-            description = "The type of an estimator to used: pop-var-mean | pop-var-median | sele-diff.",
+            description = "The type of an estimator to be used: pop-var-mean | pop-var-median | sele-diff.",
             validateWith = EstimatorValidator.class)
     private String estimatorType;
 
@@ -74,43 +91,105 @@ final class CommandMain {
                     "which is space delimited without header " +
                     "the first column is the first population ID " +
                     "the second column is the second population ID " +
-                    "the third column is the variance of drift of this population pair", validateWith = FileValidator.class)
+                    "the third column is the variance of drift of this population pair. "
+                    + "This file is needed when estimating selection differences.", 
+                    validateWith = FileValidator.class)
     private String popVarFileName;
 
     @Parameter(names = "--ancestral-allele",
             description = "The file stores the information of ancestral alleles. " +
                     "Without this file, SeleDiff would assume the REF allele is ancestral and the ALT allele is derived " +
-                    "in the VCF file. A ancestral allele file is space delimited without header, " +
+                    "in the GENO file. A ancestral allele file is space delimited without header, " +
                     "where the first column is the SNP ID, and the second column " +
                     "is the ancestral allele. SeleDiff assumes these alleles are " +
-                    "in the forward strand of the reference genome.", validateWith = FileValidator.class)
+                    "in the forward strand of the reference genome.", 
+                    validateWith = FileValidator.class)
     private String ancAlleleFileName;
+    
+    @Parameter(names = "--thread", description = "The number of threads to be used by SeleDiff. "
+    		+ "The default value is the available threads in the machine.", 
+    		validateWith = ThreadValidator.class)
+    private int thread = Runtime.getRuntime().availableProcessors();
+    
 
     /**
      * Executes SeleDiff.
      */
     void execute() {
-        if (estimatorType.equals("sele-diff") && popVarFileName == null)
-            throw new ParameterException("--popvar should be used when --estimator sele-diff is used");
-
-        SampleInfo sampleInfo = new SampleInfo(sampleFileName);
-        TimeInfo timeInfo = new TimeInfo(timeFileName, sampleInfo);
-        Estimator estimator = null;
-        // Select one kind of estimators
-        if (estimatorType.equals("pop-var-median")) {
-            estimator = new PopVarMedianEstimator(sampleInfo);
-        }
-        else if (estimatorType.equals("pop-var-mean")) {
-        	estimator = new PopVarMeanEstimator(sampleInfo);
-        }
-        else if (estimatorType.equals("sele-diff")) {
-            PopVarInfo popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
-            estimator = new SeleDiffEstimator(ancAlleleFileName, popVarInfo, sampleInfo, timeInfo);
-        }
-
-        new VCFInfo(vcfFileName, sampleInfo.getIndNum(), estimator);
-    
+    	if (estimatorType.equals("sele-diff")) {
+    		if (popVarFileName == null)
+    			throw new ParameterException("Parameter --popvar should be used "
+    					+ "when --estimator sele-diff is used");
+    		if (timeFileName == null)
+    			throw new ParameterException("Parameter --time should be used "
+    					+ "when --estimator sele-diff is used");
+    	}
+        
+        Estimator estimator = newEstimator();
+        estimator.analyze(getBufferedReader(genoFileName));
         estimator.writeResults(outputFileName);
+    }
+    
+    /**
+     * Helper function for generating an estimator.
+     * 
+     * @return the estimator for analysis
+     */
+    private Estimator newEstimator() {
+    	IndInfo sampleInfo = new IndInfo(indFileName, getBufferedReader(indFileName));
+    	if (estimatorType.equals("sele-diff")) {
+    		PopVarInfo popVarInfo = new PopVarInfo(popVarFileName, 
+    				getBufferedReader(popVarFileName), sampleInfo);
+    		TimeInfo timeInfo = new TimeInfo(timeFileName, 
+    				getBufferedReader(timeFileName), sampleInfo);
+    		return new SeleDiffEstimator(ancAlleleFileName, popVarInfo, sampleInfo, timeInfo);
+    	}
+    	else if (estimatorType.equals("pop-var-median")) {
+    		int snpNum = new CountSnpNumInfo(snpFileName, 
+    				getBufferedReader(snpFileName)).getSnpNum();
+    		switch (thread) {
+	    		case 1:
+	    			return new PopVarMedianEstimator(sampleInfo, snpNum);
+    			default:
+    				return new ConcurrentPopVarMedianEstimator(sampleInfo, thread, snpNum);
+    		}
+    	}
+    	else {
+    		return new PopVarMeanEstimator(sampleInfo);
+    	}
+    }
+    
+    /**
+     * Helper function for returning a BufferedReader from a ungzipped or gzipped file.
+     * 
+     * @param fileName the name of a file
+     * @return a BufferedReader instance from a ungzipped or gzipped file
+     */
+    private BufferedReader getBufferedReader(String fileName) {
+    	InputStream in = null;
+    	try {
+			in = new FileInputStream(new File(fileName));
+			byte[] signature = new byte[2];
+			int nread = in.read(signature);
+			if (nread == 2 
+					&& signature[0] == (byte) 0x1f 
+					&& signature[1] == (byte) 0x8b) {
+				GZIPInputStream gzip = new GZIPInputStream(new FileInputStream(fileName));
+				return new BufferedReader(new InputStreamReader(gzip));
+			}
+			else {
+				return new BufferedReader(new FileReader(fileName));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+    	return null;
     }
 
     /**
@@ -152,6 +231,17 @@ final class CommandMain {
             }
         }
 
+    }
+    
+    public static class ThreadValidator implements IParameterValidator {
+
+		@Override
+		public void validate(String name, String value) throws ParameterException {
+			int thread = Integer.parseInt(value);
+			if (thread <= 0)
+				throw new ParameterException("Paramether " + name + " should be larger than 0");
+		}
+    	
     }
 
 }

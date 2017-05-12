@@ -28,8 +28,8 @@ import java.util.StringJoiner;
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
 import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import xin.bio.popgen.infos.IndInfo;
 import xin.bio.popgen.infos.PopVarInfo;
-import xin.bio.popgen.infos.SampleInfo;
 import xin.bio.popgen.infos.TimeInfo;
 
 /**
@@ -42,6 +42,8 @@ public final class SeleDiffEstimator extends Estimator {
 
     // a PopVarInfo instance stores variances of drift between populations
     private final PopVarInfo popVarInfo;
+    
+    private final TimeInfo timeInfo;
 
     // a double array stores log-Odds ratios between populations
     private final DoubleArrayList[] logOdds;
@@ -55,6 +57,15 @@ public final class SeleDiffEstimator extends Estimator {
     // a String stores the name of the file containing ancestral allele information
     private final String ancAlleleFileName;
     
+    // an ArrayList stores SNP IDs
+    private final ArrayList<String> snpIds;
+    
+    // an ArrayList stores reference alleles
+    private final ArrayList<String> refAlleles;
+    
+    // an ArrayList stores alternative alleles
+    private final ArrayList<String> altAlleles;
+    
     /**
      * Constructor of class {@code SeleDiffEstimator}.
      *
@@ -64,9 +75,10 @@ public final class SeleDiffEstimator extends Estimator {
      * @param timeInfo a TimeInfo instance containing divergence times between populations
      */
     public SeleDiffEstimator(String ancAlleleFileName, 
-    		PopVarInfo popVarInfo, SampleInfo sampleInfo, TimeInfo timeInfo) {
-    	super(sampleInfo, timeInfo);
+    		PopVarInfo popVarInfo, IndInfo sampleInfo, TimeInfo timeInfo) {
+    	super(sampleInfo);
         this.popVarInfo = popVarInfo;
+        this.timeInfo = timeInfo;
         this.chisq = new ChiSquaredDistribution(1);
         this.ancAlleleFileName = ancAlleleFileName;
         this.snpIds = new ArrayList<>();
@@ -81,19 +93,10 @@ public final class SeleDiffEstimator extends Estimator {
         }
     }
     
-    @Override
-    public void parseSnpInfo(String line) {
-		// Read SNP information
-		int start = 0, end = 0;
-		for (int i = 0; i < 9; i++) {
-			end = line.indexOf("\t", start);
-			if (i == 2) snpIds.add(line.substring(start, end));
-			if (i == 3) refAlleles.add(line.substring(start, end));
-			if (i == 4) altAlleles.add(line.substring(start, end));
-			start = end + 1;
-		}
+   /* @Override
+    public void parseSnpInfo(String line, int snpIndex) {
         // Read allele counts of individuals
-		int[][] alleleCounts = countAlleles(line, start, sampleIndNum);
+		int[][] alleleCounts = countAlleles(line);
     	for (int m = 0; m < alleleCounts.length; m++) {
 			for (int n = m + 1; n < alleleCounts.length; n++) {
 				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
@@ -141,7 +144,7 @@ public final class SeleDiffEstimator extends Estimator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    }
+    }*/
 
     @Override
     void writeLine(BufferedWriter bw) throws IOException {
@@ -198,5 +201,11 @@ public final class SeleDiffEstimator extends Estimator {
         bw.write(sj.toString());
         bw.newLine();
     }
+
+	@Override
+	public void analyze(BufferedReader br) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

@@ -18,7 +18,7 @@
 package xin.bio.popgen.infos;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -27,24 +27,24 @@ import java.io.IOException;
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-interface Info {
+public interface Info {
 
     /**
      * Helper function for reading files.
      *
      * @param fileName a file name
      */
-    default void readFile(String fileName) {
-        BufferedReader br = null;
+    default void readFile(BufferedReader br) {
         try {
-            br = new BufferedReader(new FileReader(fileName));
-            String line;
+	        String line;
             while ((line = br.readLine()) != null) {
                 parseLine(line);
             }
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
-        } finally {
+        } catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
             try {
                 if (br != null) {
                     br.close();

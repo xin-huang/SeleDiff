@@ -17,13 +17,12 @@
  */
 package xin.bio.popgen.estimators;
 
-import xin.bio.popgen.infos.SampleInfo;
-import xin.bio.popgen.infos.TimeInfo;
-
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+
+import xin.bio.popgen.infos.IndInfo;
 
 /**
  * Class {@code Estimator} defines an abstract class
@@ -34,13 +33,12 @@ import java.util.ArrayList;
 public abstract class Estimator {
 
     // a SampleInfo instance stores the sample information
-    SampleInfo sampleInfo;
+    IndInfo sampleInfo;
 
-    // a TimeInfo instance stores the information of divergence times
-    TimeInfo timeInfo;
-
+    // an integer stores how many populations in the sample
     int samplePopNum;
     
+    // an integer stores how many individuals in the sample
     int sampleIndNum;
     
     // an integer stores how many population pairs in the sample
@@ -49,26 +47,14 @@ public abstract class Estimator {
     // a String array stores population Ids of each pair
     String[][] popPairIds;
     
-    // an ArrayList stores SNP IDs
-    ArrayList<String> snpIds;
-    
-    // an ArrayList stores reference alleles
-    ArrayList<String> refAlleles;
-    
-    // an ArrayList stores alternative alleles
-    ArrayList<String> altAlleles;
-    
-    long time;
-    
     /**
      * Constructor of {@code Estimator}.
      * 
      * @param sampleInfo a SampleInfo instance containing sample information
      * @param timeInfo a TimeInfo instance containing divergence times between populations
      */
-    public Estimator(SampleInfo sampleInfo, TimeInfo timeInfo) {
+    public Estimator(IndInfo sampleInfo) {
     	this.sampleInfo = sampleInfo;
-    	this.timeInfo = timeInfo;
     	samplePopNum = sampleInfo.getPopNum();
     	sampleIndNum = sampleInfo.getIndNum();
     	popPairNum = (samplePopNum * (samplePopNum - 1))/2;
@@ -78,30 +64,28 @@ public abstract class Estimator {
     	for (int i = 0; i < popPairNum; i++) {
     		popPairIds[i] = sampleInfo.getPopPair(i);
     	}
-    	
-    	time = 0;
     }
     
-    public long getTime() {
-    	return time;
-    }
-    
-    /**
-     *An abstract method for running estimation.
-     */
-    public abstract void estimate();
+    public abstract void analyze(BufferedReader br);
    
     /**
-     * An abstract method for adding variant information
-     * 
-     * @param snpId a SNP ID
-     * @param refAllele a reference allele
-     * @param altAllele an alternative allele
+     * An abstract method for writing lines to the output file.
+     *
+     * @param bw a BufferedWriter instance to the output file
+     * @throws IOException
      */
-    public abstract void parseSnpInfo(String line);
+    abstract void writeLine(BufferedWriter bw) throws IOException;
 
     /**
-     * An abstract method for outputting results to files.
+     * An abstract method for writing header to the output file.
+     *
+     * @param bw a BufferedWriter instance to the output file
+     * @throws IOException
+     */
+    abstract void writeHeader(BufferedWriter bw) throws IOException;
+
+    /**
+     * Helper function for outputting results to files.
      *
      * @param outputFileName the output file name
      */
@@ -126,39 +110,30 @@ public abstract class Estimator {
     /**
      * Helper function for counting alleles 
      * 
-     * @param line a String containing genotypes of each indiviudal
-     * @param start the start index of the first genotype in the line
+     * @param line a String allele counts of each indiviudal
      * @return a 2-D integer array containing counts of each allele
      */
-    int[][] countAlleles(String line, int start, int sampleIndNum) {
+    int[][] countAlleles(String line) {
     	int[][] alleleCounts = new int[samplePopNum][2];
-    	for (int i = 0; i < sampleIndNum; i++) {
+    	int indNum = line.length();
+    	for (int i = 0; i < indNum; i++) {
     		int popIndex = sampleInfo.getPopIndex(i);
-    		int allele1 = line.charAt(start) - 48;
-    		int allele2 = line.charAt(start+2) - 48;
-    		if (allele1 >= 0)
-				alleleCounts[popIndex][allele1]++;
-			if (allele2 >= 0)
-				alleleCounts[popIndex][allele2]++;
-    		start += 4;
+    		int count = line.charAt(i) - 48;
+    		switch (count) {
+	    		case 0:
+	    			alleleCounts[popIndex][1] += 2; 
+	    			break;
+	    		case 1:
+	    			alleleCounts[popIndex][0] += 1;
+	    			alleleCounts[popIndex][1] += 1;
+	    			break;
+	    		case 2:
+	    			alleleCounts[popIndex][0] += 2;
+	    			break;
+	    		default: break;
+    		}
     	}
         return alleleCounts;
     }
-
-    /**
-     * An abstract method for writing lines to the output file.
-     *
-     * @param bw a BufferedWriter instance to the output file
-     * @throws IOException
-     */
-    abstract void writeLine(BufferedWriter bw) throws IOException;
-
-    /**
-     * An abstract method for writing header to the output file.
-     *
-     * @param bw a BufferedWriter instance to the output file
-     * @throws IOException
-     */
-    abstract void writeHeader(BufferedWriter bw) throws IOException;
 
 }

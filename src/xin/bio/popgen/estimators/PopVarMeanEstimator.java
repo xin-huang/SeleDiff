@@ -1,10 +1,11 @@
 package xin.bio.popgen.estimators;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.StringJoiner;
 
-import xin.bio.popgen.infos.SampleInfo;
+import xin.bio.popgen.infos.IndInfo;
 
 public final class PopVarMeanEstimator extends Estimator {
 	
@@ -15,13 +16,9 @@ public final class PopVarMeanEstimator extends Estimator {
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public PopVarMeanEstimator(SampleInfo sampleInfo) {
-    	super(sampleInfo, null);
+    public PopVarMeanEstimator(IndInfo sampleInfo) {
+    	super(sampleInfo);
     }
-
-	@Override
-	public void estimate() {
-	}
 
 	@Override
 	void writeLine(BufferedWriter bw) throws IOException {
@@ -38,6 +35,9 @@ public final class PopVarMeanEstimator extends Estimator {
 	void writeHeader(BufferedWriter bw) throws IOException {}
 
 	@Override
-	public void parseSnpInfo(String line) {}
+	public void analyze(BufferedReader br) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

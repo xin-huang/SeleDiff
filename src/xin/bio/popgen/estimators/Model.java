@@ -88,5 +88,35 @@ final class Model {
         return (float) ((new Double(value).equals(Double.NaN)) ? value
                 : ((float) Math.round(value * 1000000d) / 1000000d));
     }
+    
+    /**
+     * Finds median with quick select algorithm O(n).
+     * 
+     * @param arr a float array
+     * @param k the k-th element to be selected
+     * @return the median of the array
+     */
+    static float quickSelect(float[] arr, int k) {
+        int from = 0;
+        int to = arr.length - 1;
+        while (from < to) {
+        	int r = from;
+        	int w = to;
+        	float mid = arr[(r+w)/2];
+        	while (r < w) {
+        		if (arr[r] >= mid) {
+        			float tmp = arr[w];
+        			arr[w] = arr[r];
+        			arr[r] = tmp;
+        			w--;
+        		}
+        		else r++;
+        	}
+        	if (arr[r] > mid) r--;
+        	if (k <= r) to = r;
+        	else from = r + 1;
+        }
+        return arr[k];
+    }
 
 }
