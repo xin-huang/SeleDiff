@@ -23,8 +23,6 @@ import static xin.bio.popgen.estimators.Model.quickSelect;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringJoiner;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -32,39 +30,29 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 
 import xin.bio.popgen.infos.IndInfo;
 
 /**
- * Class {@code ConcurrentPopVarMedianEstimator} extends {@code Estimator} to
+ * Class {@code ConcurrentPopVarMedianEstimator} extends {@code ConcurrentEstimator} to
  * estimate variances of drift between populations concurrently.
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-public final class ConcurrentPopVarMedianEstimator extends Estimator {
+public final class ConcurrentPopVarMedianEstimator extends ConcurrentEstimator {
 
     // a DoubleArrayList stores variances of drift between populations
     private final float[][] popPairVars;
     
-    // a List of Future instances stores results of medians of variances of drift between populations
-    private List<Future<String>> results;
-    
-    private final int snpNum;
-
-    // an integer stores the number of threads to be used
-    private final int thread;
-
     /**
      * Constructor of class {@code ConcurrentPopVarMedianEstimator}.
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public ConcurrentPopVarMedianEstimator(IndInfo sampleInfo, int thread, int snpNum) {
-    	super(sampleInfo);
-    	this.snpNum = snpNum;
-    	this.thread = thread;
+    public ConcurrentPopVarMedianEstimator(IndInfo sampleInfo, int snpNum, int thread) {
+    	super(sampleInfo, snpNum, thread);
         popPairVars = new float[popPairNum][snpNum];
-        results = new ArrayList<>();
     }
 
 	@Override
@@ -74,7 +62,7 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
 	}
     
     @Override
-    void writeLine(BufferedWriter bw) throws IOException {
+    protected void writeLine(BufferedWriter bw) throws IOException {
     	for (Future<String> r:results) {
     		try {
 				bw.write(r.get());
@@ -88,53 +76,8 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
     }
 
     @Override
-    void writeHeader(BufferedWriter bw) throws IOException {}
+    protected void writeHeader(BufferedWriter bw) throws IOException {}
     
-    /**
-     * Helper function for reading file.
-     * 
-     * @param fileName the name of a file
-     */
-    private void readFile(BufferedReader br) {
-    	int batchSize = snpNum / thread;
-    	int remainder = snpNum % batchSize;
-    	ExecutorService executor = Executors.newFixedThreadPool(thread);
-    	CountDownLatch doneSignal = new CountDownLatch(thread+1);
-    	try {
-			int startIndex = 0;
-	    	for (int i = 0; i < thread; i++) {
-	    		String[] lines = new String[batchSize];
-	    		for (int j = 0; j < batchSize; j++) {
-	    			lines[j] = br.readLine();
-	    		}
-	    		executor.submit(new Counter(lines, startIndex, doneSignal));
-	    		startIndex += batchSize;
-	    	}
-	    	if (remainder != 0) {
-	    		String[] lines = new String[remainder];
-	    		for (int j = 0; j < remainder; j++) {
-	    			lines[j] = br.readLine();
-	    		}
-	    		executor.submit(new Counter(lines, startIndex, doneSignal));
-	    	}
-	    	else doneSignal.countDown();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-        try {
-			doneSignal.await();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} finally {
-			executor.shutdown();
-		}
-    }
 
     /**
      * Helper function for finding medians of variances of drift between populations.
@@ -143,8 +86,8 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
      */
     private void findMedians() {
     	ExecutorService executor = Executors.newFixedThreadPool(thread);
-    	CountDownLatch doneSignal = new CountDownLatch(popPairVars.length);
-        for (int i = 0; i < popPairVars.length; i++) {
+    	CountDownLatch doneSignal = new CountDownLatch(popPairNum);
+        for (int i = 0; i < popPairNum; i++) {
         	results.add(executor.submit(new Worker(popPairIds[i][0], popPairIds[i][1], 
         			popPairVars[i], doneSignal)));
         }
@@ -155,42 +98,6 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
 		} finally {
 			executor.shutdown();
 		}
-    }
-    
-    /**
-     * Helper class for counting alleles concurrently.
-     */
-    private class Counter implements Runnable {
-    	
-    	private final String[] lines;
-    	private final CountDownLatch doneSignal;
-    	private int snpIndex;
-    	
-    	Counter(String[] lines, int snpIndex, CountDownLatch doneSignal) {
-    		this.lines = lines;
-    		this.doneSignal = doneSignal;
-    		this.snpIndex = snpIndex;
-    	}
-
-		@Override
-		public void run() {
-			for (String line:lines) {
-				int[][] alleleCounts = countAlleles(line);
-		        for (int m = 0; m < alleleCounts.length; m++) {
-					for (int n = m + 1; n < alleleCounts.length; n++) {
-						int popPairIndex = sampleInfo.getPopPairIndex(m,n);
-		                if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
-		                		|| (alleleCounts[n][0] + alleleCounts[n][1] == 0))
-		                    continue;
-		                popPairVars[popPairIndex][snpIndex] = (float) calDriftVar(alleleCounts[m][0],
-		                		alleleCounts[m][1], alleleCounts[n][0],alleleCounts[n][1]);
-					}
-				}
-		        snpIndex++;
-			}
-			doneSignal.countDown();
-		}
-    	
     }
     
     /**
@@ -229,5 +136,54 @@ public final class ConcurrentPopVarMedianEstimator extends Estimator {
             return sj.toString();
         }
     }
+
+	@Override
+	protected Runnable creatCounter(char[][] lines, int startIndex,
+			Semaphore threadSemaphore, CountDownLatch doneSignal) {
+		/**
+	     * Helper class for counting alleles concurrently.
+	     */
+	    class PopVarCounter implements Runnable {
+
+			private final char[][] lines;
+			private final Semaphore threadSemaphore;
+	    	private final CountDownLatch doneSignal;
+	    	private int startIndex;
+	    	
+	    	PopVarCounter(char[][] lines, int startIndex, 
+	    			Semaphore threadSemaphore, CountDownLatch doneSignal) {
+	    		this.lines = lines;
+	    		this.startIndex = startIndex;
+	    		this.threadSemaphore = threadSemaphore;
+	    		this.doneSignal = doneSignal;
+			}
+
+			@Override
+			public void run() {
+				try {
+					threadSemaphore.acquire();
+					for (char[] line:lines) {
+						int[][] alleleCounts = countAlleles(line);
+				        for (int m = 0; m < alleleCounts.length; m++) {
+							for (int n = m + 1; n < alleleCounts.length; n++) {
+								int popPairIndex = sampleInfo.getPopPairIndex(m,n);
+				                popPairVars[popPairIndex][startIndex] = (float) calDriftVar(alleleCounts[m][0],
+				                		alleleCounts[m][1], alleleCounts[n][0],alleleCounts[n][1]);
+							}
+						}
+				        startIndex++;
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} finally {
+					threadSemaphore.release();
+					doneSignal.countDown();
+				}
+			}
+	    	
+	    }
+		
+		return new PopVarCounter(lines, startIndex, threadSemaphore, doneSignal);
+	}
 
 }

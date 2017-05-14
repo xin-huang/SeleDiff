@@ -18,6 +18,7 @@
     `*` indicates required options.
 
 - Input files
+    - `SeleDiff` assumes no missing data in the input files.
     - `SeleDiff` uses `--ancestral-allele` option (required) to accept a *TAB* delimited file that specifies the ancestral allele of each SNP in the data. The content of the file looks like:
     
             rs001   A

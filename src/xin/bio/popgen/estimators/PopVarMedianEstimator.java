@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.StringJoiner;
 
 import xin.bio.popgen.infos.IndInfo;
-import xin.bio.popgen.infos.Info;
 
 /**
  * Class {@code PopVarMedianEstimator} extends {@code Estimator} to
@@ -30,7 +29,7 @@ import xin.bio.popgen.infos.Info;
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-public final class PopVarMedianEstimator extends Estimator implements Info {
+public final class PopVarMedianEstimator extends Estimator {
 
     // a double array stores medians of variances of drift
     private final float[] popPairVarMedians;
@@ -38,35 +37,38 @@ public final class PopVarMedianEstimator extends Estimator implements Info {
     // a DoubleArrayList stores variances of drift between populations
     private final float[][] popPairVars;
     
-    // an integer to record the index of the SNP currently parsing
-    private int snpIndex = 0;
-
     /**
      * Constructor of class {@code PopVarMedianEstimator}.
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
     public PopVarMedianEstimator(IndInfo sampleInfo, int snpNum) {
-    	super(sampleInfo);
+    	super(sampleInfo, snpNum);
         popPairVarMedians = new float[popPairNum];
         popPairVars = new float[popPairNum][snpNum];
     }
     
     @Override
 	public void analyze(BufferedReader br) {
+    	long readStart = System.currentTimeMillis();
 		readFile(br);
+		long readEnd = System.currentTimeMillis();
+		System.out.println("Used time for reading file: " + ((readEnd-readStart)/1000));
+		long findStart = System.currentTimeMillis();
 		findMedians();
+		long findEnd = System.currentTimeMillis();
+		System.out.println("Used time for finding medians: " + ((findEnd-findStart)/1000));
 	}
     
-	@Override
-	public void parseLine(String line) {
-		int[][] alleleCounts = countAlleles(line);
+	protected void parseLine(char[] cbuf) {
+		int[][] alleleCounts = countAlleles(cbuf);
         for (int m = 0; m < alleleCounts.length; m++) {
 			for (int n = m + 1; n < alleleCounts.length; n++) {
 				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
-                if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
+                /*if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
                 		|| (alleleCounts[n][0] + alleleCounts[n][1] == 0))
-                    continue;
+                    continue;*/
+				// Assume no missing data
                 popPairVars[popPairIndex][snpIndex] = (float) calDriftVar(alleleCounts[m][0],
                 		alleleCounts[m][1], alleleCounts[n][0],alleleCounts[n][1]);
 			}
@@ -75,10 +77,10 @@ public final class PopVarMedianEstimator extends Estimator implements Info {
 	}
 
     @Override
-    void writeHeader(BufferedWriter bw) throws IOException {}
+    protected void writeHeader(BufferedWriter bw) throws IOException {}
 
     @Override
-    void writeLine(BufferedWriter bw) throws IOException {
+    protected void writeLine(BufferedWriter bw) throws IOException {
         for (int i = 0; i < popPairNum; i++) {
             StringJoiner sj = new StringJoiner("\t");
             sj.add(popPairIds[i][0])
@@ -95,14 +97,13 @@ public final class PopVarMedianEstimator extends Estimator implements Info {
      * @param popPairVars a DoubleArrayList containing variances of drift between populations
      */
     private void findMedians() {
-        for (int i = 0; i < popPairVars.length; i++) {
-        	int length = popPairVars[i].length;
-        	if (length % 2 != 0) {
-        		popPairVarMedians[i] = quickSelect(popPairVars[i], length/2);
+        for (int i = 0; i < popPairNum; i++) {
+        	if (snpNum % 2 != 0) {
+        		popPairVarMedians[i] = quickSelect(popPairVars[i], snpNum/2);
         	}
         	else {
-        		float left = quickSelect(popPairVars[i], length/2-1);
-        		float right = quickSelect(popPairVars[i], length/2);
+        		float left = quickSelect(popPairVars[i], snpNum/2-1);
+        		float right = quickSelect(popPairVars[i], snpNum/2);
         		popPairVarMedians[i] = (left + right) / 2;
         	}
         }

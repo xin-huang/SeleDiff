@@ -16,12 +16,12 @@ public final class PopVarMeanEstimator extends Estimator {
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public PopVarMeanEstimator(IndInfo sampleInfo) {
-    	super(sampleInfo);
+    public PopVarMeanEstimator(IndInfo sampleInfo, int snpNum) {
+    	super(sampleInfo, snpNum);
     }
 
 	@Override
-	void writeLine(BufferedWriter bw) throws IOException {
+	protected void writeLine(BufferedWriter bw) throws IOException {
 		for (int i = 0; i < popPairNum; i++) {
             String[] popPair = sampleInfo.getPopPair(i);
             StringJoiner sj = new StringJoiner("\t");
@@ -32,10 +32,16 @@ public final class PopVarMeanEstimator extends Estimator {
 	}
 
 	@Override
-	void writeHeader(BufferedWriter bw) throws IOException {}
+	protected void writeHeader(BufferedWriter bw) throws IOException {}
 
 	@Override
 	public void analyze(BufferedReader br) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void parseLine(char[] cbuf) {
 		// TODO Auto-generated method stub
 		
 	}

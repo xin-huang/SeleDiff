@@ -33,19 +33,24 @@ import xin.bio.popgen.infos.IndInfo;
 public abstract class Estimator {
 
     // a SampleInfo instance stores the sample information
-    IndInfo sampleInfo;
+    protected final IndInfo sampleInfo;
 
     // an integer stores how many populations in the sample
-    int samplePopNum;
+    protected final int popNum;
     
     // an integer stores how many individuals in the sample
-    int sampleIndNum;
+    protected final int indNum;
+    
+    // an integet stores how many SNPs in the sample
+    protected final int snpNum;
     
     // an integer stores how many population pairs in the sample
-    int popPairNum;
+    protected final int popPairNum;
     
     // a String array stores population Ids of each pair
-    String[][] popPairIds;
+    protected final String[][] popPairIds;
+    
+    protected int snpIndex = 0;
     
     /**
      * Constructor of {@code Estimator}.
@@ -53,37 +58,22 @@ public abstract class Estimator {
      * @param sampleInfo a SampleInfo instance containing sample information
      * @param timeInfo a TimeInfo instance containing divergence times between populations
      */
-    public Estimator(IndInfo sampleInfo) {
+    public Estimator(IndInfo sampleInfo, int snpNum) {
     	this.sampleInfo = sampleInfo;
-    	samplePopNum = sampleInfo.getPopNum();
-    	sampleIndNum = sampleInfo.getIndNum();
-    	popPairNum = (samplePopNum * (samplePopNum - 1))/2;
+    	this.popNum = sampleInfo.getPopNum();
+    	this.indNum = sampleInfo.getIndNum();
+    	this.snpNum = snpNum;
+    	this.popPairNum = (popNum * (popNum - 1))/2;
     	
     	// get population Ids of different pairs
-    	popPairIds = new String[popPairNum][2];
+    	this.popPairIds = new String[popPairNum][2];
     	for (int i = 0; i < popPairNum; i++) {
-    		popPairIds[i] = sampleInfo.getPopPair(i);
+    		this.popPairIds[i] = sampleInfo.getPopPair(i);
     	}
     }
     
     public abstract void analyze(BufferedReader br);
    
-    /**
-     * An abstract method for writing lines to the output file.
-     *
-     * @param bw a BufferedWriter instance to the output file
-     * @throws IOException
-     */
-    abstract void writeLine(BufferedWriter bw) throws IOException;
-
-    /**
-     * An abstract method for writing header to the output file.
-     *
-     * @param bw a BufferedWriter instance to the output file
-     * @throws IOException
-     */
-    abstract void writeHeader(BufferedWriter bw) throws IOException;
-
     /**
      * Helper function for outputting results to files.
      *
@@ -107,18 +97,60 @@ public abstract class Estimator {
         }
     }
     
+    protected abstract void parseLine(char[] cbuf);
+    
+    /**
+     * An abstract method for writing lines to the output file.
+     *
+     * @param bw a BufferedWriter instance to the output file
+     * @throws IOException
+     */
+    protected abstract void writeLine(BufferedWriter bw) throws IOException;
+
+    /**
+     * An abstract method for writing header to the output file.
+     *
+     * @param bw a BufferedWriter instance to the output file
+     * @throws IOException
+     */
+    protected abstract void writeHeader(BufferedWriter bw) throws IOException;
+    
+    /**
+     * 
+     * 
+     * @param br
+     */
+    protected void readFile(BufferedReader br) {
+    	char[] cbuf = new char[indNum];
+    	try {
+    		for (int i = 0; i < snpNum; i++) {
+    			br.read(cbuf);
+    			parseLine(cbuf);
+    			br.read();
+    		}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+    }
+    
     /**
      * Helper function for counting alleles 
      * 
      * @param line a String allele counts of each indiviudal
      * @return a 2-D integer array containing counts of each allele
      */
-    int[][] countAlleles(String line) {
-    	int[][] alleleCounts = new int[samplePopNum][2];
-    	int indNum = line.length();
+    int[][] countAlleles(char[] cbuf) {
+    	int[][] alleleCounts = new int[popNum][2];
+    	int indNum = cbuf.length;
     	for (int i = 0; i < indNum; i++) {
     		int popIndex = sampleInfo.getPopIndex(i);
-    		int count = line.charAt(i) - 48;
+    		int count = cbuf[i] - 48;
     		switch (count) {
 	    		case 0:
 	    			alleleCounts[popIndex][1] += 2; 

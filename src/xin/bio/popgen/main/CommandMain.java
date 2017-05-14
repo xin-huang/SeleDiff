@@ -152,8 +152,8 @@ final class CommandMain {
 	    			return new SeleDiffEstimator(getBufferedReader(ancAlleleFileName), snpNum,
 	    					popVarInfo, sampleInfo, snpInfo, timeInfo);
     			default:
-    				return new ConcurrentSeleDiffEstimator(ancAlleleFileName, snpNum,
-    						popVarInfo, sampleInfo, timeInfo);
+    				return new ConcurrentSeleDiffEstimator(getBufferedReader(ancAlleleFileName), snpNum, 
+    						thread, popVarInfo, sampleInfo, snpInfo, timeInfo);
     		}
     	}
     	else if (estimatorType.equals("pop-var-median")) {
@@ -161,11 +161,11 @@ final class CommandMain {
 	    		case 1:
 	    			return new PopVarMedianEstimator(sampleInfo, snpNum);
     			default:
-    				return new ConcurrentPopVarMedianEstimator(sampleInfo, thread, snpNum);
+    				return new ConcurrentPopVarMedianEstimator(sampleInfo, snpNum, thread);
     		}
     	}
     	else {
-    		return new PopVarMeanEstimator(sampleInfo);
+    		return new PopVarMeanEstimator(sampleInfo, snpNum);
     	}
     }
     

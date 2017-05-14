@@ -26,7 +26,6 @@ import java.util.StringJoiner;
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
 import xin.bio.popgen.infos.IndInfo;
-import xin.bio.popgen.infos.Info;
 import xin.bio.popgen.infos.PopVarInfo;
 import xin.bio.popgen.infos.SnpInfo;
 import xin.bio.popgen.infos.TimeInfo;
@@ -37,7 +36,7 @@ import xin.bio.popgen.infos.TimeInfo;
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-public final class SeleDiffEstimator extends Estimator implements Info {
+public final class SeleDiffEstimator extends Estimator {
 
     // a PopVarInfo instance stores variances of drift between populations
     private final PopVarInfo popVarInfo;
@@ -60,9 +59,6 @@ public final class SeleDiffEstimator extends Estimator implements Info {
     // a ChiSquaredDistribution instance for performing chi-square tests
     private final ChiSquaredDistribution chisq;
     
-    // an integer to record the index of the SNP currently parsing
-    private int snpIndex = 0;
-    
     /**
      * Constructor of class {@code SeleDiffEstimator}.
      *
@@ -73,7 +69,7 @@ public final class SeleDiffEstimator extends Estimator implements Info {
      */
     public SeleDiffEstimator(BufferedReader ancAlleleFile, int snpNum, 
     		PopVarInfo popVarInfo, IndInfo sampleInfo, SnpInfo snpInfo, TimeInfo timeInfo) {
-    	super(sampleInfo);
+    	super(sampleInfo, snpNum);
         this.popVarInfo = popVarInfo;
         this.timeInfo = timeInfo;
         this.snpInfo = snpInfo;
@@ -91,14 +87,15 @@ public final class SeleDiffEstimator extends Estimator implements Info {
 	}
 	
 	@Override
-	public void parseLine(String line) {
-		int[][] alleleCounts = countAlleles(line);
+	protected void parseLine(char[] cbuf) {
+		int[][] alleleCounts = countAlleles(cbuf);
     	for (int m = 0; m < alleleCounts.length; m++) {
 			for (int n = m + 1; n < alleleCounts.length; n++) {
 				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
-				if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
+				/*if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
 						|| (alleleCounts[n][0] + alleleCounts[n][1] == 0))
-                    continue;
+                    continue;*/
+				// Assume no missing data
 				logOdds[popPairIndex][snpIndex] = (float) Model.calLogOdds(alleleCounts[m][0], 
 						alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
 				varLogOdds[popPairIndex][snpIndex] = (float) Model.calVarLogOdds(alleleCounts[m][0], 
@@ -108,7 +105,7 @@ public final class SeleDiffEstimator extends Estimator implements Info {
     	snpIndex++;
 	}
     
-    public void alignAncAllele() {
+    private void alignAncAllele() {
     	if (ancAlleleFile == null)
     		return;
     	int i = 0;
@@ -147,7 +144,7 @@ public final class SeleDiffEstimator extends Estimator implements Info {
     }
 
     @Override
-    void writeLine(BufferedWriter bw) throws IOException {
+    protected void writeLine(BufferedWriter bw) throws IOException {
     	int snpNum = snpInfo.getSnpIds().length;
     	for (int i = 0; i < snpNum; i++) {
     		String snpId = snpInfo.getSnpIds()[i];
@@ -183,7 +180,7 @@ public final class SeleDiffEstimator extends Estimator implements Info {
     }
 
     @Override
-    void writeHeader(BufferedWriter bw) throws IOException {
+    protected void writeHeader(BufferedWriter bw) throws IOException {
         StringJoiner sj = new StringJoiner("\t");
         sj.add("SNP ID")
                 .add("Ancestral allele")
