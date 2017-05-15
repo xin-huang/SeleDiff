@@ -15,7 +15,7 @@ import xin.bio.popgen.infos.IndInfo;
 
 public abstract class ConcurrentEstimator extends Estimator {
 	
-	protected static final int BATCHSIZE = 1_000_000_000;
+	protected static final int BATCHSIZE = 1_000_000;
 	
 	// an integer stores the number of threads to be used
 	protected final int thread;

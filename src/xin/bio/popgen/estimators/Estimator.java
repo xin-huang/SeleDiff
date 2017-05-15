@@ -116,9 +116,9 @@ public abstract class Estimator {
     protected abstract void writeHeader(BufferedWriter bw) throws IOException;
     
     /**
+     * Helper function for reading files
      * 
-     * 
-     * @param br
+     * @param br a BufferedReader instance to the input file
      */
     protected void readFile(BufferedReader br) {
     	char[] cbuf = new char[indNum];
@@ -147,7 +147,8 @@ public abstract class Estimator {
      */
     int[][] countAlleles(char[] cbuf) {
     	int[][] alleleCounts = new int[popNum][2];
-    	int indNum = cbuf.length;
+    	if (indNum != cbuf.length)
+    		throw new IllegalArgumentException();
     	for (int i = 0; i < indNum; i++) {
     		int popIndex = sampleInfo.getPopIndex(i);
     		int count = cbuf[i] - 48;

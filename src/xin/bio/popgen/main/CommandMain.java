@@ -31,8 +31,10 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 
+import xin.bio.popgen.estimators.ArrayPopVarMedianEstimator;
 import xin.bio.popgen.estimators.ConcurrentPopVarMedianEstimator;
 import xin.bio.popgen.estimators.ConcurrentSeleDiffEstimator;
+import xin.bio.popgen.estimators.DigestPopVarMedianEstimator;
 import xin.bio.popgen.estimators.Estimator;
 import xin.bio.popgen.estimators.PopVarMeanEstimator;
 import xin.bio.popgen.estimators.PopVarMedianEstimator;
@@ -156,14 +158,20 @@ final class CommandMain {
     						thread, popVarInfo, sampleInfo, snpInfo, timeInfo);
     		}
     	}
-    	else if (estimatorType.equals("pop-var-median")) {
+    	else if (estimatorType.equals("pop-var-median-digest")) {
+    		return new DigestPopVarMedianEstimator(sampleInfo, snpNum);
+    	}
+    	else if (estimatorType.equals("pop-var-median-array")) {
+    		return new ArrayPopVarMedianEstimator(sampleInfo, snpNum);
+    	}
+/*    	else if (estimatorType.equals("pop-var-median")) {
     		switch (thread) {
 	    		case 1:
 	    			return new PopVarMedianEstimator(sampleInfo, snpNum);
     			default:
     				return new ConcurrentPopVarMedianEstimator(sampleInfo, snpNum, thread);
     		}
-    	}
+    	}*/
     	else {
     		return new PopVarMeanEstimator(sampleInfo, snpNum);
     	}
@@ -237,6 +245,8 @@ final class CommandMain {
         @Override
         public void validate(String name, String value) throws ParameterException {
             if (!value.equals("pop-var-median")
+            		&&!value.equals("pop-var-median-array")
+            		&&!value.equals("pop-var-median-digest")
             		&&!value.equals("pop-var-mean")
             		&&!value.equals("sele-diff")) {
                 throw new ParameterException("Parameter " + name + " does not accept " + value);

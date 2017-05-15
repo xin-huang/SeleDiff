@@ -43,7 +43,7 @@ import xin.bio.popgen.infos.IndInfo;
 public final class ConcurrentPopVarMedianEstimator extends ConcurrentEstimator {
 
     // a DoubleArrayList stores variances of drift between populations
-    private final float[][] popPairVars;
+    private final double[][] popPairVars;
     
     /**
      * Constructor of class {@code ConcurrentPopVarMedianEstimator}.
@@ -52,7 +52,7 @@ public final class ConcurrentPopVarMedianEstimator extends ConcurrentEstimator {
      */
     public ConcurrentPopVarMedianEstimator(IndInfo sampleInfo, int snpNum, int thread) {
     	super(sampleInfo, snpNum, thread);
-        popPairVars = new float[popPairNum][snpNum];
+        popPairVars = new double[popPairNum][snpNum];
     }
 
 	@Override
@@ -105,13 +105,13 @@ public final class ConcurrentPopVarMedianEstimator extends ConcurrentEstimator {
      */
     private class Worker implements Callable<String> {
 
-        private final float[] arr;
+        private final double[] arr;
         private final CountDownLatch doneSignal;
         private final String popi;
         private final String popj;
 
         Worker(String popi, String popj, 
-        		float[] arr, CountDownLatch doneSignal) {
+        		double[] arr, CountDownLatch doneSignal) {
         	this.popi = popi;
         	this.popj = popj;
             this.arr = arr;
@@ -120,14 +120,14 @@ public final class ConcurrentPopVarMedianEstimator extends ConcurrentEstimator {
 
         @Override
         public String call() throws Exception {
-        	float median;
+        	double median;
         	int length = arr.length;
         	if (length % 2 != 0) {
         		median = quickSelect(arr, length/2);
         	}
         	else {
-        		float left = quickSelect(arr, length/2-1);
-        		float right = quickSelect(arr, length/2);
+        		double left = quickSelect(arr, length/2-1);
+        		double right = quickSelect(arr, length/2);
         		median = (left + right) / 2;
         	}
         	StringJoiner sj = new StringJoiner("\t");

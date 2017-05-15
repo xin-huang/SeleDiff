@@ -13,9 +13,6 @@
  */
 package xin.bio.popgen.estimators;
 
-import static xin.bio.popgen.estimators.Model.calDriftVar;
-import static xin.bio.popgen.estimators.Model.quickSelect;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -29,13 +26,10 @@ import xin.bio.popgen.infos.IndInfo;
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-public final class PopVarMedianEstimator extends Estimator {
+public abstract class PopVarMedianEstimator extends Estimator {
 
     // a double array stores medians of variances of drift
-    private final float[] popPairVarMedians;
-    
-    // a DoubleArrayList stores variances of drift between populations
-    private final float[][] popPairVars;
+    protected final double[] popPairVarMedians;
     
     /**
      * Constructor of class {@code PopVarMedianEstimator}.
@@ -44,38 +38,28 @@ public final class PopVarMedianEstimator extends Estimator {
      */
     public PopVarMedianEstimator(IndInfo sampleInfo, int snpNum) {
     	super(sampleInfo, snpNum);
-        popPairVarMedians = new float[popPairNum];
-        popPairVars = new float[popPairNum][snpNum];
+        popPairVarMedians = new double[popPairNum];
     }
     
     @Override
 	public void analyze(BufferedReader br) {
-    	long readStart = System.currentTimeMillis();
+    	//long readStart = System.currentTimeMillis();
 		readFile(br);
-		long readEnd = System.currentTimeMillis();
-		System.out.println("Used time for reading file: " + ((readEnd-readStart)/1000));
-		long findStart = System.currentTimeMillis();
+		//long readEnd = System.currentTimeMillis();
+		//System.out.println("Used time for reading file: " + ((readEnd-readStart)/1000) + " seconds");
+		//long findStart = System.currentTimeMillis();
 		findMedians();
-		long findEnd = System.currentTimeMillis();
-		System.out.println("Used time for finding medians: " + ((findEnd-findStart)/1000));
+		//long findEnd = System.currentTimeMillis();
+		//System.out.println("Used time for finding medians: " + ((findEnd-findStart)/1000) + " seconds");
 	}
     
-	protected void parseLine(char[] cbuf) {
-		int[][] alleleCounts = countAlleles(cbuf);
-        for (int m = 0; m < alleleCounts.length; m++) {
-			for (int n = m + 1; n < alleleCounts.length; n++) {
-				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
-                /*if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
-                		|| (alleleCounts[n][0] + alleleCounts[n][1] == 0))
-                    continue;*/
-				// Assume no missing data
-                popPairVars[popPairIndex][snpIndex] = (float) calDriftVar(alleleCounts[m][0],
-                		alleleCounts[m][1], alleleCounts[n][0],alleleCounts[n][1]);
-			}
-		}
-        snpIndex++;
-	}
-
+    /**
+     * Helper function for finding medians of variances of drift between populations.
+     * 
+     * @param popPairVars a DoubleArrayList containing variances of drift between populations
+     */
+    protected abstract void findMedians();
+    
     @Override
     protected void writeHeader(BufferedWriter bw) throws IOException {}
 
@@ -85,27 +69,9 @@ public final class PopVarMedianEstimator extends Estimator {
             StringJoiner sj = new StringJoiner("\t");
             sj.add(popPairIds[i][0])
             	.add(popPairIds[i][1])
-            	.add(String.valueOf(popPairVarMedians[i]));
+            	.add(String.valueOf(Model.round(popPairVarMedians[i])));
             bw.write(sj.toString());
             bw.newLine();
-        }
-    }
-
-    /**
-     * Helper function for finding medians of variances of drift between populations.
-     * 
-     * @param popPairVars a DoubleArrayList containing variances of drift between populations
-     */
-    private void findMedians() {
-        for (int i = 0; i < popPairNum; i++) {
-        	if (snpNum % 2 != 0) {
-        		popPairVarMedians[i] = quickSelect(popPairVars[i], snpNum/2);
-        	}
-        	else {
-        		float left = quickSelect(popPairVars[i], snpNum/2-1);
-        		float right = quickSelect(popPairVars[i], snpNum/2);
-        		popPairVarMedians[i] = (left + right) / 2;
-        	}
         }
     }
 

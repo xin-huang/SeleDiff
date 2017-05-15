@@ -84,9 +84,9 @@ final class Model {
      * @param value a value to be rounded
      * @return the rounded value
      */
-    static float round(double value) {
-        return (float) ((new Double(value).equals(Double.NaN)) ? value
-                : ((float) Math.round(value * 1000000d) / 1000000d));
+    static double round(double value) {
+        return (new Double(value).equals(Double.NaN)) ? value
+                : (Math.round(value * 1000000d) / 1000000d);
     }
     
     /**
@@ -96,16 +96,16 @@ final class Model {
      * @param k the k-th element to be selected
      * @return the median of the array
      */
-    static float quickSelect(float[] arr, int k) {
+    static double quickSelect(double[] arr, int k) {
         int from = 0;
         int to = arr.length - 1;
         while (from < to) {
         	int r = from;
         	int w = to;
-        	float mid = arr[(r+w)/2];
+        	double mid = arr[(r+w)/2];
         	while (r < w) {
         		if (arr[r] >= mid) {
-        			float tmp = arr[w];
+        			double tmp = arr[w];
         			arr[w] = arr[r];
         			arr[r] = tmp;
         			w--;
