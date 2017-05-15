@@ -18,19 +18,17 @@
 package xin.bio.popgen.estimators;
 
 import static xin.bio.popgen.estimators.Model.calDriftVar;
-import static xin.bio.popgen.estimators.Model.quickSelect;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.StringJoiner;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.ReentrantLock;
+
+import com.tdunning.math.stats.ArrayDigest;
+import com.tdunning.math.stats.MergingDigest;
+import com.tdunning.math.stats.TDigest;
 
 import xin.bio.popgen.infos.IndInfo;
 
@@ -40,150 +38,113 @@ import xin.bio.popgen.infos.IndInfo;
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-public final class ConcurrentPopVarMedianEstimator extends ConcurrentEstimator {
+public final class ConcurrentPopVarMedianEstimator extends PopVarMedianEstimator {
 
-    // a DoubleArrayList stores variances of drift between populations
-    private final double[][] popPairVars;
+	private final MergingDigest[] popPairVarDigests;
+	
+    private final ReentrantLock lock = new ReentrantLock();
+    
+    private int nThread;
     
     /**
      * Constructor of class {@code ConcurrentPopVarMedianEstimator}.
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public ConcurrentPopVarMedianEstimator(IndInfo sampleInfo, int snpNum, int thread) {
-    	super(sampleInfo, snpNum, thread);
-        popPairVars = new double[popPairNum][snpNum];
+    public ConcurrentPopVarMedianEstimator(IndInfo sampleInfo, int snpNum, int nThread) {
+    	super(sampleInfo, snpNum);
+        this.nThread = nThread;
+        popPairVarDigests = new MergingDigest[popPairNum];
+        for (int i = 0; i < popPairNum; i++) {
+        	popPairVarDigests[i] = new MergingDigest(100);
+        }
     }
 
 	@Override
-	public void analyze(BufferedReader br) {
+	public void analyze(BufferedReader[] br) {
 		readFile(br);
 		findMedians();
 	}
     
-    @Override
-    protected void writeLine(BufferedWriter bw) throws IOException {
-    	for (Future<String> r:results) {
-    		try {
-				bw.write(r.get());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-    		bw.newLine();
-    	}
-    }
-
-    @Override
-    protected void writeHeader(BufferedWriter bw) throws IOException {}
-    
-
-    /**
-     * Helper function for finding medians of variances of drift between populations.
-     * 
-     * @param popPairVars a DoubleArrayList containing variances of drift between populations
-     */
-    private void findMedians() {
-    	ExecutorService executor = Executors.newFixedThreadPool(thread);
-    	CountDownLatch doneSignal = new CountDownLatch(popPairNum);
-        for (int i = 0; i < popPairNum; i++) {
-        	results.add(executor.submit(new Worker(popPairIds[i][0], popPairIds[i][1], 
-        			popPairVars[i], doneSignal)));
-        }
-        try {
+	private void readFile(BufferedReader[] br) {
+		if (nThread > br.length) nThread = br.length;
+		if (nThread > Runtime.getRuntime().availableProcessors()) 
+			nThread = Runtime.getRuntime().availableProcessors();
+		ExecutorService executor = Executors.newFixedThreadPool(nThread);
+		CountDownLatch doneSignal = new CountDownLatch(br.length);
+		for (int i = 0; i < br.length; i++) {
+			executor.submit(new Worker(br[i], doneSignal));
+		}
+		try {
 			doneSignal.await();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally {
 			executor.shutdown();
 		}
-    }
-    
+	}
+	
     /**
-     * Helper class for finding medians of variances of drift concurrently.
+     * Helper function for finding medians of variances of drift between populations.
+     * 
+     * @param popPairVars a DoubleArrayList containing variances of drift between populations
      */
-    private class Worker implements Callable<String> {
-
-        private final double[] arr;
-        private final CountDownLatch doneSignal;
-        private final String popi;
-        private final String popj;
-
-        Worker(String popi, String popj, 
-        		double[] arr, CountDownLatch doneSignal) {
-        	this.popi = popi;
-        	this.popj = popj;
-            this.arr = arr;
-            this.doneSignal = doneSignal;
-        }
-
-        @Override
-        public String call() throws Exception {
-        	double median;
-        	int length = arr.length;
-        	if (length % 2 != 0) {
-        		median = quickSelect(arr, length/2);
-        	}
-        	else {
-        		double left = quickSelect(arr, length/2-1);
-        		double right = quickSelect(arr, length/2);
-        		median = (left + right) / 2;
-        	}
-        	StringJoiner sj = new StringJoiner("\t");
-        	sj.add(popi).add(popj).add(String.valueOf(median));
-            doneSignal.countDown();
-            return sj.toString();
+    protected void findMedians() {
+        for (int i = 0; i < popPairNum; i++) {
+        	popPairVarMedians[i] = popPairVarDigests[i].quantile(0.5d);
         }
     }
 
 	@Override
-	protected Runnable creatCounter(char[][] lines, int startIndex,
-			Semaphore threadSemaphore, CountDownLatch doneSignal) {
-		/**
-	     * Helper class for counting alleles concurrently.
-	     */
-	    class PopVarCounter implements Runnable {
+	protected void parseLine(char[] cbuf) {
+	}
+	
+	private class Worker implements Runnable {
+		
+		private final BufferedReader br;
+		private final CountDownLatch doneSignal;
+		
+		Worker(BufferedReader br, CountDownLatch doneSignal) {
+			this.br = br;
+			this.doneSignal = doneSignal;
+		}
 
-			private final char[][] lines;
-			private final Semaphore threadSemaphore;
-	    	private final CountDownLatch doneSignal;
-	    	private int startIndex;
-	    	
-	    	PopVarCounter(char[][] lines, int startIndex, 
-	    			Semaphore threadSemaphore, CountDownLatch doneSignal) {
-	    		this.lines = lines;
-	    		this.startIndex = startIndex;
-	    		this.threadSemaphore = threadSemaphore;
-	    		this.doneSignal = doneSignal;
+		@Override
+		public void run() {
+			ArrayDigest[] tmpDigests = new ArrayDigest[popPairNum];
+			for (int i = 0; i < popPairNum; i++) {
+				tmpDigests[i] = TDigest.createArrayDigest(100);
 			}
-
-			@Override
-			public void run() {
+	    	try {
+	    		do {
+			    	char[] cbuf = new char[indNum];
+		    		br.read(cbuf);
+		    		int[][] alleleCounts = countAlleles(cbuf);
+		    	    for (int m = 0; m < alleleCounts.length; m++) {
+		    			for (int n = m + 1; n < alleleCounts.length; n++) {
+		    				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
+		    				tmpDigests[popPairIndex].add(calDriftVar(alleleCounts[m][0],
+		    	                	alleleCounts[m][1], alleleCounts[n][0],alleleCounts[n][1]));
+		    			}
+		    		}
+	    		} while (br.read() != -1);
+	    		lock.lock();
+	    		for (int i = 0; i < popPairNum; i++) {
+	    			popPairVarDigests[i].add(tmpDigests[i]);
+	    		}
+	    		lock.unlock();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				doneSignal.countDown();
 				try {
-					threadSemaphore.acquire();
-					for (char[] line:lines) {
-						int[][] alleleCounts = countAlleles(line);
-				        for (int m = 0; m < alleleCounts.length; m++) {
-							for (int n = m + 1; n < alleleCounts.length; n++) {
-								int popPairIndex = sampleInfo.getPopPairIndex(m,n);
-				                popPairVars[popPairIndex][startIndex] = (float) calDriftVar(alleleCounts[m][0],
-				                		alleleCounts[m][1], alleleCounts[n][0],alleleCounts[n][1]);
-							}
-						}
-				        startIndex++;
-					}
-				} catch (InterruptedException e) {
+					br.close();
+				} catch (IOException e) {
 					e.printStackTrace();
-				} finally {
-					threadSemaphore.release();
-					doneSignal.countDown();
 				}
 			}
-	    	
-	    }
+		}
 		
-		return new PopVarCounter(lines, startIndex, threadSemaphore, doneSignal);
 	}
-
+    
 }

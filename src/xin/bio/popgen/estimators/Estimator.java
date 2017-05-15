@@ -72,7 +72,7 @@ public abstract class Estimator {
     	}
     }
     
-    public abstract void analyze(BufferedReader br);
+    public abstract void analyze(BufferedReader[] br);
    
     /**
      * Helper function for outputting results to files.

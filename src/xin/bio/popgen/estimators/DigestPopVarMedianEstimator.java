@@ -7,8 +7,8 @@ import com.tdunning.math.stats.TDigest;
 
 import xin.bio.popgen.infos.IndInfo;
 
-public class DigestPopVarMedianEstimator extends PopVarMedianEstimator {
-
+public final class DigestPopVarMedianEstimator extends PopVarMedianEstimator {
+	
 	private final ArrayDigest[] popPairVarDigests;
 	
 	public DigestPopVarMedianEstimator(IndInfo sampleInfo, int snpNum) {
@@ -30,17 +30,17 @@ public class DigestPopVarMedianEstimator extends PopVarMedianEstimator {
                 		alleleCounts[m][1], alleleCounts[n][0],alleleCounts[n][1]));
 			}
 		}
-        snpIndex++;
 	}
 	
 	@Override
     protected void findMedians() {
-    	//System.out.println("\nStart finding medians: " + System.currentTimeMillis());
         for (int i = 0; i < popPairNum; i++) {
-        	//System.out.println("Finding " + i + "-th meidans at " + System.currentTimeMillis());
         	popPairVarMedians[i] = popPairVarDigests[i].quantile(0.5d);
         }
-        //System.out.println("End finding medians: " + System.currentTimeMillis() + "\n");
     }
+
+	/*ArrayDigest getPopPairDigests(int i) {
+		return popPairVarDigests[i];
+	}*/
 	
 }

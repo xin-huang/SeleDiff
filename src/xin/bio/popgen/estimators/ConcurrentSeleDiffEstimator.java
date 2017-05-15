@@ -88,8 +88,8 @@ public final class ConcurrentSeleDiffEstimator extends ConcurrentEstimator {
     }
     
 	@Override
-	public void analyze(BufferedReader br) {
-		readFile(br);
+	public void analyze(BufferedReader[] br) {
+		readFile(br[0]);
 		alignAncAllele();
 		getResults();
 	}

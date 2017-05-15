@@ -81,8 +81,8 @@ public final class SeleDiffEstimator extends Estimator {
     }
     
 	@Override
-	public void analyze(BufferedReader br) {
-		readFile(br);
+	public void analyze(BufferedReader[] br) {
+		readFile(br[0]);
 		alignAncAllele();
 	}
 	

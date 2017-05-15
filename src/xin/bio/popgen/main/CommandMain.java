@@ -24,6 +24,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import com.beust.jcommander.IParameterValidator;
@@ -37,7 +39,6 @@ import xin.bio.popgen.estimators.ConcurrentSeleDiffEstimator;
 import xin.bio.popgen.estimators.DigestPopVarMedianEstimator;
 import xin.bio.popgen.estimators.Estimator;
 import xin.bio.popgen.estimators.PopVarMeanEstimator;
-import xin.bio.popgen.estimators.PopVarMedianEstimator;
 import xin.bio.popgen.estimators.SeleDiffEstimator;
 import xin.bio.popgen.infos.CountSnpNumInfo;
 import xin.bio.popgen.infos.IndInfo;
@@ -60,7 +61,7 @@ final class CommandMain {
 					+ "and one copy of the alternative allele; 2, two copies of the reference allele; "
 					+ "9, missing values.", 
 					validateWith = FileValidator.class)
-    private String genoFileName;
+    private List<String> genoFileNames = new ArrayList<>();
     
     @Parameter(names = "--snp", required = true, 
     		description = "The EIGENSTRAT SNP file stores information of variants.", 
@@ -113,7 +114,7 @@ final class CommandMain {
     @Parameter(names = "--thread", description = "The number of threads to be used by SeleDiff. "
     		+ "The default value is the available threads in the machine.", 
     		validateWith = ThreadValidator.class)
-    private int thread = Runtime.getRuntime().availableProcessors();
+    private int nThread = Runtime.getRuntime().availableProcessors();
     
 
     /**
@@ -130,7 +131,11 @@ final class CommandMain {
     	}
         
         Estimator estimator = newEstimator();
-        estimator.analyze(getBufferedReader(genoFileName));
+        BufferedReader[] genoFileReaders = new BufferedReader[genoFileNames.size()];
+        for (int i = 0; i < genoFileNames.size(); i++) {
+        	genoFileReaders[i] = getBufferedReader(genoFileNames.get(i));
+        }
+        estimator.analyze(genoFileReaders);
         estimator.writeResults(outputFileName);
     }
     
@@ -149,29 +154,26 @@ final class CommandMain {
     		TimeInfo timeInfo = new TimeInfo(timeFileName, 
     				getBufferedReader(timeFileName), sampleInfo);
     		SnpInfo snpInfo = new SnpInfo(getBufferedReader(snpFileName), snpNum);
-    		switch (thread) {
+    		switch (nThread) {
 	    		case 1:
 	    			return new SeleDiffEstimator(getBufferedReader(ancAlleleFileName), snpNum,
 	    					popVarInfo, sampleInfo, snpInfo, timeInfo);
     			default:
     				return new ConcurrentSeleDiffEstimator(getBufferedReader(ancAlleleFileName), snpNum, 
-    						thread, popVarInfo, sampleInfo, snpInfo, timeInfo);
+    						nThread, popVarInfo, sampleInfo, snpInfo, timeInfo);
     		}
     	}
-    	else if (estimatorType.equals("pop-var-median-digest")) {
-    		return new DigestPopVarMedianEstimator(sampleInfo, snpNum);
+    	else if (estimatorType.equals("digest-median")) {
+    		if (nThread != 1) {
+    			return new ConcurrentPopVarMedianEstimator(sampleInfo, snpNum, nThread);
+    		}
+    		else {
+    			return new DigestPopVarMedianEstimator(sampleInfo, snpNum);
+    		}
     	}
-    	else if (estimatorType.equals("pop-var-median-array")) {
+    	else if (estimatorType.equals("array-median")) {
     		return new ArrayPopVarMedianEstimator(sampleInfo, snpNum);
     	}
-/*    	else if (estimatorType.equals("pop-var-median")) {
-    		switch (thread) {
-	    		case 1:
-	    			return new PopVarMedianEstimator(sampleInfo, snpNum);
-    			default:
-    				return new ConcurrentPopVarMedianEstimator(sampleInfo, snpNum, thread);
-    		}
-    	}*/
     	else {
     		return new PopVarMeanEstimator(sampleInfo, snpNum);
     	}
@@ -244,10 +246,8 @@ final class CommandMain {
 
         @Override
         public void validate(String name, String value) throws ParameterException {
-            if (!value.equals("pop-var-median")
-            		&&!value.equals("pop-var-median-array")
-            		&&!value.equals("pop-var-median-digest")
-            		&&!value.equals("pop-var-mean")
+            if (!value.equals("digest-median")
+            		&&!value.equals("array-median")
             		&&!value.equals("sele-diff")) {
                 throw new ParameterException("Parameter " + name + " does not accept " + value);
             }

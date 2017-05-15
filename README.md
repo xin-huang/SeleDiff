@@ -112,8 +112,9 @@ The result is stored in `examples/example.hap.result.tsv`. As the result indicat
 
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-- [Apache Commons Math 3.5](https://commons.apache.org/proper/commons-math/index.html)
+- [Apache Commons Math 3.6](https://commons.apache.org/proper/commons-math/index.html)
 - [JCommander 1.48](http://mvnrepository.com/artifact/com.beust/jcommander/1.48)
+- [t-digest 3.1](https://github.com/tdunning/t-digest)
 
 ## References
 1. [He et al, *Genome Research*, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)

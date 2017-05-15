@@ -42,15 +42,9 @@ public abstract class PopVarMedianEstimator extends Estimator {
     }
     
     @Override
-	public void analyze(BufferedReader br) {
-    	//long readStart = System.currentTimeMillis();
-		readFile(br);
-		//long readEnd = System.currentTimeMillis();
-		//System.out.println("Used time for reading file: " + ((readEnd-readStart)/1000) + " seconds");
-		//long findStart = System.currentTimeMillis();
+	public void analyze(BufferedReader[] br) {
+		readFile(br[0]);
 		findMedians();
-		//long findEnd = System.currentTimeMillis();
-		//System.out.println("Used time for finding medians: " + ((findEnd-findStart)/1000) + " seconds");
 	}
     
     /**

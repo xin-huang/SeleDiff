@@ -6,7 +6,7 @@ import org.apache.commons.math3.stat.StatUtils;
 
 import xin.bio.popgen.infos.IndInfo;
 
-public class ArrayPopVarMedianEstimator extends PopVarMedianEstimator{
+public final class ArrayPopVarMedianEstimator extends PopVarMedianEstimator {
 	
     // a 2-D double array stores variances of drift between populations
     private final double[][] popPairVars;
@@ -32,12 +32,9 @@ public class ArrayPopVarMedianEstimator extends PopVarMedianEstimator{
     
     @Override
     protected void findMedians() {
-    	//System.out.println("\nStart finding medians: " + System.currentTimeMillis());
         for (int i = 0; i < popPairNum; i++) {
-        	//System.out.println("Finding " + i + "-th meidans at " + System.currentTimeMillis());
         	popPairVarMedians[i] = StatUtils.percentile(popPairVars[i], 50);
         }
-        //System.out.println("End finding medians: " + System.currentTimeMillis() + "\n");
     }
 
 }
