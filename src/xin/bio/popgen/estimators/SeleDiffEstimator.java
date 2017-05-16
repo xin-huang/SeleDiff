@@ -159,7 +159,6 @@ public class SeleDiffEstimator extends Estimator {
     			double pvalue = 1.0 - chisq.cumulativeProbability(delta);
     			
     			StringBuilder sb = new StringBuilder();
-    			//DoubleFormatUtil.formatDoubleFast(diff, decimals, precision, target);
     			sb.append(snpId).append("\t")
     				.append(ancAllele).append("\t")
     				.append(derAllele).append("\t")
@@ -169,8 +168,6 @@ public class SeleDiffEstimator extends Estimator {
     				.append(format(std,6)).append("\t")
     				.append(format((diff-1.96*std),6)).append("\t")
     				.append(format((diff+1.96*std),6)).append("\t")
-    				//.append(format(timeInfo.getTime(j),1)).append("\t")
-    				//.append(format(popVarInfo.getPopVar(j),6)).append("\t")
     				.append(format(delta,6)).append("\t")
     				.append(format(pvalue,6)).append("\n");
     			bw.write(sb.toString());
@@ -190,8 +187,6 @@ public class SeleDiffEstimator extends Estimator {
                 .add("Std")
                 .add("Lower bound of 95% CI")
                 .add("Upper bound of 95% CI")
-                //.add("Divergence time")
-                //.add("Variance of drift")
                 .add("Delta")
                 .add("p-value")
                 .add("\n");

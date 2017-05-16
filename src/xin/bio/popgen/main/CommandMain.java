@@ -119,7 +119,7 @@ final class CommandMain {
      * Executes SeleDiff.
      * @throws IOException 
      */
-    void execute() throws IOException {
+    void execute() {
     	if (estimatorType.equals("sele-diff")) {
     		if (popVarFileName == null)
     			throw new ParameterException("Parameter --popvar should be used "

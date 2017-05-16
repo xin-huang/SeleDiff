@@ -17,15 +17,11 @@
  */
 package xin.bio.popgen.estimators;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.zip.GZIPOutputStream;
 
 import xin.bio.popgen.infos.IndInfo;
 
@@ -87,33 +83,15 @@ public abstract class Estimator {
      * @param outputFileName the output file name
      * @throws IOException 
      */
-    public void writeResults(String outputFileName) throws IOException {
+    public void writeResults(String outputFileName) {
     	long start = System.currentTimeMillis();
-/*    	FileOutputStream output = null;
-    	try {
-			output = new FileOutputStream(outputFileName);
-			GZIPOutputStream zip = new GZIPOutputStream(output);
-			BufferedOutputStream bos = new BufferedOutputStream(zip);
-			Writer writer = new OutputStreamWriter(bos, "UTF-8");
-			writeHeader(writer);
-			writeLine(writer);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				output.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}*/
-    	// BufferedWriter bw = null;
-        try (Writer bw = new FileWriter(outputFileName)) {
-            //bw = new BufferedWriter(new FileWriter(outputFileName));
+    	BufferedWriter bw = null;
+        try {
+            bw = new BufferedWriter(new FileWriter(outputFileName));
             writeHeader(bw);
             writeLine(bw);
             //bw.flush();
-        } /*catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
         	try {
@@ -121,7 +99,7 @@ public abstract class Estimator {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-        }*/
+        }
         long end = System.currentTimeMillis();
         System.out.println("Used Time for writing: " + ((end-start)/1000) + " seconds");
     }
