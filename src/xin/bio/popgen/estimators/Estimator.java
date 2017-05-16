@@ -17,10 +17,15 @@
  */
 package xin.bio.popgen.estimators;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.zip.GZIPOutputStream;
 
 import xin.bio.popgen.infos.IndInfo;
 
@@ -31,7 +36,9 @@ import xin.bio.popgen.infos.IndInfo;
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
 public abstract class Estimator {
-
+	
+	protected static final int POW10[] = {1, 10, 100, 1000, 10000, 100000, 1000000};
+	
     // a SampleInfo instance stores the sample information
     protected final IndInfo sampleInfo;
 
@@ -78,15 +85,35 @@ public abstract class Estimator {
      * Helper function for outputting results to files.
      *
      * @param outputFileName the output file name
+     * @throws IOException 
      */
-    public void writeResults(String outputFileName) {
-    	BufferedWriter bw = null;
-        try {
-            bw = new BufferedWriter(new FileWriter(outputFileName));
+    public void writeResults(String outputFileName) throws IOException {
+    	long start = System.currentTimeMillis();
+/*    	FileOutputStream output = null;
+    	try {
+			output = new FileOutputStream(outputFileName);
+			GZIPOutputStream zip = new GZIPOutputStream(output);
+			BufferedOutputStream bos = new BufferedOutputStream(zip);
+			Writer writer = new OutputStreamWriter(bos, "UTF-8");
+			writeHeader(writer);
+			writeLine(writer);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				output.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}*/
+    	// BufferedWriter bw = null;
+        try (Writer bw = new FileWriter(outputFileName)) {
+            //bw = new BufferedWriter(new FileWriter(outputFileName));
             writeHeader(bw);
             writeLine(bw);
-            bw.flush();
-        } catch (IOException e) {
+            //bw.flush();
+        } /*catch (IOException e) {
             e.printStackTrace();
         } finally {
         	try {
@@ -94,7 +121,9 @@ public abstract class Estimator {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-        }
+        }*/
+        long end = System.currentTimeMillis();
+        System.out.println("Used Time for writing: " + ((end-start)/1000) + " seconds");
     }
     
     protected abstract void parseLine(char[] cbuf);
@@ -105,7 +134,7 @@ public abstract class Estimator {
      * @param bw a BufferedWriter instance to the output file
      * @throws IOException
      */
-    protected abstract void writeLine(BufferedWriter bw) throws IOException;
+    protected abstract void writeLine(Writer bw) throws IOException;
 
     /**
      * An abstract method for writing header to the output file.
@@ -113,7 +142,7 @@ public abstract class Estimator {
      * @param bw a BufferedWriter instance to the output file
      * @throws IOException
      */
-    protected abstract void writeHeader(BufferedWriter bw) throws IOException;
+    protected abstract void writeHeader(Writer bw) throws IOException;
     
     /**
      * Helper function for reading files
@@ -139,13 +168,28 @@ public abstract class Estimator {
 		}
     }
     
+    protected String format(double val, int precision) {
+    	StringBuilder sb = new StringBuilder();
+    	if (val < 0) {
+    		sb.append('-');
+    		val = -val;
+    	}
+    	int exp = POW10[precision];
+    	long lval = (long) (val * exp + 0.5);
+    	sb.append(lval / exp).append('.');
+    	long fval = lval % exp;
+    	for (int p = precision - 1; p > 0 && fval < POW10[p]; p-- ) { sb.append('0'); }
+    	sb.append(fval);
+    	return sb.toString();
+    }
+    
     /**
      * Helper function for counting alleles 
      * 
      * @param line a String allele counts of each indiviudal
      * @return a 2-D integer array containing counts of each allele
      */
-    int[][] countAlleles(char[] cbuf) {
+    protected int[][] countAlleles(char[] cbuf) {
     	int[][] alleleCounts = new int[popNum][2];
     	if (indNum != cbuf.length)
     		throw new IllegalArgumentException();

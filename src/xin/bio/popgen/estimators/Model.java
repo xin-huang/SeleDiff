@@ -23,7 +23,7 @@ package xin.bio.popgen.estimators;
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
 final class Model {
-
+	
     /**
      * Calculates the logarithm of Odds ratio.
      *

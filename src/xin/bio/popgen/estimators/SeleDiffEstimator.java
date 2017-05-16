@@ -18,8 +18,8 @@
 package xin.bio.popgen.estimators;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.StringJoiner;
 
@@ -36,8 +36,8 @@ import xin.bio.popgen.infos.TimeInfo;
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-public final class SeleDiffEstimator extends Estimator {
-
+public class SeleDiffEstimator extends Estimator {
+	
     // a PopVarInfo instance stores variances of drift between populations
     private final PopVarInfo popVarInfo;
     
@@ -51,10 +51,10 @@ public final class SeleDiffEstimator extends Estimator {
     private final BufferedReader ancAlleleFile;
     
     // a double array stores log-Odds ratios between populations
-    private final float[][] logOdds;
+    private final double[][] logOdds;
     
     // a double array stores variances of log-Odds ratios between populations
-    private final float[][] varLogOdds;
+    private final double[][] varLogOdds;
     
     // a ChiSquaredDistribution instance for performing chi-square tests
     private final ChiSquaredDistribution chisq;
@@ -76,13 +76,16 @@ public final class SeleDiffEstimator extends Estimator {
         this.chisq = new ChiSquaredDistribution(1);
         this.ancAlleleFile = ancAlleleFile;
         
-        logOdds = new float[popPairNum][snpNum];
-        varLogOdds = new float[popPairNum][snpNum];
+        logOdds = new double[popPairNum][snpNum];
+        varLogOdds = new double[popPairNum][snpNum];
     }
     
 	@Override
 	public void analyze(BufferedReader[] br) {
+		long start = System.currentTimeMillis();
 		readFile(br[0]);
+		long end = System.currentTimeMillis();
+		System.out.println("Used Time for Reading: " + ((end-start)/1000) + " seconds");
 		alignAncAllele();
 	}
 	
@@ -92,10 +95,6 @@ public final class SeleDiffEstimator extends Estimator {
     	for (int m = 0; m < alleleCounts.length; m++) {
 			for (int n = m + 1; n < alleleCounts.length; n++) {
 				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
-				/*if ((alleleCounts[m][0] + alleleCounts[m][1] == 0) 
-						|| (alleleCounts[n][0] + alleleCounts[n][1] == 0))
-                    continue;*/
-				// Assume no missing data
 				logOdds[popPairIndex][snpIndex] = (float) Model.calLogOdds(alleleCounts[m][0], 
 						alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
 				varLogOdds[popPairIndex][snpIndex] = (float) Model.calVarLogOdds(alleleCounts[m][0], 
@@ -115,17 +114,17 @@ public final class SeleDiffEstimator extends Estimator {
     	}
     	try {
 			String line;
-			while ((line = ancAlleleFile.readLine().trim()) != null) {
+			while ((line = ancAlleleFile.readLine()) != null) {
 				int start = 0;
-				int end = line.indexOf("\\s+");
+				int end = line.indexOf("\t");
 				String snpId = line.substring(start, end);
-				String ancAllele = line.substring(end+1);
+				String allele = line.substring(end+1);
 				if (snpIndices.containsKey(snpId)) {
 					int snpIndex = snpIndices.get(snpId);
 					String refAllele = snpInfo.getRefAlleles()[snpIndex];
-					if (!ancAllele.equals(snpInfo.getRefAlleles()[snpIndex])) {
+					if (!allele.equals(snpInfo.getRefAlleles()[snpIndex])) {
 						snpInfo.getAltAlleles()[snpIndex] = refAllele;
-						snpInfo.getRefAlleles()[snpIndex] = ancAllele;
+						snpInfo.getRefAlleles()[snpIndex] = allele;
 						for (int j = 0; j < popPairNum; j++) {
 							logOdds[j][snpIndex] = -logOdds[j][snpIndex];
 						}
@@ -144,43 +143,43 @@ public final class SeleDiffEstimator extends Estimator {
     }
 
     @Override
-    protected void writeLine(BufferedWriter bw) throws IOException {
+    protected void writeLine(Writer bw) throws IOException {
     	int snpNum = snpInfo.getSnpIds().length;
     	for (int i = 0; i < snpNum; i++) {
     		String snpId = snpInfo.getSnpIds()[i];
     		String ancAllele = snpInfo.getRefAlleles()[i];
     		String derAllele = snpInfo.getAltAlleles()[i];
     		for (int j = 0; j < popPairNum; j++) {
-    			float logOdd = logOdds[j][i];
-    			float varLogOdd = varLogOdds[j][i];
+    			double logOdd = logOdds[j][i];
+    			double varLogOdd = varLogOdds[j][i];
     			double diff = logOdd / timeInfo.getTime(j);
     			double std = Math.sqrt(varLogOdd + popVarInfo.getPopVar(j))
     					/ timeInfo.getTime(j);
     			double delta = logOdd * logOdd / (varLogOdd + popVarInfo.getPopVar(j));
     			double pvalue = 1.0 - chisq.cumulativeProbability(delta);
     			
-    			StringJoiner sj = new StringJoiner("\t");
-    			sj.add(snpId)
-    				.add(ancAllele)
-    				.add(derAllele)
-    				.add(popPairIds[j][0])
-    				.add(popPairIds[j][1])
-    				.add(String.valueOf(Model.round(diff)))
-    				.add(String.valueOf(Model.round(std)))
-    				.add(String.valueOf(Model.round(diff-1.96*std)))
-    				.add(String.valueOf(Model.round(diff+1.96*std)))
-    				.add(String.valueOf(timeInfo.getTime(j)))
-    				.add(String.valueOf(Model.round(popVarInfo.getPopVar(j))))
-    				.add(String.valueOf(Model.round(delta)))
-    				.add(String.valueOf(Model.round(pvalue)));
-    			bw.write(sj.toString());
-    			bw.newLine();
+    			StringBuilder sb = new StringBuilder();
+    			//DoubleFormatUtil.formatDoubleFast(diff, decimals, precision, target);
+    			sb.append(snpId).append("\t")
+    				.append(ancAllele).append("\t")
+    				.append(derAllele).append("\t")
+    				.append(popPairIds[j][0]).append("\t")
+    				.append(popPairIds[j][1]).append("\t")
+    				.append(format(diff,6)).append("\t")
+    				.append(format(std,6)).append("\t")
+    				.append(format((diff-1.96*std),6)).append("\t")
+    				.append(format((diff+1.96*std),6)).append("\t")
+    				//.append(format(timeInfo.getTime(j),1)).append("\t")
+    				//.append(format(popVarInfo.getPopVar(j),6)).append("\t")
+    				.append(format(delta,6)).append("\t")
+    				.append(format(pvalue,6)).append("\n");
+    			bw.write(sb.toString());
     		}
     	}
     }
 
     @Override
-    protected void writeHeader(BufferedWriter bw) throws IOException {
+    protected void writeHeader(Writer bw) throws IOException {
         StringJoiner sj = new StringJoiner("\t");
         sj.add("SNP ID")
                 .add("Ancestral allele")
@@ -191,12 +190,12 @@ public final class SeleDiffEstimator extends Estimator {
                 .add("Std")
                 .add("Lower bound of 95% CI")
                 .add("Upper bound of 95% CI")
-                .add("Divergence time")
-                .add("Variance of drift")
+                //.add("Divergence time")
+                //.add("Variance of drift")
                 .add("Delta")
-                .add("p-value");
+                .add("p-value")
+                .add("\n");
         bw.write(sj.toString());
-        bw.newLine();
     }
 
 }

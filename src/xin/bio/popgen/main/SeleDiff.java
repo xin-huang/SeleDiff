@@ -17,6 +17,8 @@
  */
 package xin.bio.popgen.main;
 
+import java.io.IOException;
+
 import com.beust.jcommander.JCommander;
 
 import xin.bio.popgen.utils.TimeMeasurement;
@@ -28,7 +30,7 @@ import xin.bio.popgen.utils.TimeMeasurement;
  */
 public final class SeleDiff {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
     	
     	long start = System.currentTimeMillis();
     	long startSystemTimeNano = TimeMeasurement.getSystemTime();

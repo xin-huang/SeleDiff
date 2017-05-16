@@ -14,8 +14,8 @@
 package xin.bio.popgen.estimators;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.StringJoiner;
 
 import xin.bio.popgen.infos.IndInfo;
@@ -55,17 +55,17 @@ public abstract class PopVarMedianEstimator extends Estimator {
     protected abstract void findMedians();
     
     @Override
-    protected void writeHeader(BufferedWriter bw) throws IOException {}
+    protected void writeHeader(Writer bw) throws IOException {}
 
     @Override
-    protected void writeLine(BufferedWriter bw) throws IOException {
+    protected void writeLine(Writer bw) throws IOException {
         for (int i = 0; i < popPairNum; i++) {
             StringJoiner sj = new StringJoiner("\t");
             sj.add(popPairIds[i][0])
             	.add(popPairIds[i][1])
-            	.add(String.valueOf(Model.round(popPairVarMedians[i])));
+            	.add(String.valueOf(format(popPairVarMedians[i],6)))
+            	.add("\n");
             bw.write(sj.toString());
-            bw.newLine();
         }
     }
 

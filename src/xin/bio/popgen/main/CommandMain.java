@@ -35,11 +35,9 @@ import com.beust.jcommander.Parameters;
 
 import xin.bio.popgen.estimators.ArrayPopVarMedianEstimator;
 import xin.bio.popgen.estimators.ConcurrentPopVarMedianEstimator;
-import xin.bio.popgen.estimators.ConcurrentSeleDiffEstimator;
-import xin.bio.popgen.estimators.DigestPopVarMedianEstimator;
 import xin.bio.popgen.estimators.Estimator;
-import xin.bio.popgen.estimators.PopVarMeanEstimator;
 import xin.bio.popgen.estimators.SeleDiffEstimator;
+import xin.bio.popgen.estimators.TDigestPopVarMedianEstimator;
 import xin.bio.popgen.infos.CountSnpNumInfo;
 import xin.bio.popgen.infos.IndInfo;
 import xin.bio.popgen.infos.PopVarInfo;
@@ -114,13 +112,14 @@ final class CommandMain {
     @Parameter(names = "--thread", description = "The number of threads to be used by SeleDiff. "
     		+ "The default value is the available threads in the machine.", 
     		validateWith = ThreadValidator.class)
-    private int nThread = Runtime.getRuntime().availableProcessors();
+    private int nThread = 1;
     
 
     /**
      * Executes SeleDiff.
+     * @throws IOException 
      */
-    void execute() {
+    void execute() throws IOException {
     	if (estimatorType.equals("sele-diff")) {
     		if (popVarFileName == null)
     			throw new ParameterException("Parameter --popvar should be used "
@@ -154,29 +153,19 @@ final class CommandMain {
     		TimeInfo timeInfo = new TimeInfo(timeFileName, 
     				getBufferedReader(timeFileName), sampleInfo);
     		SnpInfo snpInfo = new SnpInfo(getBufferedReader(snpFileName), snpNum);
-    		switch (nThread) {
-	    		case 1:
-	    			return new SeleDiffEstimator(getBufferedReader(ancAlleleFileName), snpNum,
-	    					popVarInfo, sampleInfo, snpInfo, timeInfo);
-    			default:
-    				return new ConcurrentSeleDiffEstimator(getBufferedReader(ancAlleleFileName), snpNum, 
-    						nThread, popVarInfo, sampleInfo, snpInfo, timeInfo);
-    		}
+    		return new SeleDiffEstimator(getBufferedReader(ancAlleleFileName), snpNum,
+    					popVarInfo, sampleInfo, snpInfo, timeInfo);
     	}
     	else if (estimatorType.equals("digest-median")) {
     		if (nThread != 1) {
     			return new ConcurrentPopVarMedianEstimator(sampleInfo, snpNum, nThread);
     		}
-    		else {
-    			return new DigestPopVarMedianEstimator(sampleInfo, snpNum);
-    		}
+   			return new TDigestPopVarMedianEstimator(sampleInfo, snpNum);
     	}
     	else if (estimatorType.equals("array-median")) {
     		return new ArrayPopVarMedianEstimator(sampleInfo, snpNum);
     	}
-    	else {
-    		return new PopVarMeanEstimator(sampleInfo, snpNum);
-    	}
+    	return null;
     }
     
     /**

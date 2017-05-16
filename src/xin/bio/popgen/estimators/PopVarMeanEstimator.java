@@ -3,8 +3,8 @@ package xin.bio.popgen.estimators;
 import static xin.bio.popgen.estimators.Model.calDriftVar;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.StringJoiner;
 
 import xin.bio.popgen.infos.IndInfo;
@@ -45,17 +45,18 @@ public final class PopVarMeanEstimator extends Estimator {
 	}
 
 	@Override
-	protected void writeLine(BufferedWriter bw) throws IOException {
+	protected void writeLine(Writer bw) throws IOException {
 		for (int i = 0; i < popPairNum; i++) {
             String[] popPair = sampleInfo.getPopPair(i);
             StringJoiner sj = new StringJoiner("\t");
-            sj.add(popPair[0]).add(popPair[1]).add(String.valueOf(Model.round(popPairVarMeans[i])));
+            sj.add(popPair[0]).add(popPair[1])
+            	.add(String.valueOf(Model.round(popPairVarMeans[i])))
+            	.add("\n");
             bw.write(sj.toString());
-            bw.newLine();
         }
 	}
 
 	@Override
-	protected void writeHeader(BufferedWriter bw) throws IOException {}
+	protected void writeHeader(Writer bw) throws IOException {}
 
 }
