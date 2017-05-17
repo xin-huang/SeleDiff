@@ -21,6 +21,7 @@ import static xin.bio.popgen.estimators.Model.calDriftVar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,7 +31,7 @@ import com.tdunning.math.stats.ArrayDigest;
 import com.tdunning.math.stats.MergingDigest;
 import com.tdunning.math.stats.TDigest;
 
-import xin.bio.popgen.infos.IndInfo;
+import xin.bio.popgen.infos.InfoReader;
 
 /**
  * Class {@code ConcurrentPopVarMedianEstimator} extends {@code ConcurrentEstimator} to
@@ -51,8 +52,8 @@ public final class ConcurrentPopVarMedianEstimator extends PopVarMedianEstimator
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public ConcurrentPopVarMedianEstimator(IndInfo sampleInfo, int snpNum, int nThread) {
-    	super(sampleInfo, snpNum);
+    public ConcurrentPopVarMedianEstimator(String indFileName, String snpFileName, int nThread) {
+    	super(indFileName, snpFileName);
         this.nThread = nThread;
         popPairVarDigests = new MergingDigest[popPairNum];
         for (int i = 0; i < popPairNum; i++) {
@@ -61,7 +62,11 @@ public final class ConcurrentPopVarMedianEstimator extends PopVarMedianEstimator
     }
 
 	@Override
-	public void analyze(BufferedReader[] br) {
+	public void analyze(List<String> genoFileNames) {
+		BufferedReader[] br = new BufferedReader[genoFileNames.size()];
+		for (int i = 0; i < br.length; i++) {
+			br[i] = new InfoReader(genoFileNames.get(i)).getBufferedReader();
+		}
 		readFile(br);
 		findMedians();
 	}

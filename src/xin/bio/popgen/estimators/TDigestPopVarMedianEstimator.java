@@ -5,14 +5,12 @@ import static xin.bio.popgen.estimators.Model.calDriftVar;
 import com.tdunning.math.stats.ArrayDigest;
 import com.tdunning.math.stats.TDigest;
 
-import xin.bio.popgen.infos.IndInfo;
-
 public final class TDigestPopVarMedianEstimator extends PopVarMedianEstimator {
 	
 	private final ArrayDigest[] popPairVarDigests;
 	
-	public TDigestPopVarMedianEstimator(IndInfo sampleInfo, int snpNum) {
-		super(sampleInfo, snpNum);
+	public TDigestPopVarMedianEstimator(String indFileName, String snpFileName) {
+		super(indFileName, snpFileName);
         popPairVarDigests = new ArrayDigest[popPairNum];
         for (int i = 0; i < popPairNum; i++) {
         	popPairVarDigests[i] = TDigest.createArrayDigest(100);

@@ -18,8 +18,14 @@
 package xin.bio.popgen.infos;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Interface {@code Info} defines common methods for reading files
@@ -53,6 +59,41 @@ public interface Info {
                 e.printStackTrace();
             }
         }
+    }
+    
+    /**
+     * Helper function for returning a BufferedReader from a ungzipped or gzipped file.
+     * 
+     * @param fileName the name of a file
+     * @return a BufferedReader instance from a ungzipped or gzipped file
+     */
+    default BufferedReader getBufferedReader(String fileName) {
+    	if (fileName == null)
+    		return null;
+    	InputStream in = null;
+    	try {
+			in = new FileInputStream(new File(fileName));
+			byte[] signature = new byte[2];
+			int nread = in.read(signature);
+			if (nread == 2 
+					&& signature[0] == (byte) 0x1f 
+					&& signature[1] == (byte) 0x8b) {
+				GZIPInputStream gzip = new GZIPInputStream(new FileInputStream(fileName));
+				return new BufferedReader(new InputStreamReader(gzip));
+			}
+			else {
+				return new BufferedReader(new FileReader(fileName));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+    	return null;
     }
     
     /**

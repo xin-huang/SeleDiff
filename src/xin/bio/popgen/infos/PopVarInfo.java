@@ -17,8 +17,6 @@
  */
 package xin.bio.popgen.infos;
 
-import java.io.BufferedReader;
-
 /**
  * Class {@code PopVarInfo} stores variances of drift between populations.
  *
@@ -38,11 +36,11 @@ public final class PopVarInfo implements Info {
      * @param popVarFileName the file name of a file containing variances of drift between populations
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public PopVarInfo(String popVarFileName, BufferedReader br, IndInfo sampleInfo) {
+    public PopVarInfo(String popVarFileName, IndInfo sampleInfo) {
         int popPairNum = sampleInfo.getPopNum() * (sampleInfo.getPopNum() - 1)/2;
         this.sampleInfo = sampleInfo;
         popVars = new Double[popPairNum];
-        readFile(br);
+        readFile(getBufferedReader(popVarFileName));
         checkPopPairs();
 
         System.out.println(popPairNum + " population pairs with variances of drift are read from " 

@@ -2,12 +2,12 @@ package xin.bio.popgen.estimators;
 
 import static xin.bio.popgen.estimators.Model.calDriftVar;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 import java.util.StringJoiner;
 
-import xin.bio.popgen.infos.IndInfo;
+import xin.bio.popgen.infos.InfoReader;
 
 public final class PopVarMeanEstimator extends Estimator {
 	
@@ -18,14 +18,14 @@ public final class PopVarMeanEstimator extends Estimator {
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public PopVarMeanEstimator(IndInfo sampleInfo, int snpNum) {
-    	super(sampleInfo, snpNum);
+    public PopVarMeanEstimator(String indFileName, String snpFileName) {
+    	super(indFileName, snpFileName);
     	popPairVarMeans = new float[popPairNum];
     }
     
 	@Override
-	public void analyze(BufferedReader[] br) {
-		readFile(br[0]);
+	public void analyze(List<String> genoFileNames) {
+		readFile(new InfoReader(genoFileNames.get(0)).getBufferedReader());
 	}
 	
 	@Override

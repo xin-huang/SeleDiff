@@ -17,16 +17,10 @@
  */
 package xin.bio.popgen.main;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
 
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.Parameter;
@@ -38,11 +32,6 @@ import xin.bio.popgen.estimators.ConcurrentPopVarMedianEstimator;
 import xin.bio.popgen.estimators.Estimator;
 import xin.bio.popgen.estimators.SeleDiffEstimator;
 import xin.bio.popgen.estimators.TDigestPopVarMedianEstimator;
-import xin.bio.popgen.infos.CountSnpNumInfo;
-import xin.bio.popgen.infos.IndInfo;
-import xin.bio.popgen.infos.PopVarInfo;
-import xin.bio.popgen.infos.SnpInfo;
-import xin.bio.popgen.infos.TimeInfo;
 
 /**
  * Class {@code CommandMain} is the class for parsing command line arguments
@@ -85,7 +74,7 @@ final class CommandMain {
     private String outputFileName;
 
     @Parameter(names = "--estimator", required = true,
-            description = "The type of an estimator to be used: pop-var-mean | pop-var-median | sele-diff.",
+            description = "The type of an estimator to be used: array-median | digest-median | sele-diff.",
             validateWith = EstimatorValidator.class)
     private String estimatorType;
 
@@ -120,6 +109,7 @@ final class CommandMain {
      * @throws IOException 
      */
     void execute() {
+    	// check parameters
     	if (estimatorType.equals("sele-diff")) {
     		if (popVarFileName == null)
     			throw new ParameterException("Parameter --popvar should be used "
@@ -128,13 +118,9 @@ final class CommandMain {
     			throw new ParameterException("Parameter --time should be used "
     					+ "when --estimator sele-diff is used");
     	}
-        
+        // perform estimation
         Estimator estimator = newEstimator();
-        BufferedReader[] genoFileReaders = new BufferedReader[genoFileNames.size()];
-        for (int i = 0; i < genoFileNames.size(); i++) {
-        	genoFileReaders[i] = getBufferedReader(genoFileNames.get(i));
-        }
-        estimator.analyze(genoFileReaders);
+        estimator.analyze(genoFileNames);
         estimator.writeResults(outputFileName);
     }
     
@@ -144,65 +130,23 @@ final class CommandMain {
      * @return the estimator for analysis
      */
     private Estimator newEstimator() {
-    	IndInfo sampleInfo = new IndInfo(indFileName, getBufferedReader(indFileName));
-    	int snpNum = new CountSnpNumInfo(snpFileName, 
-    			getBufferedReader(snpFileName)).getSnpNum();
     	if (estimatorType.equals("sele-diff")) {
-    		PopVarInfo popVarInfo = new PopVarInfo(popVarFileName, 
-    				getBufferedReader(popVarFileName), sampleInfo);
-    		TimeInfo timeInfo = new TimeInfo(timeFileName, 
-    				getBufferedReader(timeFileName), sampleInfo);
-    		SnpInfo snpInfo = new SnpInfo(getBufferedReader(snpFileName), snpNum);
-    		return new SeleDiffEstimator(getBufferedReader(ancAlleleFileName), snpNum,
-    					popVarInfo, sampleInfo, snpInfo, timeInfo);
+    		return new SeleDiffEstimator(indFileName, snpFileName, popVarFileName, timeFileName, ancAlleleFileName);
     	}
     	else if (estimatorType.equals("digest-median")) {
     		if (nThread != 1) {
-    			return new ConcurrentPopVarMedianEstimator(sampleInfo, snpNum, nThread);
+    			return new ConcurrentPopVarMedianEstimator(indFileName, snpFileName, nThread);
     		}
-   			return new TDigestPopVarMedianEstimator(sampleInfo, snpNum);
+   			return new TDigestPopVarMedianEstimator(indFileName, snpFileName);
     	}
     	else if (estimatorType.equals("array-median")) {
-    		return new ArrayPopVarMedianEstimator(sampleInfo, snpNum);
+    		return new ArrayPopVarMedianEstimator(indFileName, snpFileName);
     	}
     	return null;
     }
     
-    /**
-     * Helper function for returning a BufferedReader from a ungzipped or gzipped file.
-     * 
-     * @param fileName the name of a file
-     * @return a BufferedReader instance from a ungzipped or gzipped file
-     */
-    private BufferedReader getBufferedReader(String fileName) {
-    	if (fileName == null)
-    		return null;
-    	InputStream in = null;
-    	try {
-			in = new FileInputStream(new File(fileName));
-			byte[] signature = new byte[2];
-			int nread = in.read(signature);
-			if (nread == 2 
-					&& signature[0] == (byte) 0x1f 
-					&& signature[1] == (byte) 0x8b) {
-				GZIPInputStream gzip = new GZIPInputStream(new FileInputStream(fileName));
-				return new BufferedReader(new InputStreamReader(gzip));
-			}
-			else {
-				return new BufferedReader(new FileReader(fileName));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-    	return null;
-    }
-
+    // Validators for checking parameters
+    
     /**
      * Validates whether a file exists and whether a path is a directory.
      */
@@ -244,6 +188,9 @@ final class CommandMain {
 
     }
     
+    /**
+     * Validates thread number is larger than 0
+     */
     public static class ThreadValidator implements IParameterValidator {
 
 		@Override

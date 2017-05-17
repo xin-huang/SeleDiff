@@ -22,7 +22,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
+import xin.bio.popgen.infos.CountSnpNumInfo;
 import xin.bio.popgen.infos.IndInfo;
 
 /**
@@ -61,11 +63,11 @@ public abstract class Estimator {
      * @param sampleInfo a SampleInfo instance containing sample information
      * @param timeInfo a TimeInfo instance containing divergence times between populations
      */
-    public Estimator(IndInfo sampleInfo, int snpNum) {
-    	this.sampleInfo = sampleInfo;
+    public Estimator(String indFileName, String snpFileName) {
+    	this.sampleInfo = new IndInfo(indFileName);
     	this.popNum = sampleInfo.getPopNum();
     	this.indNum = sampleInfo.getIndNum();
-    	this.snpNum = snpNum;
+    	this.snpNum = new CountSnpNumInfo(snpFileName).getSnpNum();
     	this.popPairNum = (popNum * (popNum - 1))/2;
     	
     	// get population Ids of different pairs
@@ -75,7 +77,7 @@ public abstract class Estimator {
     	}
     }
     
-    public abstract void analyze(BufferedReader[] br);
+    public abstract void analyze(List<String> genoFileNames);
    
     /**
      * Helper function for outputting results to files.

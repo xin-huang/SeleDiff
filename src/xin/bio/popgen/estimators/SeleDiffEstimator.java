@@ -21,11 +21,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringJoiner;
 
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
-import xin.bio.popgen.infos.IndInfo;
+import xin.bio.popgen.infos.InfoReader;
 import xin.bio.popgen.infos.PopVarInfo;
 import xin.bio.popgen.infos.SnpInfo;
 import xin.bio.popgen.infos.TimeInfo;
@@ -67,23 +68,23 @@ public class SeleDiffEstimator extends Estimator {
      * @param sampleInfo a SampleInfo instance containing sample information
      * @param timeInfo a TimeInfo instance containing divergence times between populations
      */
-    public SeleDiffEstimator(BufferedReader ancAlleleFile, int snpNum, 
-    		PopVarInfo popVarInfo, IndInfo sampleInfo, SnpInfo snpInfo, TimeInfo timeInfo) {
-    	super(sampleInfo, snpNum);
-        this.popVarInfo = popVarInfo;
-        this.timeInfo = timeInfo;
-        this.snpInfo = snpInfo;
+    public SeleDiffEstimator(String indFileName, String snpFileName, 
+    		String popVarFileName, String timeFileName, String ancAlleleFileName) {
+    	super(indFileName, snpFileName);
+        this.popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
+        this.timeInfo = new TimeInfo(timeFileName, sampleInfo);
+        this.snpInfo = new SnpInfo(snpFileName, snpNum);
         this.chisq = new ChiSquaredDistribution(1);
-        this.ancAlleleFile = ancAlleleFile;
+        this.ancAlleleFile = new InfoReader(ancAlleleFileName).getBufferedReader();
         
         logOdds = new double[popPairNum][snpNum];
         varLogOdds = new double[popPairNum][snpNum];
     }
     
 	@Override
-	public void analyze(BufferedReader[] br) {
+	public void analyze(List<String> genoFileNames) {
 		long start = System.currentTimeMillis();
-		readFile(br[0]);
+		readFile(new InfoReader(genoFileNames.get(0)).getBufferedReader());
 		long end = System.currentTimeMillis();
 		System.out.println("Used Time for Reading: " + ((end-start)/1000) + " seconds");
 		alignAncAllele();

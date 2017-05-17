@@ -1,6 +1,5 @@
 package xin.bio.popgen.infos;
 
-import java.io.BufferedReader;
 import java.util.regex.Pattern;
 
 /**
@@ -32,11 +31,11 @@ public class SnpInfo implements Info {
      * @param snpFile
      * @param snpNum
      */
-    public SnpInfo(BufferedReader snpFile, int snpNum) {
+    public SnpInfo(String snpFileName, int snpNum) {
     	snpIds = new String[snpNum];
     	refAlleles = new String[snpNum];
     	altAlleles = new String[snpNum];
-    	readFile(snpFile);
+    	readFile(getBufferedReader(snpFileName));
     }
 
 	@Override

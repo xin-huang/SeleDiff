@@ -17,8 +17,6 @@
  */
 package xin.bio.popgen.infos;
 
-import java.io.BufferedReader;
-
 /**
  * Class {@code TimeInfo} stores the information of divergence times
  * for population pairs in the sample.
@@ -45,11 +43,11 @@ public final class TimeInfo implements Info {
      * @param timeFileName the file name of a divergence time file
      * @param sampleInfo a SampleInfo instance
      */
-    public TimeInfo(String timeFileName, BufferedReader br, IndInfo sampleInfo) {
+    public TimeInfo(String timeFileName, IndInfo sampleInfo) {
         int popPairNum = (sampleInfo.getPopNum()*(sampleInfo.getPopNum()-1))/2;
         times = new Integer[popPairNum];
         this.sampleInfo = sampleInfo;
-        readFile(br);
+        readFile(getBufferedReader(timeFileName));
         checkPopPairs();
 
         System.out.println(popPairNum + " population pairs with divergence times are read from "

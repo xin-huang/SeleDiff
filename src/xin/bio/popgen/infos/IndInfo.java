@@ -18,7 +18,6 @@ package xin.bio.popgen.infos;
  */
 
 
-import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -64,11 +63,11 @@ public final class IndInfo implements Info {
      *
      * @param sampleFileName the file name of a sample file
      */
-    public IndInfo(String sampleFileName, BufferedReader br) {
+    public IndInfo(String sampleFileName) {
         ind2popQueue = new ArrayList<String>();
         popIndex = new HashMap<>(); // key: pop id; value: pop index
         popSet = new HashSet<>();
-        readFile(br);
+        readFile(getBufferedReader(sampleFileName));
         
         int i = 0;
         indNum = ind2popQueue.size();

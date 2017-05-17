@@ -13,12 +13,12 @@
  */
 package xin.bio.popgen.estimators;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 import java.util.StringJoiner;
 
-import xin.bio.popgen.infos.IndInfo;
+import xin.bio.popgen.infos.InfoReader;
 
 /**
  * Class {@code PopVarMedianEstimator} extends {@code Estimator} to
@@ -36,14 +36,14 @@ public abstract class PopVarMedianEstimator extends Estimator {
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public PopVarMedianEstimator(IndInfo sampleInfo, int snpNum) {
-    	super(sampleInfo, snpNum);
+    public PopVarMedianEstimator(String indFileName, String snpFileName) {
+    	super(indFileName, snpFileName);
         popPairVarMedians = new double[popPairNum];
     }
     
     @Override
-	public void analyze(BufferedReader[] br) {
-		readFile(br[0]);
+	public void analyze(List<String> genoFileNames) {
+		readFile(new InfoReader(genoFileNames.get(0)).getBufferedReader());
 		findMedians();
 	}
     

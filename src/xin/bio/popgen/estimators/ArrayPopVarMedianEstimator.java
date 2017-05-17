@@ -4,15 +4,13 @@ import static xin.bio.popgen.estimators.Model.calDriftVar;
 
 import org.apache.commons.math3.stat.StatUtils;
 
-import xin.bio.popgen.infos.IndInfo;
-
 public final class ArrayPopVarMedianEstimator extends PopVarMedianEstimator {
 	
     // a 2-D double array stores variances of drift between populations
     private final double[][] popPairVars;
     
-    public ArrayPopVarMedianEstimator(IndInfo sampleInfo, int snpNum) {
-    	super(sampleInfo, snpNum);
+    public ArrayPopVarMedianEstimator(String indFileName, String snpFilName) {
+    	super(indFileName, snpFilName);
     	popPairVars = new double[popPairNum][snpNum];
     }
     
