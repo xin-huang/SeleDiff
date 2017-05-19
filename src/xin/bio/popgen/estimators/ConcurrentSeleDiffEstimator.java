@@ -19,13 +19,11 @@ package xin.bio.popgen.estimators;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
@@ -60,11 +58,9 @@ public class ConcurrentSeleDiffEstimator extends Estimator {
 	// a ChiSquaredDistribution instance for performing chi-square tests
 	private final ChiSquaredDistribution chisq;
 
+	private final String[] records;
+	
 	private int nThreads;
-
-	private final ReentrantLock lock = new ReentrantLock();
-
-	private final List<String> records = new ArrayList<>();
 
 	/**
 	 * Constructor of class {@code SeleDiffEstimator}.
@@ -91,6 +87,7 @@ public class ConcurrentSeleDiffEstimator extends Estimator {
 
 		logOdds = new double[popPairNum][snpNum];
 		varLogOdds = new double[popPairNum][snpNum];
+		records = new String[snpNum];
 	}
 
 	@Override
@@ -136,7 +133,7 @@ public class ConcurrentSeleDiffEstimator extends Estimator {
 		} finally {
 			executor.shutdown();
 		}
-		for (String r : records) {
+		for (String r:records) {
 			bw.write(r);
 		}
 	}
@@ -170,11 +167,13 @@ public class ConcurrentSeleDiffEstimator extends Estimator {
 				String derAllele = snpInfo.getAltAlleles()[i];
 				StringBuilder sb = new StringBuilder();
 				for (int j = 0; j < popPairNum; j++) {
+					double popVar = popVarInfo.getPopVar(j);
+					double time = timeInfo.getTime(j);
 					double logOdd = logOdds[j][i];
 					double varLogOdd = varLogOdds[j][i];
-					double diff = logOdd / timeInfo.getTime(j);
-					double std = Math.sqrt(varLogOdd + popVarInfo.getPopVar(j)) / timeInfo.getTime(j);
-					double delta = logOdd * logOdd / (varLogOdd + popVarInfo.getPopVar(j));
+					double diff = logOdd / time;
+					double std = Math.sqrt(varLogOdd + popVar) / time;
+					double delta = logOdd * logOdd / (varLogOdd + popVar);
 					double pvalue = 1.0 - chisq.cumulativeProbability(delta);
 
 					sb.append(snpId).append("\t").append(ancAllele).append("\t").append(derAllele).append("\t")
@@ -183,9 +182,7 @@ public class ConcurrentSeleDiffEstimator extends Estimator {
 							.append(format((diff - 1.96 * std), 6)).append("\t").append(format((diff + 1.96 * std), 6))
 							.append("\t").append(format(delta, 6)).append("\t").append(format(pvalue, 6)).append("\n");
 				}
-				lock.lock();
-				records.add(sb.toString());
-				lock.unlock();
+				records[i] = sb.toString();
 			}
 			doneSignal.countDown();
 		}

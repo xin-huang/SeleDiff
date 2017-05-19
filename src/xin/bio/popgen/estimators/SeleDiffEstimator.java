@@ -101,19 +101,21 @@ public class SeleDiffEstimator extends Estimator {
     @Override
     protected void writeLine(Writer bw) throws IOException {
     	for (int i = 0; i < snpNum; i++) {
+    		StringBuilder sb = new StringBuilder();
     		String snpId = snpInfo.getSnpIds()[i];
     		String ancAllele = snpInfo.getRefAlleles()[i];
     		String derAllele = snpInfo.getAltAlleles()[i];
     		for (int j = 0; j < popPairNum; j++) {
+    			double popVar = popVarInfo.getPopVar(j);
+    			double time = timeInfo.getTime(j);
     			double logOdd = logOdds[j][i];
     			double varLogOdd = varLogOdds[j][i];
-    			double diff = logOdd / timeInfo.getTime(j);
-    			double std = Math.sqrt(varLogOdd + popVarInfo.getPopVar(j))
-    					/ timeInfo.getTime(j);
-    			double delta = logOdd * logOdd / (varLogOdd + popVarInfo.getPopVar(j));
+    			double diff = logOdd / time;
+    			double std = Math.sqrt(varLogOdd + popVar)
+    					/ time;
+    			double delta = logOdd * logOdd / (varLogOdd + popVar);
     			double pvalue = 1.0 - chisq.cumulativeProbability(delta);
     			
-    			StringBuilder sb = new StringBuilder();
     			sb.append(snpId).append("\t")
     				.append(ancAllele).append("\t")
     				.append(derAllele).append("\t")
@@ -125,8 +127,8 @@ public class SeleDiffEstimator extends Estimator {
     				.append(format((diff+1.96*std),6)).append("\t")
     				.append(format(delta,6)).append("\t")
     				.append(format(pvalue,6)).append("\n");
-    			bw.write(sb.toString());
     		}
+    		bw.write(sb.toString());
     	}
     }
 
