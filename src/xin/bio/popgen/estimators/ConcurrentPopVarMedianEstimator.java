@@ -45,16 +45,16 @@ public final class ConcurrentPopVarMedianEstimator extends PopVarMedianEstimator
 	
     private final ReentrantLock lock = new ReentrantLock();
     
-    private int nThread;
+    private int nThreads;
     
     /**
      * Constructor of class {@code ConcurrentPopVarMedianEstimator}.
      *
      * @param sampleInfo a SampleInfo instance containing sample information
      */
-    public ConcurrentPopVarMedianEstimator(String indFileName, String snpFileName, int nThread) {
+    public ConcurrentPopVarMedianEstimator(String indFileName, String snpFileName, int nThreads) {
     	super(indFileName, snpFileName);
-        this.nThread = nThread;
+        this.nThreads = nThreads;
         popPairVarDigests = new MergingDigest[popPairNum];
         for (int i = 0; i < popPairNum; i++) {
         	popPairVarDigests[i] = new MergingDigest(100);
@@ -63,19 +63,20 @@ public final class ConcurrentPopVarMedianEstimator extends PopVarMedianEstimator
 
 	@Override
 	public void analyze(List<String> genoFileNames) {
+		if (genoFileNames.size() > 1) readMultipleFiles(genoFileNames);
+		else readSingleFile(genoFileNames.get(0));
+		findMedians();
+	}
+	
+	private void readSingleFile(String genoFileName) {}
+    
+	private void readMultipleFiles(List<String> genoFileNames) {
 		BufferedReader[] br = new BufferedReader[genoFileNames.size()];
 		for (int i = 0; i < br.length; i++) {
 			br[i] = new InfoReader(genoFileNames.get(i)).getBufferedReader();
 		}
-		readFile(br);
-		findMedians();
-	}
-    
-	private void readFile(BufferedReader[] br) {
-		if (nThread > br.length) nThread = br.length;
-		if (nThread > Runtime.getRuntime().availableProcessors()) 
-			nThread = Runtime.getRuntime().availableProcessors();
-		ExecutorService executor = Executors.newFixedThreadPool(nThread);
+		nThreads = Math.min(Runtime.getRuntime().availableProcessors(), Math.min(nThreads, br.length));
+		ExecutorService executor = Executors.newFixedThreadPool(nThreads);
 		CountDownLatch doneSignal = new CountDownLatch(br.length);
 		for (int i = 0; i < br.length; i++) {
 			executor.submit(new Worker(br[i], doneSignal));

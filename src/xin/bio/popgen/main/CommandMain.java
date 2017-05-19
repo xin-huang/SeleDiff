@@ -29,6 +29,7 @@ import com.beust.jcommander.Parameters;
 
 import xin.bio.popgen.estimators.ArrayPopVarMedianEstimator;
 import xin.bio.popgen.estimators.ConcurrentPopVarMedianEstimator;
+import xin.bio.popgen.estimators.ConcurrentSeleDiffEstimator;
 import xin.bio.popgen.estimators.Estimator;
 import xin.bio.popgen.estimators.SeleDiffEstimator;
 import xin.bio.popgen.estimators.TDigestPopVarMedianEstimator;
@@ -88,20 +89,10 @@ final class CommandMain {
                     validateWith = FileValidator.class)
     private String popVarFileName;
 
-    @Parameter(names = "--ancestral-allele",
-            description = "The file stores the information of ancestral alleles. " +
-                    "Without this file, SeleDiff would assume the REF allele is ancestral and the ALT allele is derived " +
-                    "in the GENO file. A ancestral allele file is space delimited without header, " +
-                    "where the first column is the SNP ID, and the second column " +
-                    "is the ancestral allele. SeleDiff assumes these alleles are " +
-                    "in the forward strand of the reference genome.", 
-                    validateWith = FileValidator.class)
-    private String ancAlleleFileName;
-    
     @Parameter(names = "--thread", description = "The number of threads to be used by SeleDiff. "
     		+ "The default value is the available threads in the machine.", 
     		validateWith = ThreadValidator.class)
-    private int nThread = 1;
+    private int nThreads = 1;
     
 
     /**
@@ -109,7 +100,17 @@ final class CommandMain {
      * @throws IOException 
      */
     void execute() {
-    	// check parameters
+    	checkParameters();
+        Estimator estimator = newEstimator();
+        estimator.analyze(genoFileNames);
+        estimator.writeResults(outputFileName);
+    }
+    
+    /**
+     * Helper function for checking parameters.
+     */
+    
+    private void checkParameters() {
     	if (estimatorType.equals("sele-diff")) {
     		if (popVarFileName == null)
     			throw new ParameterException("Parameter --popvar should be used "
@@ -118,10 +119,6 @@ final class CommandMain {
     			throw new ParameterException("Parameter --time should be used "
     					+ "when --estimator sele-diff is used");
     	}
-        // perform estimation
-        Estimator estimator = newEstimator();
-        estimator.analyze(genoFileNames);
-        estimator.writeResults(outputFileName);
     }
     
     /**
@@ -131,11 +128,13 @@ final class CommandMain {
      */
     private Estimator newEstimator() {
     	if (estimatorType.equals("sele-diff")) {
-    		return new SeleDiffEstimator(indFileName, snpFileName, popVarFileName, timeFileName, ancAlleleFileName);
+    		if (nThreads != 1)
+    			return new ConcurrentSeleDiffEstimator(indFileName, snpFileName, popVarFileName, timeFileName, nThreads);
+    		return new SeleDiffEstimator(indFileName, snpFileName, popVarFileName, timeFileName);
     	}
     	else if (estimatorType.equals("digest-median")) {
-    		if (nThread != 1) {
-    			return new ConcurrentPopVarMedianEstimator(indFileName, snpFileName, nThread);
+    		if (nThreads != 1) {
+    			return new ConcurrentPopVarMedianEstimator(indFileName, snpFileName, nThreads);
     		}
    			return new TDigestPopVarMedianEstimator(indFileName, snpFileName);
     	}

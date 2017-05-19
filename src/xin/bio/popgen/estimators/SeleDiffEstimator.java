@@ -17,10 +17,8 @@
  */
 package xin.bio.popgen.estimators;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -48,9 +46,6 @@ public class SeleDiffEstimator extends Estimator {
     // a SnpInfo instance stores information of SNPs
     private final SnpInfo snpInfo;
 
-    // a String stores the name of the file containing ancestral allele information
-    private final BufferedReader ancAlleleFile;
-    
     // a double array stores log-Odds ratios between populations
     private final double[][] logOdds;
     
@@ -69,13 +64,12 @@ public class SeleDiffEstimator extends Estimator {
      * @param timeInfo a TimeInfo instance containing divergence times between populations
      */
     public SeleDiffEstimator(String indFileName, String snpFileName, 
-    		String popVarFileName, String timeFileName, String ancAlleleFileName) {
+    		String popVarFileName, String timeFileName) {
     	super(indFileName, snpFileName);
         this.popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
         this.timeInfo = new TimeInfo(timeFileName, sampleInfo);
         this.snpInfo = new SnpInfo(snpFileName, snpNum);
         this.chisq = new ChiSquaredDistribution(1);
-        this.ancAlleleFile = new InfoReader(ancAlleleFileName).getBufferedReader();
         
         logOdds = new double[popPairNum][snpNum];
         varLogOdds = new double[popPairNum][snpNum];
@@ -87,7 +81,6 @@ public class SeleDiffEstimator extends Estimator {
 		readFile(new InfoReader(genoFileNames.get(0)).getBufferedReader());
 		long end = System.currentTimeMillis();
 		System.out.println("Used Time for Reading: " + ((end-start)/1000) + " seconds");
-		alignAncAllele();
 	}
 	
 	@Override
@@ -104,48 +97,9 @@ public class SeleDiffEstimator extends Estimator {
 		}
     	snpIndex++;
 	}
-    
-    private void alignAncAllele() {
-    	if (ancAlleleFile == null)
-    		return;
-    	int i = 0;
-    	HashMap<String, Integer> snpIndices = new HashMap<>(snpInfo.getSnpIds().length);
-    	for (String snpId:snpInfo.getSnpIds()) {
-    		snpIndices.put(snpId, i++);
-    	}
-    	try {
-			String line;
-			while ((line = ancAlleleFile.readLine()) != null) {
-				int start = 0;
-				int end = line.indexOf("\t");
-				String snpId = line.substring(start, end);
-				String allele = line.substring(end+1);
-				if (snpIndices.containsKey(snpId)) {
-					int snpIndex = snpIndices.get(snpId);
-					String refAllele = snpInfo.getRefAlleles()[snpIndex];
-					if (!allele.equals(snpInfo.getRefAlleles()[snpIndex])) {
-						snpInfo.getAltAlleles()[snpIndex] = refAllele;
-						snpInfo.getRefAlleles()[snpIndex] = allele;
-						for (int j = 0; j < popPairNum; j++) {
-							logOdds[j][snpIndex] = -logOdds[j][snpIndex];
-						}
-					}
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				ancAlleleFile.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-    }
 
     @Override
     protected void writeLine(Writer bw) throws IOException {
-    	int snpNum = snpInfo.getSnpIds().length;
     	for (int i = 0; i < snpNum; i++) {
     		String snpId = snpInfo.getSnpIds()[i];
     		String ancAllele = snpInfo.getRefAlleles()[i];
