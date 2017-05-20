@@ -162,9 +162,9 @@ public class ConcurrentSeleDiffEstimator extends Estimator {
 		@Override
 		public void run() {
 			for (int i = start; i < end; i++) {
-				String snpId = snpInfo.getSnpIds()[i];
-				String ancAllele = snpInfo.getRefAlleles()[i];
-				String derAllele = snpInfo.getAltAlleles()[i];
+				//String snpId = snpInfo.getSnpIds()[i];
+				//String ancAllele = snpInfo.getRefAlleles()[i];
+				//String derAllele = snpInfo.getAltAlleles()[i];
 				StringBuilder sb = new StringBuilder();
 				for (int j = 0; j < popPairNum; j++) {
 					double popVar = popVarInfo.getPopVar(j);
@@ -175,12 +175,14 @@ public class ConcurrentSeleDiffEstimator extends Estimator {
 					double std = Math.sqrt(varLogOdd + popVar) / time;
 					double delta = logOdd * logOdd / (varLogOdd + popVar);
 					double pvalue = 1.0 - chisq.cumulativeProbability(delta);
-
-					sb.append(snpId).append("\t").append(ancAllele).append("\t").append(derAllele).append("\t")
-							.append(popPairIds[j][0]).append("\t").append(popPairIds[j][1]).append("\t")
-							.append(format(diff, 6)).append("\t").append(format(std, 6)).append("\t")
-							.append(format((diff - 1.96 * std), 6)).append("\t").append(format((diff + 1.96 * std), 6))
-							.append("\t").append(format(delta, 6)).append("\t").append(format(pvalue, 6)).append("\n");
+					double[] vals = new double[]{diff, std, diff-1.96*std, diff+1.96*std, delta, pvalue};
+	    			
+	    			/*sb.append(snpId).append("\t")
+	    				.append(ancAllele).append("\t")
+	    				.append(derAllele).append("\t")
+	    				.append(popPairIds[j][0]).append("\t")
+	    				.append(popPairIds[j][1]).append("\t")
+	    				.append(format(vals, 6)).append("\n");*/
 				}
 				records[i] = sb.toString();
 			}

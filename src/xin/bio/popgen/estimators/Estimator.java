@@ -148,6 +148,24 @@ public abstract class Estimator {
 		}
     }
     
+    protected String format(double[] vals, int precision) {
+    	StringBuilder sb = new StringBuilder();
+    	for (double val:vals) {
+	    	if (val < 0) {
+	    		sb.append('-');
+	    		val = -val;
+	    	}
+	    	int exp = POW10[precision];
+	    	long lval = (long) (val * exp + 0.5);
+	    	sb.append(lval / exp).append('.');
+	    	long fval = lval % exp;
+	    	for (int p = precision - 1; p > 0 && fval < POW10[p]; p-- ) { sb.append('0'); }
+	    	sb.append(fval);
+	    	sb.append("\t");
+    	}
+    	return sb.toString();
+    }
+    
     protected String format(double val, int precision) {
     	StringBuilder sb = new StringBuilder();
     	if (val < 0) {
@@ -156,17 +174,17 @@ public abstract class Estimator {
     	}
     	int exp = POW10[precision];
     	long lval = (long) (val * exp + 0.5);
-    	sb.append(lval / exp).append('.');
+    	sb.append(String.valueOf(lval / exp)).append('.');
     	long fval = lval % exp;
     	for (int p = precision - 1; p > 0 && fval < POW10[p]; p-- ) { sb.append('0'); }
-    	sb.append(fval);
+    	sb.append(String.valueOf(fval));
     	return sb.toString();
     }
     
     /**
      * Helper function for counting alleles 
      * 
-     * @param line a String allele counts of each indiviudal
+     * @param line a String allele counts of each individual
      * @return a 2-D integer array containing counts of each allele
      */
     protected int[][] countAlleles(char[] cbuf) {

@@ -72,8 +72,9 @@ public final class TimeInfo implements Info {
      * @return the divergence time of the population pair
      */
     public double getTime(int k) {
-        String[] popPair = sampleInfo.getPopPair(k);
-        return getTime(popPair[0],popPair[1]);
+        //String[] popPair = sampleInfo.getPopPair(k);
+        //return getTime(popPair[0],popPair[1]);
+    	return times[k];
     }
 
     @Override

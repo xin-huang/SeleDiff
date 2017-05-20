@@ -22,8 +22,6 @@ import java.io.Writer;
 import java.util.List;
 import java.util.StringJoiner;
 
-import org.apache.commons.math3.distribution.ChiSquaredDistribution;
-
 import xin.bio.popgen.infos.InfoReader;
 import xin.bio.popgen.infos.PopVarInfo;
 import xin.bio.popgen.infos.SnpInfo;
@@ -52,8 +50,8 @@ public class SeleDiffEstimator extends Estimator {
     // a double array stores variances of log-Odds ratios between populations
     private final double[][] varLogOdds;
     
-    // a ChiSquaredDistribution instance for performing chi-square tests
-    private final ChiSquaredDistribution chisq;
+    //
+    private final ChiSquareTable chisq = new ChiSquareTable();
     
     /**
      * Constructor of class {@code SeleDiffEstimator}.
@@ -69,7 +67,6 @@ public class SeleDiffEstimator extends Estimator {
         this.popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
         this.timeInfo = new TimeInfo(timeFileName, sampleInfo);
         this.snpInfo = new SnpInfo(snpFileName, snpNum);
-        this.chisq = new ChiSquaredDistribution(1);
         
         logOdds = new double[popPairNum][snpNum];
         varLogOdds = new double[popPairNum][snpNum];
@@ -101,10 +98,6 @@ public class SeleDiffEstimator extends Estimator {
     @Override
     protected void writeLine(Writer bw) throws IOException {
     	for (int i = 0; i < snpNum; i++) {
-    		StringBuilder sb = new StringBuilder();
-    		String snpId = snpInfo.getSnpIds()[i];
-    		String ancAllele = snpInfo.getRefAlleles()[i];
-    		String derAllele = snpInfo.getAltAlleles()[i];
     		for (int j = 0; j < popPairNum; j++) {
     			double popVar = popVarInfo.getPopVar(j);
     			double time = timeInfo.getTime(j);
@@ -113,22 +106,16 @@ public class SeleDiffEstimator extends Estimator {
     			double diff = logOdd / time;
     			double std = Math.sqrt(varLogOdd + popVar)
     					/ time;
-    			double delta = logOdd * logOdd / (varLogOdd + popVar);
-    			double pvalue = 1.0 - chisq.cumulativeProbability(delta);
+    			String delta = format((logOdd * logOdd / (varLogOdd + popVar)),3);
+    			String pvalue = chisq.getPvalue(delta);
+    			double[] vals = new double[]{diff, std, diff-1.96*std, diff+1.96*std};
     			
-    			sb.append(snpId).append("\t")
-    				.append(ancAllele).append("\t")
-    				.append(derAllele).append("\t")
-    				.append(popPairIds[j][0]).append("\t")
-    				.append(popPairIds[j][1]).append("\t")
-    				.append(format(diff,6)).append("\t")
-    				.append(format(std,6)).append("\t")
-    				.append(format((diff-1.96*std),6)).append("\t")
-    				.append(format((diff+1.96*std),6)).append("\t")
-    				.append(format(delta,6)).append("\t")
-    				.append(format(pvalue,6)).append("\n");
+    			bw.write(snpInfo.getSnp(i));
+    			bw.write(format(vals, 6));
+    			bw.write(delta);
+    			bw.write("\t");
+    			bw.write(pvalue);
     		}
-    		bw.write(sb.toString());
     	}
     }
 
