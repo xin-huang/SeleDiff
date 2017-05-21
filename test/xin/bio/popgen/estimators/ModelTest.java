@@ -8,6 +8,9 @@ public class ModelTest {
 
 	@Test
 	public void testCalLogOdds() {
+		assertEquals(0.405465, Model.calLogOdds(10, 20, 30, 40), 0.000001);
+		assertEquals(0.259511, Model.calLogOdds(1, 2, 3, 4), 0.000001);
+		assertEquals(0.223144, Model.calLogOdds(1, 2, 30, 40), 0.000001);
 	}
 	
 	@Test
@@ -18,7 +21,10 @@ public class ModelTest {
 	}
 	
 	@Test
-	public void testCalDriftVar() {}
+	public void testCalDriftVar() {
+		assertEquals(0.152990, Model.calDriftVar(10, 20, 30, 40), 0.000001);
+		assertEquals(-1.426590, Model.calDriftVar(1, 2, 3, 4), 0.000001);
+	}
 	
 	@Test
 	public void testCorrectContinuous() {
