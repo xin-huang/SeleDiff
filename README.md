@@ -8,9 +8,12 @@
 - For more details, please see the manual.
 
 ## Installation
+<<<<<<< HEAD
 `git clone https://github.com/xin-huang/SeleDiff`
 `./gradlew build`
 `./gradlew install`
+=======
+>>>>>>> origin/master
 
 ## Usages
 - To use `SeleDiff`, you should install [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) first.
@@ -62,6 +65,8 @@ each column.
 
 ## Examples
 Here is an example to show how `SeleDiff` tests and estimates selection coefficient differences between populations. 5 populations (YRI, CEU, CHB, CHD, ASW) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed by [PLINK 1.07](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml)(`--geno 0.01 --maf 0.05`). SNPs in strong linkage disequilibrium were removed, applying a window of 50 SNPs advanced by 5 SNPs and r<sup>2</sup> threshold of 0.01 (`--indep-pairwise 50 5 0.01`) in PLINK. All the genetic data are stored in EIGENSTRAT format.
+
+## Performance
 
 ### Estimate Selection Coefficient Differences in SNPs
 
