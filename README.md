@@ -8,12 +8,9 @@
 - For more details, please see the manual.
 
 ## Installation
-<<<<<<< HEAD
 `git clone https://github.com/xin-huang/SeleDiff`
 `./gradlew build`
 `./gradlew install`
-=======
->>>>>>> origin/master
 
 ## Usages
 - To use `SeleDiff`, you should install [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) first.
