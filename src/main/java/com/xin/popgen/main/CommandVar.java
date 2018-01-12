@@ -32,8 +32,8 @@ import com.beust.jcommander.Parameters;
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
  */
-@Parameters(commandDescription = "The main command line of SeleDiff")
-class CommandMain {
+@Parameters(commandDescription = "Sub-command for computing population variances")
+class CommandVar {
 	
 	@Parameter(names = "--geno", required = true, 
 			description = "The EIGENSTRAT GENO file stores allele counts: "
