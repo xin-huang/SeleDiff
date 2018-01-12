@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2017 Xin Huang
+  Copyright (C) 2018 Xin Huang
 
   This file is part of SeleDiff.
 
@@ -21,7 +21,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 import com.xin.popgen.infos.CountSnpNumInfo;
@@ -114,7 +113,7 @@ public abstract class Estimator {
      * @param bw a BufferedWriter instance to the output file
      * @throws IOException
      */
-    protected abstract void writeLine(Writer bw) throws IOException;
+    protected abstract void writeLine(BufferedWriter bw) throws IOException;
 
     /**
      * An abstract method for writing header to the output file.
@@ -122,7 +121,7 @@ public abstract class Estimator {
      * @param bw a BufferedWriter instance to the output file
      * @throws IOException
      */
-    protected abstract void writeHeader(Writer bw) throws IOException;
+    protected abstract void writeHeader(BufferedWriter bw) throws IOException;
     
     /**
      * Helper function for reading files

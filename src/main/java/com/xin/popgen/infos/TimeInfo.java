@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2017 Xin Huang
+  Copyright (C) 2018 Xin Huang
 
   This file is part of SeleDiff.
 

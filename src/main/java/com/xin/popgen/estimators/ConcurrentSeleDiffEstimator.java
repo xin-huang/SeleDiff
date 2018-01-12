@@ -17,8 +17,8 @@
  */
 package com.xin.popgen.estimators;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.concurrent.CountDownLatch;
@@ -114,7 +114,7 @@ public class ConcurrentSeleDiffEstimator extends Estimator {
 	}
 
 	@Override
-	protected void writeLine(Writer bw) throws IOException {
+	protected void writeLine(BufferedWriter bw) throws IOException {
 		nThreads = Math.min(Runtime.getRuntime().availableProcessors(), nThreads);
 		ExecutorService executor = Executors.newFixedThreadPool(nThreads);
 		CountDownLatch doneSignal = new CountDownLatch(nThreads+1);
@@ -139,7 +139,7 @@ public class ConcurrentSeleDiffEstimator extends Estimator {
 	}
 
 	@Override
-	protected void writeHeader(Writer bw) throws IOException {
+	protected void writeHeader(BufferedWriter bw) throws IOException {
 		StringJoiner sj = new StringJoiner("\t");
 		sj.add("SNP ID").add("Ancestral allele").add("Derived allele").add("Population 1").add("Population 2")
 				.add("Selection difference (Population 1 - Population 2)").add("Std").add("Lower bound of 95% CI")

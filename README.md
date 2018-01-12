@@ -7,6 +7,11 @@
 - If you use `SeleDiff`, please cite
 - For more details, please see the manual.
 
+## Installation
+`git clone https://github.com/xin-huang/SeleDiff`
+`./gradlew build`
+`./gradlew install`
+
 ## Usages
 - To use `SeleDiff`, you should install [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) first.
 - Once you have Java SE Runtime Environment 8, then you can run `SeleDiff` without any parameter or with `--help` option in the command line to look at help information.
@@ -113,7 +118,7 @@ The result is stored in `examples/example.hap.result.tsv`. As the result indicat
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Apache Commons Math 3.6](https://commons.apache.org/proper/commons-math/index.html)
-- [JCommander 1.48](http://mvnrepository.com/artifact/com.beust/jcommander/1.48)
+- [JCommander 1.72](http://mvnrepository.com/artifact/com.beust/jcommander/1.72)
 - [t-digest 3.1](https://github.com/tdunning/t-digest)
 
 ## References

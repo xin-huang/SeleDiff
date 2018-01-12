@@ -1,6 +1,5 @@
-package com.xin.popgen.infos;
 /*
-  Copyright (C) 2017 Xin Huang
+  Copyright (C) 2018 Xin Huang
 
   This file is part of SeleDiff.
 
@@ -16,7 +15,7 @@ package com.xin.popgen.infos;
   You should have received a copy of the GNU General Public License
   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
+package com.xin.popgen.infos;
 
 import java.util.ArrayList;
 import java.util.HashMap;

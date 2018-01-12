@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SeleDiff-1.01">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/libs/SeleDiff-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

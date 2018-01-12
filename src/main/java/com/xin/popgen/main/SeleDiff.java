@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2017 Xin Huang
+  Copyright (C) 2018 Xin Huang
 
   This file is part of SeleDiff.
 
@@ -18,6 +18,7 @@
 package com.xin.popgen.main;
 
 import com.beust.jcommander.JCommander;
+import com.xin.popgen.estimators.*;
 import com.xin.popgen.utils.TimeMeasurement;
 
 /**
@@ -35,8 +36,12 @@ public final class SeleDiff {
     	long startCpuTimeNano = TimeMeasurement.getCpuTime();
     	long beforeUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
     	
-        CommandMain cm = new CommandMain();
-        JCommander jc = new JCommander(cm);
+        CommandVar var = new CommandVar();
+        CommandScan scan = new CommandScan();
+        JCommander jc = JCommander.newBuilder()
+                .addCommand("var", var)
+                .addCommand("scan", scan)
+                .build();
         jc.setProgramName("SeleDiff");
 
         if (args.length == 0) {
@@ -45,7 +50,41 @@ public final class SeleDiff {
         }
         else {
             jc.parse(args);
-            cm.execute();
+            Estimator estimator;
+            if (jc.getParsedCommand().equals("var")) {
+                if (var.nThreads != 1)
+                    estimator = new ConcurrentPopVarMedianEstimator(
+                            var.indFileName,
+                            var.snpFileName,
+                            var.nThreads
+                    );
+                else
+                    estimator = new TDigestPopVarMedianEstimator(
+                            var.indFileName,
+                            var.snpFileName
+                    );
+                estimator.analyze(var.genoFileNames);
+                estimator.writeResults(var.outputFileName);
+            } else if (jc.getParsedCommand().equals("scan")) {
+                if (scan.nThreads != 1)
+                    estimator = new ConcurrentSeleDiffEstimator(
+                            scan.indFileName,
+                            scan.snpFileName,
+                            scan.popVarFileName,
+                            scan.timeFileName,
+                            scan.nThreads
+                    );
+                else
+                    estimator = new SeleDiffEstimator(
+                            scan.indFileName,
+                            scan.snpFileName,
+                            scan.popVarFileName,
+                            scan.timeFileName
+                    );
+                estimator.analyze(scan.genoFileNames);
+                estimator.writeResults(scan.outputFileName);
+            }
+
         }
         
         long afterUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();

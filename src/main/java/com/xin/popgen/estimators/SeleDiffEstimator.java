@@ -18,10 +18,11 @@
 package com.xin.popgen.estimators;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.regex.Pattern;
 
 import com.xin.popgen.infos.InfoReader;
 import com.xin.popgen.infos.PopVarInfo;
@@ -42,8 +43,9 @@ public class SeleDiffEstimator extends Estimator {
     // a TimeInfo instance stores divergence times of population pairs
     private final TimeInfo timeInfo;
     
+    private final Pattern pattern = Pattern.compile("\\s+");
     // a SnpInfo instance stores information of SNPs
-    private final SnpInfo snpInfo;
+    //private final SnpInfo snpInfo;
 
     // a double array stores log-Odds ratios between populations
     private final double[][] logOdds;
@@ -54,7 +56,8 @@ public class SeleDiffEstimator extends Estimator {
     // a ChiSquareTable stores p-value of chi-square statistics
     private final ChiSquareTable chisq = new ChiSquareTable();
     
-    private BufferedReader reader = null;
+    private BufferedReader genoReader = null;
+    private BufferedReader snpReader = null;
     
     /**
      * Constructor of class {@code SeleDiffEstimator}.
@@ -69,7 +72,8 @@ public class SeleDiffEstimator extends Estimator {
     	super(indFileName, snpFileName);
         this.popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
         this.timeInfo = new TimeInfo(timeFileName, sampleInfo);
-        this.snpInfo = new SnpInfo(snpFileName, snpNum);
+		this.snpReader = new InfoReader(snpFileName).getBufferedReader();
+        //this.snpInfo = new SnpInfo(snpFileName, snpNum);
         
         logOdds = new double[popPairNum][snpNum];
         varLogOdds = new double[popPairNum][snpNum];
@@ -81,8 +85,7 @@ public class SeleDiffEstimator extends Estimator {
 		readFile(new InfoReader(genoFileNames.get(0)).getBufferedReader());
 		long end = System.currentTimeMillis();
 		System.out.println("Used Time for Reading: " + ((end-start)/1000) + " seconds");*/
-		this.reader = new InfoReader(genoFileNames.get(0)).getBufferedReader();
-		
+		this.genoReader = new InfoReader(genoFileNames.get(0)).getBufferedReader();
 	}
 	
 	@Override
@@ -101,11 +104,12 @@ public class SeleDiffEstimator extends Estimator {
 	}
 
     @Override
-    protected void writeLine(Writer bw) throws IOException {
+    protected void writeLine(BufferedWriter bw) throws IOException {
     	for (int i = 0; i < snpNum; i++) {
     		char[] cbuf = new char[indNum];
-			reader.read(cbuf);
+			genoReader.read(cbuf);
 			int[][] alleleCounts = countAlleles(cbuf);
+			String[] snpInfo = pattern.split(snpReader.readLine().trim());
 			for (int m = 0; m < alleleCounts.length; m++) {
 				for (int n = m + 1; n < alleleCounts.length; n++) {
 					int popPairIndex = sampleInfo.getPopPairIndex(m, n);
@@ -122,14 +126,20 @@ public class SeleDiffEstimator extends Estimator {
 	    			String pvalue = chisq.getPvalue(delta);
 	    			double[] vals = new double[]{diff, std, diff-1.96*std, diff+1.96*std};
 	    			
-	    			bw.write(snpInfo.getSnp(i));
+	    			//bw.write(snpInfo.getSnp(i));
+	    			bw.write(snpInfo[0]);
+	    			bw.write("\t");
+	    			bw.write(snpInfo[4]);
+	    			bw.write("\t");
+	    			bw.write(snpInfo[5]);
 	    			bw.write(format(vals, 6));
 	    			bw.write(delta);
 	    			bw.write("\t");
 	    			bw.write(pvalue); 
+	    			bw.newLine();
 				}
 			}
-			reader.read();
+			genoReader.read();
     		/*for (int j = 0; j < popPairNum; j++) {
     			double popVar = popVarInfo.getPopVar(j);
     			double time = timeInfo.getTime(j);
@@ -152,7 +162,7 @@ public class SeleDiffEstimator extends Estimator {
     }
 
     @Override
-    protected void writeHeader(Writer bw) throws IOException {
+    protected void writeHeader(BufferedWriter bw) throws IOException {
         StringJoiner sj = new StringJoiner("\t");
         sj.add("SNP ID")
                 .add("Ancestral allele")
