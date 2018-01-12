@@ -21,7 +21,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
 @Parameters(commandDescription = "Sub-command for scanning loci under natural selection")
-final class CommandScan extends CommandMain {
+final class CommandScan extends CommandVar {
 
     @Parameter(names = "--time", required = true,
             description = "The file stores divergence times between populations. " +
