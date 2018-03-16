@@ -52,35 +52,19 @@ public final class SeleDiff {
             jc.parse(args);
             Estimator estimator;
             if (jc.getParsedCommand().equals("var")) {
-                if (var.nThreads != 1)
-                    estimator = new ConcurrentPopVarMedianEstimator(
-                            var.indFileName,
-                            var.snpFileName,
-                            var.nThreads
-                    );
-                else
-                    estimator = new TDigestPopVarMedianEstimator(
-                            var.indFileName,
-                            var.snpFileName
-                    );
+                estimator = new TDigestPopVarMedianEstimator(
+                        var.indFileName,
+                        var.snpFileName
+                );
                 estimator.analyze(var.genoFileNames);
                 estimator.writeResults(var.outputFileName);
             } else if (jc.getParsedCommand().equals("scan")) {
-                if (scan.nThreads != 1)
-                    estimator = new ConcurrentSeleDiffEstimator(
-                            scan.indFileName,
-                            scan.snpFileName,
-                            scan.popVarFileName,
-                            scan.timeFileName,
-                            scan.nThreads
-                    );
-                else
-                    estimator = new SeleDiffEstimator(
-                            scan.indFileName,
-                            scan.snpFileName,
-                            scan.popVarFileName,
-                            scan.timeFileName
-                    );
+                estimator = new SeleDiffEstimator(
+                        scan.indFileName,
+                        scan.snpFileName,
+                        scan.popVarFileName,
+                        scan.timeFileName
+                );
                 estimator.analyze(scan.genoFileNames);
                 estimator.writeResults(scan.outputFileName);
             }

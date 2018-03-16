@@ -48,10 +48,10 @@ public class SeleDiffEstimator extends Estimator {
     //private final SnpInfo snpInfo;
 
     // a double array stores log-Odds ratios between populations
-    private final double[][] logOdds;
+   // private final double[][] logOdds;
     
     // a double array stores variances of log-Odds ratios between populations
-    private final double[][] varLogOdds;
+    //private final double[][] varLogOdds;
     
     // a ChiSquareTable stores p-value of chi-square statistics
     private final ChiSquareTable chisq = new ChiSquareTable();
@@ -75,8 +75,8 @@ public class SeleDiffEstimator extends Estimator {
 		this.snpReader = new InfoReader(snpFileName).getBufferedReader();
         //this.snpInfo = new SnpInfo(snpFileName, snpNum);
         
-        logOdds = new double[popPairNum][snpNum];
-        varLogOdds = new double[popPairNum][snpNum];
+        //logOdds = new double[popPairNum][snpNum];
+        //varLogOdds = new double[popPairNum][snpNum];
     }
     
 	@Override
@@ -90,7 +90,7 @@ public class SeleDiffEstimator extends Estimator {
 	
 	@Override
 	protected void parseLine(char[] cbuf) {
-		int[][] alleleCounts = countAlleles(cbuf);
+		/*int[][] alleleCounts = countAlleles(cbuf);
     	for (int m = 0; m < alleleCounts.length; m++) {
 			for (int n = m + 1; n < alleleCounts.length; n++) {
 				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
@@ -100,7 +100,7 @@ public class SeleDiffEstimator extends Estimator {
 						alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
 			}
 		}
-    	snpIndex++;
+    	snpIndex++;*/
 	}
 
     @Override
@@ -123,7 +123,7 @@ public class SeleDiffEstimator extends Estimator {
 	    			double std = Math.sqrt(varLogOdds + popVar)
 	    					/ time;
 	    			String delta = format((logOdds * logOdds / (varLogOdds + popVar)), 3);
-	    			String pvalue = chisq.getPvalue(delta);
+	    			//String pvalue = chisq.getPvalue(delta);
 	    			double[] vals = new double[]{diff, std, diff-1.96*std, diff+1.96*std};
 	    			
 	    			//bw.write(snpInfo.getSnp(i));
@@ -135,7 +135,7 @@ public class SeleDiffEstimator extends Estimator {
 	    			bw.write(format(vals, 6));
 	    			bw.write(delta);
 	    			bw.write("\t");
-	    			bw.write(pvalue); 
+	    			bw.write(chisq.getPvalue(delta));
 	    			bw.newLine();
 				}
 			}

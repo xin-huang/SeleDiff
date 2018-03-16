@@ -56,12 +56,6 @@ class CommandVar {
     @Parameter(names = "--output", required = true,
             description = "The output file.", validateWith = FileValidator.class)
     String outputFileName;
-
-
-    @Parameter(names = "--thread", description = "The number of threads to be used by SeleDiff. "
-    		+ "The default value is the available threads in the machine.", 
-    		validateWith = ThreadValidator.class)
-    int nThreads = 1;
     
     /**
      * Validates whether a file exists and whether a path is a directory.

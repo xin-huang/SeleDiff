@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.xin.popgen.infos.CountSnpNumInfoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-03-16T08:27:42" hostname="hash-P15FV2" time="0.0">
+  <properties/>
+  <testcase name="testGetSnpNum" classname="com.xin.popgen.infos.CountSnpNumInfoTest" time="0.0"/>
+  <system-out><![CDATA[100 variants are read from src/test/resources/test.snp
+100 variants are read from src/test/resources/test.snp.gz
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

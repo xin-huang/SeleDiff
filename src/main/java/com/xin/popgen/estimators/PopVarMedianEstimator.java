@@ -53,8 +53,6 @@ public abstract class PopVarMedianEstimator extends Estimator {
     
     /**
      * Helper function for finding medians of variances of drift between populations.
-     * 
-     * @param popPairVars a DoubleArrayList containing variances of drift between populations
      */
     protected abstract void findMedians();
     

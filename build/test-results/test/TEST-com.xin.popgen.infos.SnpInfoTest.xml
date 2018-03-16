@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.xin.popgen.infos.SnpInfoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-03-16T08:27:42" hostname="hash-P15FV2" time="0.001">
+  <properties/>
+  <testcase name="testGetSnp" classname="com.xin.popgen.infos.SnpInfoTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

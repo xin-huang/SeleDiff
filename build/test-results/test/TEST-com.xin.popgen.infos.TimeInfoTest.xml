@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.xin.popgen.infos.TimeInfoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-03-16T08:27:42" hostname="hash-P15FV2" time="0.0">
+  <properties/>
+  <testcase name="testGetTime" classname="com.xin.popgen.infos.TimeInfoTest" time="0.0"/>
+  <system-out><![CDATA[1000 individuals with 10 populations are read from src/test/resources/test.ind
+45 population pairs with divergence times are read from src/test/resources/test.time
+1000 individuals with 10 populations are read from src/test/resources/test.ind.gz
+45 population pairs with divergence times are read from src/test/resources/test.time.gz
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

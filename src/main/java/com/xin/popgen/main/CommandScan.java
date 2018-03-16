@@ -32,7 +32,7 @@ final class CommandScan extends CommandVar {
                     + "This file is needed when estimating selection differences.", validateWith = FileValidator.class)
     String timeFileName;
 
-    @Parameter(names = "--popvar", required = true,
+    @Parameter(names = "--omega", required = true,
             description = "The file stores variances of drift between populations, " +
                     "which is space delimited without header " +
                     "the first column is the first population ID " +
