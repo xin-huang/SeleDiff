@@ -30,6 +30,48 @@ There are two sub-commands in `SeleDiff`. The first sub-command `var` is used fo
 
 ## Input Files
 
+### EIGENSTRAT
+
+`SeleDiff` accepts [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format of genetic data as inputs.
+
+### Var File
+
+The Var file is the output file from the first sub-command `var`, which stores variances of pairwise population demography parameters. When using sub-command `scan` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *TAB* delimited file without header that specifies variances of population demography parameters between two populations.
+
+        YRI     CEU     1.547660
+        YRI     CHS     1.639591
+        CEU     CHS     0.989241
+
+The first two columns are the population IDs, and the third column is the variance of population demography parameter of the two populations.
+
+### Divergence Time File
+
+When using sub-command `scan` to estimate selection differences, `SeleDiff` uses `--time` option to accept a *TAB* delimited file without header that specifies divergence time between two populations.
+    
+        YRI    CEU    5000
+        YRI    CHS    5000
+        CEU    CHS    3000
+            
+The first two columns are the population IDs, and the third column is the divergence time of the two populations.
+
+## Output File
+
+The output file from `SeleDiff` is *TAB* delimited. The first row is a header that describes the meaning of each column.
+
+| Column | Column Name | Description |
+| ------ | --------------------- | ----------------------------------- |
+| 1 | SNP ID | The name of a SNP |
+| 2 | Ref | The reference allele |
+| 3 | Alt | The alternative allele |
+| 4 | Population1 | The first population ID |
+| 5 | Population2 | The second population ID |
+| 6 | Selection difference | The selection difference between the first and second populations |
+| 7 | Std | The standard deviation of the selection difference |
+| 8 | Lower bound of 95% CI | Lower bound of 95% confidence interval of the selection coefficient difference |
+| 9 | Upper bound of 95% CI | Upper bound of 95% confidence interval of the selection coefficient difference |
+| 10 | Delta | The $\delta$ statistic for selection difference |
+| 11 | $p$-value | The $p$-value of the $\delta$ statistic |
+
 ## An Example
 
 Here is an example to show how `SeleDiff` estimates and tests selection differences between populations. 4 populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed by [PLINK 1.7](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml)(`--geno 0.01 --maf 0.05`). SNPs in strong linkage disequilibrium were removed, applying a window of 50 SNPs advanced by 5 SNPs and *r*<sup>2</sup> threshold of 0.01 (`--indep-pairwise 50 5 0.01`) in PLINK. All the genetic data are stored in EIGENSTRAT format.
@@ -89,3 +131,4 @@ From the result, we can see the selection coefficient of rs12913832 in CEU is si
 
 ## References
 1. [He et al, *Genome Research*, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
+2. [Sturm et al, *Am J Hum Genet*, 2008](https://linkinghub.elsevier.com/retrieve/pii/S0002-9297(07)00040-7)
