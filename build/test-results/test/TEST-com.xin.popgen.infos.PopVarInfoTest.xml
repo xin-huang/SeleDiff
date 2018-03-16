@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.xin.popgen.infos.PopVarInfoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-03-16T08:27:42" hostname="hash-P15FV2" time="0.0">
+<testsuite name="com.xin.popgen.infos.PopVarInfoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-03-16T13:35:51" hostname="ubuntu-c-32-64gib-nyc1-02" time="0.0">
   <properties/>
   <testcase name="test" classname="com.xin.popgen.infos.PopVarInfoTest" time="0.0"/>
   <system-out><![CDATA[1000 individuals with 10 populations are read from src/test/resources/test.ind
