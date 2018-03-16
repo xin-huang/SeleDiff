@@ -26,13 +26,15 @@ You can get help information by typing
 
     > SeleDiff
     
-There are two sub-commands in `SeleDiff`. The first sub-command `var` is used for estimating variances of population demography parameter $\Omega$^1^, which are required for the second sub-command `scan`.
+There are two sub-commands in `SeleDiff`. The first sub-command `var` is used for estimating variances of population demography parameter \Omega<sup>1</sup>, which are required for the second sub-command `scan`.
+
+## Input Files
 
 ## An Example
 
-Here is an example to show how `SeleDiff` estimates and tests selection differences between populations. 4 populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed by [PLINK 1.7](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml)(`--geno 0.01 --maf 0.05`). SNPs in strong linkage disequilibrium were removed, applying a window of 50 SNPs advanced by 5 SNPs and $r$^2^ threshold of 0.01 (`--indep-pairwise 50 5 0.01`) in PLINK. All the genetic data are stored in EIGENSTRAT format.
+Here is an example to show how `SeleDiff` estimates and tests selection differences between populations. 4 populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. Correlated individuals and SNPs which major allele frequencies are less than 0.05 were removed by [PLINK 1.7](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml)(`--geno 0.01 --maf 0.05`). SNPs in strong linkage disequilibrium were removed, applying a window of 50 SNPs advanced by 5 SNPs and *r*<sup>2</sup> threshold of 0.01 (`--indep-pairwise 50 5 0.01`) in PLINK. All the genetic data are stored in EIGENSTRAT format.
 
-The SNP rs12913832 in gene *HERC2* is associated with blue/non-blue eyes^2^. The SNP rs1800407 in gene *OCA2* is also associated with blue/non-blue eyes^2^.
+The SNP rs12913832 in gene *HERC2* is associated with blue/non-blue eyes<sup>2</sup>. The SNP rs1800407 in gene *OCA2* is also associated with blue/non-blue eyes<sup>2</sup>.
 
 The counts of alleles in our example data were summarized in below.
 
