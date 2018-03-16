@@ -21,12 +21,24 @@ import java.util.HashMap;
 
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
+/**
+ * Class {@code ChiSquareTable} computes p-values corresponding
+ * to a chi-squared statistic in order to speed up SeleDiff.
+ *
+ * @author Xin Huang {@code <huangxin@picb.ac.cn>}
+ */
 class ChiSquareTable {
-	
+
+	// a HashMap stores chi-squared statistics and corresponding p-values
+	// key: a chi-squared statistic
+	// value: a p-value
 	private final HashMap<String, String> pvalues;
-	private final ChiSquaredDistribution chisq = new ChiSquaredDistribution(1);
-	
+
+	/**
+	 * Constructor of {@code ChiSquareTable}.
+	 */
 	ChiSquareTable() {
+		ChiSquaredDistribution chisq = new ChiSquaredDistribution(1);
 		this.pvalues = new HashMap<>();
 		double i = 0;
 		while (i < 30) {
@@ -35,7 +47,13 @@ class ChiSquareTable {
 			i += 0.001;
 		}
 	}
-	
+
+	/**
+	 * Returns a p-value corresponding to a chi-squared statistic.
+	 *
+	 * @param num a chi-squared statistic
+	 * @return the p-value corresponding to the chi-squared statistic
+	 */
 	String getPvalue(String num) {
 		if (Double.parseDouble(num) >= 30) return "0.000000";
 		else 

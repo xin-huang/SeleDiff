@@ -31,7 +31,7 @@ public final class TimeInfo implements Info {
     private final Integer[] times;
 
     // a SampleInfo instance stores the information of samples
-    private final IndInfo sampleInfo;
+    private final IndInfo indInfo;
 
     /**
      * Constructor of class {@code TimeInfo}.
@@ -41,12 +41,12 @@ public final class TimeInfo implements Info {
      * the third column is the divergence time of the population pair
      *
      * @param timeFileName the file name of a divergence time file
-     * @param sampleInfo a SampleInfo instance
+     * @param indInfo an IndInfo instance
      */
-    public TimeInfo(String timeFileName, IndInfo sampleInfo) {
-        int popPairNum = (sampleInfo.getPopNum()*(sampleInfo.getPopNum()-1))/2;
+    public TimeInfo(String timeFileName, IndInfo indInfo) {
+        int popPairNum = (indInfo.getPopNum()*(indInfo.getPopNum()-1))/2;
         times = new Integer[popPairNum];
-        this.sampleInfo = sampleInfo;
+        this.indInfo = indInfo;
         readFile(getBufferedReader(timeFileName));
         checkPopPairs();
 
@@ -62,7 +62,7 @@ public final class TimeInfo implements Info {
      * @return the divergence time of the population pair {popi,popj}
      */
     public int getTime(String popi, String popj) {
-        return times[sampleInfo.getPopPairIndex(popi,popj)];
+        return times[indInfo.getPopPairIndex(popi,popj)];
     }
 
     /**
@@ -75,23 +75,6 @@ public final class TimeInfo implements Info {
     	return times[k];
     }
 
-    @Override
-    public void parseLine(String line) {
-        String[] elements = line.trim().split("\\s+");
-        // elements[0]: the first population
-        // elements[1]: the second population
-        // elements[2]: divergence time between the first and second population
-        if (sampleInfo.containsPopId(elements[0]) && sampleInfo.containsPopId(elements[1])) {
-            times[sampleInfo.getPopPairIndex(elements[0],elements[1])] = Integer.parseInt(elements[2]);
-        }
-        else {
-            if (!sampleInfo.containsPopId(elements[0]))
-                throw new IllegalArgumentException("Cannot find population: " + elements[0]);
-            if (!sampleInfo.containsPopId(elements[1]))
-                throw new IllegalArgumentException("Cannot find population: " + elements[1]);
-        }
-    }
-
     /**
      * Helper function for checking whether divergence times of
      * all the population pairs exist.
@@ -99,10 +82,27 @@ public final class TimeInfo implements Info {
     private void checkPopPairs() {
         for (int k = 0; k < times.length; k++) {
             if (times[k] == null) {
-                String[] popPair = sampleInfo.getPopPair(k);
+                String[] popPair = indInfo.getPopPair(k);
                 throw new IllegalArgumentException("Cannot find the divergence time of the population pair {"
                         + popPair[0] + "," + popPair[1] + "}");
             }
+        }
+    }
+
+    @Override
+    public void parseLine(String line) {
+        String[] elements = line.trim().split("\\s+");
+        // elements[0]: the first population
+        // elements[1]: the second population
+        // elements[2]: divergence time between the first and second population
+        if (indInfo.containsPopId(elements[0]) && indInfo.containsPopId(elements[1])) {
+            times[indInfo.getPopPairIndex(elements[0],elements[1])] = Integer.parseInt(elements[2]);
+        }
+        else {
+            if (!indInfo.containsPopId(elements[0]))
+                throw new IllegalArgumentException("Cannot find population: " + elements[0]);
+            if (!indInfo.containsPopId(elements[1]))
+                throw new IllegalArgumentException("Cannot find population: " + elements[1]);
         }
     }
 

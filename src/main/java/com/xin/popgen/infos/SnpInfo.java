@@ -20,10 +20,9 @@ package com.xin.popgen.infos;
 import java.util.regex.Pattern;
 
 /**
- * 
+ * Class {@code SnpInfo}
  * 
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
- *
  */
 public class SnpInfo implements Info {
 	
@@ -39,13 +38,21 @@ public class SnpInfo implements Info {
     /**
      * Constructor of {@code SnpInfo}.
      * 
-     * @param snpFileName the name of the .snp file
+     * @param snpFileName the name of a EIGENSTRAT SNP file
      * @param snpNum the number of SNPs
      */
     public SnpInfo(String snpFileName, int snpNum) {
     	snps = new String[snpNum];
     	readFile(getBufferedReader(snpFileName));
     }
+
+	/**
+	 * Returns the information of the i-th SNP.
+	 * 
+	 * @param i the i-th SNP
+	 * @return the information of the i-th SNP
+	 */
+	public String getSnp(int i) { return snps[i]; }
 
 	@Override
 	public void parseLine(String line) {
@@ -57,13 +64,5 @@ public class SnpInfo implements Info {
 				.toString();
 		snpIndex++;
 	}
-	
-	/**
-	 * Returns the information of the i-th SNP.
-	 * 
-	 * @param i the i-th SNP
-	 * @return the information of the i-th SNP
-	 */
-	public String getSnp(int i) { return snps[i]; }
 	
 }

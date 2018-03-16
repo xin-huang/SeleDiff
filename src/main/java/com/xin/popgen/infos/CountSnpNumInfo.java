@@ -17,13 +17,33 @@
  */
 package com.xin.popgen.infos;
 
-public class CountSnpNumInfo implements Info {
+/**
+ * Class {@code CountSnpNumInfo} stores the number of SNPs
+ * in the sample.
+ *
+ * @author Xin Huang {@code <huangxin@picb.ac.cn>}
+ */
+public final class CountSnpNumInfo implements Info {
 	
+	// an integer stores the number of SNPs in the sample
 	private int snpNum = 0;
-	
+
+	/**
+	 * Constructor of {@code CountSnpNumInfo}.
+	 *
+	 * @param snpFileName the name of an EIGENSTRAT SNP file
+	 */
 	public CountSnpNumInfo(String snpFileName) {
 		readFile(getBufferedReader(snpFileName));
 		System.out.println(snpNum + " variants are read from " + snpFileName);
+	}
+
+	/**
+	 * Returns how many SNPs in the sample.
+	 * @return the number of SNPs in the sample
+	 */
+	public int getSnpNum() {
+		return snpNum;
 	}
 
 	@Override
@@ -31,8 +51,4 @@ public class CountSnpNumInfo implements Info {
 		snpNum++;
 	}
 	
-	public int getSnpNum() {
-		return snpNum;
-	}
-
 }

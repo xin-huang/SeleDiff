@@ -62,10 +62,10 @@ public class SeleDiffEstimator extends Estimator {
     /**
      * Constructor of class {@code SeleDiffEstimator}.
      *
-     * @param ancAlleleFileName the name of the file containing ancestral allele information
-     * @param popVarInfo a PopVarInfo instance containing variances of drift between populations
-     * @param sampleInfo a SampleInfo instance containing sample information
-     * @param timeInfo a TimeInfo instance containing divergence times between populations
+     * @param indFileName the name of an EIGENSTRAT IND file
+     * @param snpFileName the name of an EIGENSTRAT SNP file
+     * @param popVarFileName the name of a file stores population variances
+     * @param timeFileName the name of a file stores divergence time between populations
      */
     public SeleDiffEstimator(String indFileName, String snpFileName, 
     		String popVarFileName, String timeFileName) {

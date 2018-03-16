@@ -34,27 +34,27 @@ import com.xin.popgen.infos.IndInfo;
  */
 public abstract class Estimator {
 	
-	protected static final int POW10[] = {1, 10, 100, 1000, 10000, 100000, 1000000};
+	private static final int POW10[] = {1, 10, 100, 1000, 10000, 100000, 1000000};
 	
     // a SampleInfo instance stores the sample information
-    protected final IndInfo sampleInfo;
+    final IndInfo sampleInfo;
 
     // an integer stores how many populations in the sample
-    protected final int popNum;
+    final int popNum;
     
     // an integer stores how many individuals in the sample
-    protected final int indNum;
+    final int indNum;
     
-    // an integet stores how many SNPs in the sample
-    protected final int snpNum;
+    // an integer stores how many SNPs in the sample
+    final int snpNum;
     
     // an integer stores how many population pairs in the sample
-    protected final int popPairNum;
+    final int popPairNum;
     
     // a String array stores population Ids of each pair
-    protected final String[][] popPairIds;
+    final String[][] popPairIds;
     
-    protected int snpIndex = 0;
+    int snpIndex = 0;
     
     /**
      * Constructor of {@code Estimator}.
@@ -62,7 +62,7 @@ public abstract class Estimator {
      * @param sampleInfo a SampleInfo instance containing sample information
      * @param timeInfo a TimeInfo instance containing divergence times between populations
      */
-    public Estimator(String indFileName, String snpFileName) {
+    Estimator(String indFileName, String snpFileName) {
     	this.sampleInfo = new IndInfo(indFileName);
     	this.popNum = sampleInfo.getPopNum();
     	this.indNum = sampleInfo.getIndNum();
@@ -147,7 +147,7 @@ public abstract class Estimator {
 		}
     }
     
-    protected String format(double[] vals, int precision) {
+    String format(double[] vals, int precision) {
     	StringBuilder sb = new StringBuilder();
     	for (double val:vals) {
 	    	if (val < 0) {
@@ -165,7 +165,7 @@ public abstract class Estimator {
     	return sb.toString();
     }
     
-    protected String format(double val, int precision) {
+    String format(double val, int precision) {
     	StringBuilder sb = new StringBuilder();
     	if (val < 0) {
     		sb.append('-');
@@ -186,7 +186,7 @@ public abstract class Estimator {
      * @param line a String allele counts of each individual
      * @return a 2-D integer array containing counts of each allele
      */
-    protected int[][] countAlleles(char[] cbuf) {
+    int[][] countAlleles(char[] cbuf) {
     	int[][] alleleCounts = new int[popNum][2];
     	if (indNum != cbuf.length)
     		throw new IllegalArgumentException();

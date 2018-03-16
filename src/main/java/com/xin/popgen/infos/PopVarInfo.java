@@ -28,17 +28,17 @@ public final class PopVarInfo implements Info {
     private final Double[] popVars;
 
     // a SampleInfo instance stores sample information
-    private final IndInfo sampleInfo;
+    private final IndInfo indInfo;
 
     /**
      * Constructor of class {@code PopVarInfo}.
      *
      * @param popVarFileName the file name of a file containing variances of drift between populations
-     * @param sampleInfo a SampleInfo instance containing sample information
+     * @param indInfo a IndInfo instance containing sample information
      */
-    public PopVarInfo(String popVarFileName, IndInfo sampleInfo) {
-        int popPairNum = sampleInfo.getPopNum() * (sampleInfo.getPopNum() - 1)/2;
-        this.sampleInfo = sampleInfo;
+    public PopVarInfo(String popVarFileName, IndInfo indInfo) {
+        int popPairNum = indInfo.getPopNum() * (indInfo.getPopNum() - 1)/2;
+        this.indInfo = indInfo;
         popVars = new Double[popPairNum];
         readFile(getBufferedReader(popVarFileName));
         checkPopPairs();
@@ -55,7 +55,7 @@ public final class PopVarInfo implements Info {
      * @return the variance of drift between the population pair {popi,popj}
      */
     public double getPopVar(String popi, String popj) {
-        return popVars[sampleInfo.getPopPairIndex(popi,popj)];
+        return popVars[indInfo.getPopPairIndex(popi,popj)];
     }
 
     /**
@@ -68,21 +68,6 @@ public final class PopVarInfo implements Info {
         return popVars[i];
     }
 
-    @Override
-    public void parseLine(String line) {
-        String[] elements = line.trim().split("\\s+");
-        if (sampleInfo.containsPopId(elements[0]) && sampleInfo.containsPopId(elements[1])) {
-            int popPairIndex = sampleInfo.getPopPairIndex(elements[0], elements[1]);
-            popVars[popPairIndex] = Double.parseDouble(elements[2]);
-        }
-        else {
-            if (!sampleInfo.containsPopId(elements[0]))
-                throw new IllegalArgumentException("Cannot find population: " + elements[0]);
-            if (!sampleInfo.containsPopId(elements[1]))
-                throw new IllegalArgumentException("Cannot find population: " + elements[1]);
-        }
-    }
-
     /**
      * Helper function for checking whether variances of drift of
      * all the population pairs exist.
@@ -90,10 +75,25 @@ public final class PopVarInfo implements Info {
     private void checkPopPairs() {
         for (int k = 0; k < popVars.length; k++) {
             if (popVars[k] == null) {
-                String[] popPair = sampleInfo.getPopPair(k);
+                String[] popPair = indInfo.getPopPair(k);
                 throw new IllegalArgumentException("Cannot find the variance of drift of the population pair {"
                         + popPair[0] + "," + popPair[1] + "}");
             }
+        }
+    }
+
+    @Override
+    public void parseLine(String line) {
+        String[] elements = line.trim().split("\\s+");
+        if (indInfo.containsPopId(elements[0]) && indInfo.containsPopId(elements[1])) {
+            int popPairIndex = indInfo.getPopPairIndex(elements[0], elements[1]);
+            popVars[popPairIndex] = Double.parseDouble(elements[2]);
+        }
+        else {
+            if (!indInfo.containsPopId(elements[0]))
+                throw new IllegalArgumentException("Cannot find population: " + elements[0]);
+            if (!indInfo.containsPopId(elements[1]))
+                throw new IllegalArgumentException("Cannot find population: " + elements[1]);
         }
     }
 

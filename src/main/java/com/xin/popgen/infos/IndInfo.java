@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.regex.Pattern;
 
 /**
- * Class {@code SampleInfo} stores the sample information, including:
+ * Class {@code IndInfo} stores the sample information, including:
  * population IDs, individual IDs, population numbers and individual numbers.
  *
  * @author Xin Huang {@code <huangxin@picb.ac.cn>}
@@ -59,18 +59,15 @@ public final class IndInfo implements Info {
     private final Pattern pattern = Pattern.compile("\\s+");
 
     /**
-     * Constructor of {@code SampleInfo}.
-     * A sample file is space delimited without header,
-     * where the first column is individual ID,
-     * and the second column is population ID.
+     * Constructor of {@code IndInfo}.
      *
-     * @param sampleFileName the file name of a sample file
+     * @param indFileName the name of a EIGENSTRAT IND file
      */
-    public IndInfo(String sampleFileName) {
+    public IndInfo(String indFileName) {
         ind2popQueue = new ArrayList<String>();
         popIndex = new HashMap<>(); // key: pop id; value: pop index
         popSet = new HashSet<>();
-        readFile(getBufferedReader(sampleFileName));
+        readFile(getBufferedReader(indFileName));
         
         int i = 0;
         indNum = ind2popQueue.size();
@@ -87,40 +84,18 @@ public final class IndInfo implements Info {
         }
 
         System.out.println(indNum + " individuals with " + popNum
-                + " populations are read from " + sampleFileName);
+                + " populations are read from " + indFileName);
     }
 
-    /**
-     * Returns the population ID of an index.
-     *
-     * @param i a index
-     * @return the population ID
-     */
-    public String getPopId(int i) { return popIds[i]; }
 
     /**
-     * Returns the population index of a population ID.
+     * Returns the population index of an individual.
      *
-     * @param popId a population ID
-     * @return the population index
+     * @param i the index of an individual
+     * @return the population index of the given individual
      */
-    public int getPopIndex(String popId) {
-        return popIndex.get(popId);
-    }
-    
     public int getPopIndex(int i) {
     	return indId2popIndex[i];
-    }
-
-    /**
-     * Returns the index of a triangular array given two population IDs.
-     *
-     * @param popi the first population ID
-     * @param popj the second population ID
-     * @return the index of the triangular array
-     */
-    public int getPopPairIndex(String popi, String popj) {
-        return getPopPairIndex(getPopIndex(popi), getPopIndex(popj));
     }
 
     /**
@@ -174,8 +149,37 @@ public final class IndInfo implements Info {
      * @param popId a population ID
      * @return true, the population ID exists; false, the population ID does not exist
      */
-    public boolean containsPopId(String popId) {
+    boolean containsPopId(String popId) {
         return popIndex.containsKey(popId);
+    }
+
+    /**
+     * Returns the index of a triangular array given two population IDs.
+     *
+     * @param popi the first population ID
+     * @param popj the second population ID
+     * @return the index of the triangular array
+     */
+    int getPopPairIndex(String popi, String popj) {
+        return getPopPairIndex(getPopIndex(popi), getPopIndex(popj));
+    }
+
+    /**
+     * Returns the population ID of an index.
+     *
+     * @param i a population index
+     * @return the population ID
+     */
+    private String getPopId(int i) { return popIds[i]; }
+
+    /**
+     * Returns the population index of a population ID.
+     *
+     * @param popId a population ID
+     * @return the population index
+     */
+    private int getPopIndex(String popId) {
+        return popIndex.get(popId);
     }
 
     @Override

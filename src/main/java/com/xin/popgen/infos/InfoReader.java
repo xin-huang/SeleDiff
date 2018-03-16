@@ -19,19 +19,36 @@ package com.xin.popgen.infos;
 
 import java.io.BufferedReader;
 
-public class InfoReader implements Info {
-	
+/**
+ * Class {@code InfoReader} construct a BufferedReader
+ * from a given file name.
+ *
+ * @author Xin Huang {@code <huangxin@picb.ac.cn>}
+ */
+public final class InfoReader implements Info {
+
+	// a String stores a file name
 	private final String fileName;
-	
+
+	/**
+	 * Constructor of {@code InfoReader}.
+	 *
+	 * @param fileName a file name
+	 */
 	public InfoReader(String fileName) {
 		this.fileName = fileName;
 	}
 
-	@Override
-	public void parseLine(String line) {}
-	
+	/**
+	 * Returns a BufferedReader from the given file name.
+	 *
+	 * @return a BufferedReader corresponding to the given file name
+	 */
 	public BufferedReader getBufferedReader() {
 		return getBufferedReader(fileName);
 	}
+
+	@Override
+	public void parseLine(String line) {}
 
 }

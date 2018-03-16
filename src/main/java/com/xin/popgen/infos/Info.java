@@ -38,7 +38,7 @@ public interface Info {
     /**
      * Helper function for reading files.
      *
-     * @param fileName a file name
+     * @param br a BufferedReader corresponding to an input file
      */
     default void readFile(BufferedReader br) {
         try {
