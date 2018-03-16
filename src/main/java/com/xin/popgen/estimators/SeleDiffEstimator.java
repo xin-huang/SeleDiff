@@ -132,7 +132,9 @@ public class SeleDiffEstimator extends Estimator {
 	    			bw.write(snpInfo[4]);
 	    			bw.write("\t");
 	    			bw.write(snpInfo[5]);
+                    bw.write("\t");
 	    			bw.write(format(vals, 6));
+                    bw.write("\t");
 	    			bw.write(delta);
 	    			bw.write("\t");
 	    			bw.write(chisq.getPvalue(delta));
@@ -165,8 +167,8 @@ public class SeleDiffEstimator extends Estimator {
     protected void writeHeader(BufferedWriter bw) throws IOException {
         StringJoiner sj = new StringJoiner("\t");
         sj.add("SNP ID")
-                .add("Ancestral allele")
-                .add("Derived allele")
+                .add("Ref")
+                .add("Alt")
                 .add("Population 1")
                 .add("Population 2")
                 .add("Selection difference (Population 1 - Population 2)")
