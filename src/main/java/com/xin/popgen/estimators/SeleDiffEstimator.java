@@ -133,7 +133,9 @@ public class SeleDiffEstimator extends Estimator {
 	    			bw.write("\t");
 	    			bw.write(snpInfo[5]);
                     bw.write("\t");
-                    bw.write(sampleInfo.getPopPair(popPairIndex));
+                    bw.write(popPairIds[popPairIndex][0]);
+                    bw.write("\t");
+                    bw.write(popPairIds[popPairIndex][1]);
                     bw.write("\t");
 	    			bw.write(format(vals, 6));
                     bw.write("\t");
