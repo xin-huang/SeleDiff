@@ -26,7 +26,7 @@ You can get help information by typing
 
     > SeleDiff
     
-There are two sub-commands in `SeleDiff`. The first sub-command `var` is used for estimating variances of population demography parameter \Omega<sup>1</sup>, which are required for the second sub-command `scan`.
+There are two sub-commands in `SeleDiff`. The first sub-command `var` is used for estimating variances of population demography parameter Omega<sup>1</sup>, which are required for the second sub-command `scan`.
 
 ## Input Files
 
@@ -69,8 +69,8 @@ The output file from `SeleDiff` is *TAB* delimited. The first row is a header th
 | 7 | Std | The standard deviation of the selection difference |
 | 8 | Lower bound of 95% CI | Lower bound of 95% confidence interval of the selection coefficient difference |
 | 9 | Upper bound of 95% CI | Upper bound of 95% confidence interval of the selection coefficient difference |
-| 10 | Delta | The $\delta$ statistic for selection difference |
-| 11 | $p$-value | The $p$-value of the $\delta$ statistic |
+| 10 | Delta | The delta statistic for selection difference |
+| 11 | *p*-value | The *p*-value of the $\delta$ statistic |
 
 ## An Example
 
