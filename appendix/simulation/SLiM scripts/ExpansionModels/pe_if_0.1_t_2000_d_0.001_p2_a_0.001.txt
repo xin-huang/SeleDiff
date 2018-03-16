@@ -1,0 +1,38 @@
+initialize() {
+    initializeMutationRate(1e-8);
+    initializeMutationType("m1", 0.5, "f", 0.0);
+    initializeMutationType("m2", 0.5, "f", 0.003);
+    initializeMutationType("m3", 0.5, "f", 0.001);
+    m1.mutationStackPolicy = "f";
+    m2.mutationStackPolicy = "f";
+    m3.mutationStackPolicy = "f";
+    initializeGenomicElementType("g1", m1, 1.0);
+    initializeGenomicElement(g1, 0, 999999);
+    initializeRecombinationRate(1e-8);
+}
+
+1 {
+    sim.addSubpop("p1", 10000);
+    sim.addSubpop("p2", 10000);
+}
+
+1 late() {
+    // Add beneficial mutation for estimating selection difference
+    targets = sample(p1.genomes, 2000);
+    targets.addNewDrawnMutation(m2, 499999);
+    targets = sample(p2.genomes, 2000);
+    targets.addNewDrawnMutation(m3, 499999);
+}
+
+1000:2000 {
+    t = sim.generation - 1000;
+    p2_size = round(10000 * exp(0.001 * t));
+    p2.setSubpopulationSize(asInteger(p2_size));
+}
+
+2000 late() {
+    mut1 = sim.mutationsOfType(m2);
+    mut2 = sim.mutationsOfType(m3);
+    cat("Result:\t" + sim.mutationFrequencies(p1, mut1) + "\t" + sim.mutationFrequencies(p2, mut2) + "\n");
+    sim.simulationFinished();
+}
