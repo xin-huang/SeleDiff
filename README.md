@@ -132,5 +132,5 @@ From the result, we can see the selection coefficient of rs12913832 in CEU is si
 - [t-digest 3.1](https://github.com/tdunning/t-digest)
 
 ## References
-1. [He et al, *Genome Research*, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
+1. [He et al, *Genome Res*, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
 2. [Sturm et al, *Am J Hum Genet*, 2008](https://linkinghub.elsevier.com/retrieve/pii/S0002-9297(07)00040-7)
