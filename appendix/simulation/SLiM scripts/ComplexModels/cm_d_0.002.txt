@@ -1,0 +1,58 @@
+initialize() {
+    initializeMutationRate(2.36e-8);
+    initializeMutationType("m1", 0.5, "f", 0.0);
+    initializeMutationType("m2", 0.5, "f", 0.0);
+    initializeMutationType("m3", 0.5, "f", 0.004);
+    m1.mutationStackPolicy = "f";
+    m2.mutationStackPolicy = "f";
+    m3.mutationStackPolicy = "f";
+    initializeGenomicElementType("g1", m1, 1.0);
+    initializeGenomicElement(g1, 0, 999999);
+    initializeRecombinationRate(1e-8);
+}
+
+1 {
+    sim.addSubpop("p1", 14474);
+    sim.addSubpop("p2", 1861);
+}
+
+1 late() {
+    targets = sample(p1.genomes, 2895);
+    targets.addNewDrawnMutation(m2, 499999);
+    targets = sample(p2.genomes, 372);
+    targets.addNewDrawnMutation(m3, 499999);
+    p1.setMigrationRates(p2, 15e-5);
+    p2.setMigrationRates(p1, 15e-5);
+}
+
+1120 {
+    sim.addSubpopSplit("p3", 554, p2);
+    p2.setSubpopulationSize(1032);
+    
+    p1.setMigrationRates(c(p2, p3), c(2.5e-5, 0.78e-5));
+    p2.setMigrationRates(c(p1, p3), c(2.5e-5, 3.11e-5));
+    p3.setMigrationRates(c(p1, p2), c(0.78e-5, 3.11e-5));
+}
+
+1120:2040 {
+    t = sim.generation - 1120;
+    p2_size = round(1032 * exp(0.0038 * t));
+    p3_size = round(554 * exp(0.0048 * t));
+    
+    p2.setSubpopulationSize(asInteger(p2_size));
+    p3.setSubpopulationSize(asInteger(p3_size));
+}
+
+2:2040 fitness(m3, p1) { return 1; }
+2:2040 fitness(m2, p2) { return 1.004; }
+1120:2040 fitness(m2, p3) { return 1.004; }
+
+2040 late() {
+    mut1 = sim.mutationsOfType(m2);
+    mut2 = sim.mutationsOfType(m3);
+    cat("Result:\t" + sim.mutationFrequencies(p1, mut1) + "\t" + sim.mutationFrequencies(p1, mut2)
+        + "\t" + sim.mutationFrequencies(p2, mut1) + "\t" + sim.mutationFrequencies(p2, mut2)
+        + "\t" + sim.mutationFrequencies(p3, mut1) + "\t" + sim.mutationFrequencies(p3, mut2)
+        + "\n");
+    sim.simulationFinished();
+}
