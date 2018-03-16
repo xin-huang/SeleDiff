@@ -70,7 +70,7 @@ The output file from `SeleDiff` is *TAB* delimited. The first row is a header th
 | 8 | Lower bound of 95% CI | Lower bound of 95% confidence interval of the selection coefficient difference |
 | 9 | Upper bound of 95% CI | Upper bound of 95% confidence interval of the selection coefficient difference |
 | 10 | Delta | The delta statistic for selection difference |
-| 11 | *p*-value | The *p*-value of the $\delta$ statistic |
+| 11 | *p*-value | The *p*-value of the delta statistic |
 
 ## An Example
 
