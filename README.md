@@ -83,7 +83,7 @@ The SNP rs12913832 in gene *HERC2* is associated with blue/non-blue eyes<sup>2</
 
 The counts of alleles in our example data were summarized in below.
 
-| SNP ID | Population | Ancestral Allele Count | Derived Allele Count |
+| SNP ID | Population | Reference Allele Count | Alternative Allele Count |
 | ------ | --- | --- | --- |
 | rs1800407  | YRI | 290 | 0   |
 | rs1800407  | CEU | 207 | 17  |
