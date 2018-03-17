@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.xin.popgen.estimators.ChiSquareTableTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-03-17T00:55:30" hostname="hash-P15FV2" time="0.0">
-  <properties/>
-  <testcase name="testGetPvalue" classname="com.xin.popgen.estimators.ChiSquareTableTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

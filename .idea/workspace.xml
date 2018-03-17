@@ -1,58 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="82ee4839-f8f8-45ff-9364-6f6f724181d8" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/CommandScan.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/CommandVar$FileValidator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/CommandVar$ThreadValidator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/CommandVar.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/fileContent/fileContent.lock" afterPath="$PROJECT_DIR$/.gradle/3.5/fileContent/fileContent.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/jvmClassSignatures.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/jvmClassSignatures.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/ChiSquareTable.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/ChiSquareTable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Estimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Estimator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Model.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Model.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/PopVarMedianEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/PopVarMedianEstimator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/SeleDiffEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/SeleDiffEstimator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/CountSnpNumInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/CountSnpNumInfo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/IndInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/IndInfo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/Info.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/Info.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/InfoReader.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/InfoReader.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/PopVarInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/PopVarInfo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/SnpInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/SnpInfo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/TimeInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/TimeInfo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/SeleDiff.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/SeleDiff.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.tar" afterPath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.tar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.zip" afterPath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.zip" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/install/SeleDiff/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/install/SeleDiff/SeleDiff-1.0.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/install/SeleDiff/lib/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/install/SeleDiff/lib/SeleDiff-1.0.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/libs/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/libs/SeleDiff-1.0.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/binary/output.bin" afterPath="$PROJECT_DIR$/build/test-results/test/binary/output.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/binary/output.bin.idx" afterPath="$PROJECT_DIR$/build/test-results/test/binary/output.bin.idx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" afterPath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.ArrayPopVarMedianEstimatorTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.ArrayPopVarMedianEstimatorTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.ChiSquareTableTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.ChiSquareTableTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.TDigestPopVarMedianEstimatorTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.TDigestPopVarMedianEstimatorTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.CountSnpNumInfoTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.CountSnpNumInfoTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.PopVarInfoTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.PopVarInfoTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.SnpInfoTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.SnpInfoTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.TimeInfoTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.TimeInfoTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/index.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/packages/com.xin.popgen.estimators.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/packages/com.xin.popgen.estimators.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/packages/com.xin.popgen.infos.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/packages/com.xin.popgen.infos.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.ArrayPopVarMedianEstimatorTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.ArrayPopVarMedianEstimatorTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.ChiSquareTableTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.ChiSquareTableTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.TDigestPopVarMedianEstimatorTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.TDigestPopVarMedianEstimatorTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.CountSnpNumInfoTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.CountSnpNumInfoTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.PopVarInfoTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.PopVarInfoTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.SnpInfoTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.SnpInfoTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.TimeInfoTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.TimeInfoTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java" />
-    </list>
+    <list default="true" id="82ee4839-f8f8-45ff-9364-6f6f724181d8" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
