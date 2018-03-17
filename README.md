@@ -49,7 +49,7 @@ The first two columns are the population IDs, and the third column is the varian
 
 ### Divergence Time File
 
-When using sub-command `scan` to estimate selection differences, `SeleDiff` uses `--time` option to accept a *SPACE* delimited file without header that specifies divergence time between two populations.
+When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--time` option to accept a *SPACE* delimited file without header that specifies divergence time between two populations.
     
         YRI CEU 5000
         YRI CHS 5000
