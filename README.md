@@ -1,12 +1,13 @@
 # SeleDiff
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 ## Introduction
 - `SeleDiff` is implemented with a probabilistic method for testing and estimating selection coefficient differences between populations<sup>1</sup>.
 - If you have any problem, please feel free to contact xin.huang07@gmail.com.
 - If you use `SeleDiff`, please cite 
 
-        Huang X, Jin L, He Y. 2018. SeleDiff: A fast and scalable tool for estimating and testing selection differences between populations. *In submission*.
+        Huang X, Jin L, He Y. 2018. SeleDiff: A fast and scalable tool for estimating and testing 
+        selection differences between populations. *In submission*.
 - For more details, please see the manual.
 
 ## Installation
@@ -38,21 +39,21 @@ There are two sub-commands in `SeleDiff`. The first sub-command `var` is used fo
 
 ### Var File
 
-The Var file is the output file from the first sub-command `var`, which stores variances of pairwise population demography parameters. When using sub-command `scan` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *TAB* delimited file without header that specifies variances of population demography parameters between two populations.
+The Var file is the output file from the first sub-command `var`, which stores variances of pairwise population demography parameters. When using sub-command `scan` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of population demography parameters between two populations.
 
-        YRI     CEU     1.547660
-        YRI     CHS     1.639591
-        CEU     CHS     0.989241
+        YRI CEU 1.547660
+        YRI CHS 1.639591
+        CEU CHS 0.989241
 
 The first two columns are the population IDs, and the third column is the variance of population demography parameter of the two populations.
 
 ### Divergence Time File
 
-When using sub-command `scan` to estimate selection differences, `SeleDiff` uses `--time` option to accept a *TAB* delimited file without header that specifies divergence time between two populations.
+When using sub-command `scan` to estimate selection differences, `SeleDiff` uses `--time` option to accept a *SPACE* delimited file without header that specifies divergence time between two populations.
     
-        YRI    CEU    5000
-        YRI    CHS    5000
-        CEU    CHS    3000
+        YRI CEU 5000
+        YRI CHS 5000
+        CEU CHS 3000
             
 The first two columns are the population IDs, and the third column is the divergence time of the two populations.
 

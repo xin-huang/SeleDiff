@@ -1,19 +1,25 @@
 /*
-  Copyright (C) 2018 Xin Huang
+	Copyright (c) 2018 Xin Huang
 
-  This file is part of SeleDiff.
+	This file is part of SeleDiff.
 
-  SeleDiff is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
 
-  SeleDiff is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-  You should have received a copy of the GNU General Public License
-  along with this program. If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
  */
 package com.xin.popgen.estimators;
 
@@ -30,7 +36,7 @@ import com.xin.popgen.infos.IndInfo;
  * Class {@code Estimator} defines an abstract class
  * for different kinds of estimations in SeleDiff.
  *
- * @author Xin Huang {@code <huangxin@picb.ac.cn>}
+ * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
 public abstract class Estimator {
 	
@@ -59,8 +65,8 @@ public abstract class Estimator {
     /**
      * Constructor of {@code Estimator}.
      * 
-     * @param sampleInfo a SampleInfo instance containing sample information
-     * @param timeInfo a TimeInfo instance containing divergence times between populations
+     * @param indFileName an EIGENSTRAT .ind file name
+     * @param snpFileName an EIGENSTRAT .snp file name
      */
     Estimator(String indFileName, String snpFileName) {
     	this.sampleInfo = new IndInfo(indFileName);
@@ -124,7 +130,7 @@ public abstract class Estimator {
     protected abstract void writeHeader(BufferedWriter bw) throws IOException;
     
     /**
-     * Helper function for reading files
+     * Helper function for reading files.
      * 
      * @param br a BufferedReader instance to the input file
      */
@@ -181,9 +187,9 @@ public abstract class Estimator {
     }
     
     /**
-     * Helper function for counting alleles 
+     * Helper function for counting alleles.
      * 
-     * @param line a String allele counts of each individual
+     * @param cbuf a char array containing alleles
      * @return a 2-D integer array containing counts of each allele
      */
     int[][] countAlleles(char[] cbuf) {

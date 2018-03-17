@@ -1,19 +1,25 @@
 /*
-  Copyright (C) 2017 Xin Huang
+	Copyright (c) 2018 Xin Huang
 
-  This file is part of SeleDiff.
+	This file is part of SeleDiff.
 
-  SeleDiff is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
 
-  SeleDiff is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-  You should have received a copy of the GNU General Public License
-  along with this program. If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
  */
 package com.xin.popgen.estimators;
 
@@ -26,14 +32,13 @@ import java.util.regex.Pattern;
 
 import com.xin.popgen.infos.InfoReader;
 import com.xin.popgen.infos.PopVarInfo;
-import com.xin.popgen.infos.SnpInfo;
 import com.xin.popgen.infos.TimeInfo;
 
 /**
  * Class {@code SeleDiffEstimator} extends {@code Estimator} to
  * estimate selection differences between populations.
  *
- * @author Xin Huang {@code <huangxin@picb.ac.cn>}
+ * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
 public class SeleDiffEstimator extends Estimator {
 	
@@ -44,14 +49,6 @@ public class SeleDiffEstimator extends Estimator {
     private final TimeInfo timeInfo;
     
     private final Pattern pattern = Pattern.compile("\\s+");
-    // a SnpInfo instance stores information of SNPs
-    //private final SnpInfo snpInfo;
-
-    // a double array stores log-Odds ratios between populations
-   // private final double[][] logOdds;
-    
-    // a double array stores variances of log-Odds ratios between populations
-    //private final double[][] varLogOdds;
     
     // a ChiSquareTable stores p-value of chi-square statistics
     private final ChiSquareTable chisq = new ChiSquareTable();
@@ -73,34 +70,15 @@ public class SeleDiffEstimator extends Estimator {
         this.popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
         this.timeInfo = new TimeInfo(timeFileName, sampleInfo);
 		this.snpReader = new InfoReader(snpFileName).getBufferedReader();
-        //this.snpInfo = new SnpInfo(snpFileName, snpNum);
-        
-        //logOdds = new double[popPairNum][snpNum];
-        //varLogOdds = new double[popPairNum][snpNum];
     }
     
 	@Override
 	public void analyze(List<String> genoFileNames) {
-		/*long start = System.currentTimeMillis();
-		readFile(new InfoReader(genoFileNames.get(0)).getBufferedReader());
-		long end = System.currentTimeMillis();
-		System.out.println("Used Time for Reading: " + ((end-start)/1000) + " seconds");*/
 		this.genoReader = new InfoReader(genoFileNames.get(0)).getBufferedReader();
 	}
 	
 	@Override
 	protected void parseLine(char[] cbuf) {
-		/*int[][] alleleCounts = countAlleles(cbuf);
-    	for (int m = 0; m < alleleCounts.length; m++) {
-			for (int n = m + 1; n < alleleCounts.length; n++) {
-				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
-				logOdds[popPairIndex][snpIndex] = Model.calLogOdds(alleleCounts[m][0], 
-						alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
-				varLogOdds[popPairIndex][snpIndex] = Model.calVarLogOdds(alleleCounts[m][0], 
-						alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
-			}
-		}
-    	snpIndex++;*/
 	}
 
     @Override
@@ -123,10 +101,8 @@ public class SeleDiffEstimator extends Estimator {
 	    			double std = Math.sqrt(varLogOdds + popVar)
 	    					/ time;
 	    			String delta = format((logOdds * logOdds / (varLogOdds + popVar)), 3);
-	    			//String pvalue = chisq.getPvalue(delta);
 	    			double[] vals = new double[]{diff, std, diff-1.96*std, diff+1.96*std};
-	    			
-	    			//bw.write(snpInfo.getSnp(i));
+
 	    			bw.write(snpInfo[0]);
 	    			bw.write("\t");
 	    			bw.write(snpInfo[4]);
@@ -146,24 +122,6 @@ public class SeleDiffEstimator extends Estimator {
 				}
 			}
 			genoReader.read();
-    		/*for (int j = 0; j < popPairNum; j++) {
-    			double popVar = popVarInfo.getPopVar(j);
-    			double time = timeInfo.getTime(j);
-    			double logOdd = logOdds[j][i];
-    			double varLogOdd = varLogOdds[j][i];
-    			double diff = logOdd / time;
-    			double std = Math.sqrt(varLogOdd + popVar)
-    					/ time;
-    			String delta = format((logOdd * logOdd / (varLogOdd + popVar)),3);
-    			String pvalue = chisq.getPvalue(delta);
-    			double[] vals = new double[]{diff, std, diff-1.96*std, diff+1.96*std};
-    			
-    			bw.write(snpInfo.getSnp(i));
-    			bw.write(format(vals, 6));
-    			bw.write(delta);
-    			bw.write("\t");
-    			bw.write(pvalue);
-    		}*/
     	}
     }
 
