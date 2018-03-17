@@ -29,7 +29,7 @@ You can get help information by typing
 
     > SeleDiff
     
-There are two sub-commands in `SeleDiff`. The first sub-command `var` is used for estimating variances of population demography parameter Omega<sup>1</sup>, which are required for the second sub-command `scan`.
+There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is used for estimating variances of population demography parameter Omega<sup>1</sup>, which are required for the second sub-command `compute-scan`.
 
 ## Input Files
 
@@ -39,7 +39,7 @@ There are two sub-commands in `SeleDiff`. The first sub-command `var` is used fo
 
 ### Var File
 
-The Var file is the output file from the first sub-command `var`, which stores variances of pairwise population demography parameters. When using sub-command `scan` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of population demography parameters between two populations.
+The Var file is the output file from the first sub-command `compute-var`, which stores variances of pairwise population demography parameters. When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of population demography parameters between two populations.
 
         YRI CEU 1.547660
         YRI CHS 1.639591
@@ -94,24 +94,24 @@ The counts of alleles in our example data were summarized in below.
 
 We assume the divergence time of YRI-CEU and YRI-CHS are both 5000 generations, while the divergence time of CEU-CHS is 3000 generations. This information is stored in `examples/example.time`.
 
-First, we estimate variances of population demography parameters using sub-command `var`.
+First, we estimate variances of population demography parameters using sub-command `compute-var`.
 
 
-    > SeleDiff var --geno ./examples/example.geno \
-                   --ind ./examples/example.ind \
-                   --snp ./examples/example.snp \
-                   --output ./examples/example.var
+    > SeleDiff compute-var --geno ./examples/example.geno \
+                           --ind ./examples/example.ind \
+                           --snp ./examples/example.snp \
+                           --output ./examples/example.var
 
 
-To estimate selection coefficient differences, we use the sub-command `scan`.
+To estimate selection differences of candidates, we use the sub-command `compute-diff`.
 
 
-    > SeleDiff scan --geno ./examples/example.candidates.geno \
-                    --ind ./examples/example.candidates.ind \
-                    --snp ./examples/example.candidates.snp \
-                    --var ./examples/example.var \
-                    --time ./examples/example.time \
-                    --output ./examples/example.candidates.results
+    > SeleDiff compute-diff --geno ./examples/example.candidates.geno \
+                            --ind ./examples/example.candidates.ind \
+                            --snp ./examples/example.candidates.snp \
+                            --var ./examples/example.var \
+                            --time ./examples/example.time \
+                            --output ./examples/example.candidates.results
         
 The result is stored in `./examples/example.candidates.results`. The main result is in below.
 
