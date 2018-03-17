@@ -92,7 +92,7 @@ The counts of alleles in our example data were summarized in below.
 | rs12913832 | CEU | 47  | 177 |
 | rs12913832 | CHS | 491 | 1   |
 
-We assume the divergence time of YRI-CEU and YRI-CHS are both 5000 generations, while the divergence time of CEU-CHS is 3000 generations. This information is stored in `examples/example.time`.
+We assume the divergence time of YRI-CEU and YRI-CHS are both 5000 generations, while the divergence time of CEU-CHS is 3000 generations. This information is stored in `./examples/example.time`.
 
 First, we estimate variances of population demography parameters using sub-command `compute-var`.
 
