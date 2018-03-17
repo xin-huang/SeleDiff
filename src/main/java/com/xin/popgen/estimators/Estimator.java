@@ -81,8 +81,13 @@ public abstract class Estimator {
     		this.popPairIds[i] = sampleInfo.getPopPair(i);
     	}
     }
-    
-    public abstract void analyze(List<String> genoFileNames);
+
+	/**
+	 * An abstract method for analyzing genotypes.
+	 *
+	 * @param genoFileName an EIGENSTRAT .geno file name
+	 */
+	public abstract void analyze(String genoFileName);
    
     /**
      * Helper function for outputting results to files.

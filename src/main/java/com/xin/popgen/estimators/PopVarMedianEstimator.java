@@ -53,8 +53,8 @@ public abstract class PopVarMedianEstimator extends Estimator {
     }
     
     @Override
-	public void analyze(List<String> genoFileNames) {
-		readFile(new InfoReader(genoFileNames.get(0)).getBufferedReader());
+	public void analyze(String genoFileName) {
+		readFile(new InfoReader(genoFileName).getBufferedReader());
 		findMedians();
 	}
     

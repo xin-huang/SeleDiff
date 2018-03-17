@@ -73,8 +73,8 @@ public class SeleDiffEstimator extends Estimator {
     }
     
 	@Override
-	public void analyze(List<String> genoFileNames) {
-		this.genoReader = new InfoReader(genoFileNames.get(0)).getBufferedReader();
+	public void analyze(String genoFileName) {
+		this.genoReader = new InfoReader(genoFileName).getBufferedReader();
 	}
 	
 	@Override

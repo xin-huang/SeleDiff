@@ -42,11 +42,11 @@ public final class SeleDiff {
     	long startCpuTimeNano = TimeMeasurement.getCpuTime();
     	long beforeUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
     	
-        CommandVar var = new CommandVar();
-        CommandScan scan = new CommandScan();
+        ComputeVar var = new ComputeVar();
+        ComputeDiff diff = new ComputeDiff();
         JCommander jc = JCommander.newBuilder()
-                .addCommand("var", var)
-                .addCommand("scan", scan)
+                .addCommand("compute-var", var)
+                .addCommand("compute-diff", diff)
                 .build();
         jc.setProgramName("SeleDiff");
 
@@ -57,22 +57,22 @@ public final class SeleDiff {
         else {
             jc.parse(args);
             Estimator estimator;
-            if (jc.getParsedCommand().equals("var")) {
+            if (jc.getParsedCommand().equals("compute-var")) {
                 estimator = new TDigestPopVarMedianEstimator(
                         var.indFileName,
                         var.snpFileName
                 );
-                estimator.analyze(var.genoFileNames);
+                estimator.analyze(var.genoFileName);
                 estimator.writeResults(var.outputFileName);
-            } else if (jc.getParsedCommand().equals("scan")) {
+            } else if (jc.getParsedCommand().equals("compute-diff")) {
                 estimator = new SeleDiffEstimator(
-                        scan.indFileName,
-                        scan.snpFileName,
-                        scan.popVarFileName,
-                        scan.timeFileName
+                        diff.indFileName,
+                        diff.snpFileName,
+                        diff.popVarFileName,
+                        diff.timeFileName
                 );
-                estimator.analyze(scan.genoFileNames);
-                estimator.writeResults(scan.outputFileName);
+                estimator.analyze(diff.genoFileName);
+                estimator.writeResults(diff.outputFileName);
             }
 
         }

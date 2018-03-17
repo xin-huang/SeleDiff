@@ -27,13 +27,13 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
 /**
- * Class {@code CommandVar} is the class for parsing command line arguments
- * for sub-command scan in SeleDiff.
+ * Class {@code ComputeDiff} is the class for parsing command line arguments
+ * for sub-command compute-diff in SeleDiff.
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
-@Parameters(commandDescription = "Sub-command for scanning loci under natural selection")
-final class CommandScan extends CommandVar {
+@Parameters(commandDescription = "Sub-command for estimating selection differences of loci")
+final class ComputeDiff extends ComputeVar {
 
     @Parameter(names = "--time", required = true,
             description = "The file stores divergence times between populations. " +

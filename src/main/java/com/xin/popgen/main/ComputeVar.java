@@ -33,13 +33,13 @@ import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 
 /**
- * Class {@code CommandVar} is the class for parsing command line arguments
- * for sub-command var in SeleDiff.
+ * Class {@code ComputeVar} is the class for parsing command line arguments
+ * for sub-command compute-var in SeleDiff.
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
 @Parameters(commandDescription = "Sub-command for computing variances of population demography parameters")
-class CommandVar {
+class ComputeVar {
 	
 	@Parameter(names = "--geno", required = true, 
 			description = "The EIGENSTRAT GENO file stores allele counts: "
@@ -47,7 +47,7 @@ class CommandVar {
 					+ "and one copy of the alternative allele; 2, two copies of the reference allele; "
 					+ "9, missing values.", 
 					validateWith = FileValidator.class)
-    List<String> genoFileNames = new ArrayList<>();
+    String genoFileName;
     
     @Parameter(names = "--snp", required = true, 
     		description = "The EIGENSTRAT SNP file stores information of variants.", 
