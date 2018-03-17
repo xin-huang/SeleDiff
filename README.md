@@ -39,17 +39,17 @@ There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is
 
 ### Var File
 
-The Var file is the output file from the first sub-command `compute-var`, which stores variances of pairwise population demography parameters. When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of population demography parameters between two populations.
+The Var file is the output file from the first sub-command `compute-var`, which stores variances of pairwise population demography parameters. When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of population demography parameter between two populations.
 
         YRI CEU 1.547660
         YRI CHS 1.639591
         CEU CHS 0.989241
 
-The first two columns are the population IDs, and the third column is the variance of population demography parameter of the two populations.
+The first two columns are the population IDs, and the third column is the variances of population demography parameter of the two populations.
 
 ### Divergence Time File
 
-When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--time` option to accept a *SPACE* delimited file without header that specifies divergence time between two populations.
+When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--time` option to accept a *SPACE* delimited file without header that specifies divergence times between two populations.
     
         YRI CEU 5000
         YRI CHS 5000
