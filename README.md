@@ -29,7 +29,7 @@ You can get help information by typing
 
     > SeleDiff
     
-There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is used for estimating variances of population demography parameter Omega<sup>1</sup>, which are required for the second sub-command `compute-scan`.
+There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is used for estimating variances of population demography parameter Omega<sup>1</sup>, which are required for the second sub-command `compute-diff`.
 
 ## Input Files
 
