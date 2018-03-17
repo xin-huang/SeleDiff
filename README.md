@@ -70,8 +70,8 @@ The output file from `SeleDiff` is *TAB* delimited. The first row is a header th
 | 5 | Population2 | The second population ID |
 | 6 | Selection difference | The selection difference between the first and second populations |
 | 7 | Std | The standard deviation of the selection difference |
-| 8 | Lower bound of 95% CI | Lower bound of 95% confidence interval of the selection coefficient difference |
-| 9 | Upper bound of 95% CI | Upper bound of 95% confidence interval of the selection coefficient difference |
+| 8 | Lower bound of 95% CI | Lower bound of 95% confidence interval of the selection difference |
+| 9 | Upper bound of 95% CI | Upper bound of 95% confidence interval of the selection difference |
 | 10 | Delta | The delta statistic for selection difference |
 | 11 | *p*-value | The *p*-value of the delta statistic |
 
