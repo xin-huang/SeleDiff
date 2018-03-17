@@ -2,13 +2,56 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="82ee4839-f8f8-45ff-9364-6f6f724181d8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/CommandScan.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeDiff.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/CommandVar.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/PopVarMedianEstimator.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/PopVarMedianEstimator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/SeleDiff.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/SeleDiff.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/CommandScan.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/CommandVar$FileValidator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/CommandVar$ThreadValidator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/CommandVar.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/fileContent/fileContent.lock" afterPath="$PROJECT_DIR$/.gradle/3.5/fileContent/fileContent.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/jvmClassSignatures.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/jvmClassSignatures.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/ChiSquareTable.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/ChiSquareTable.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Estimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Estimator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Model.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Model.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/PopVarMedianEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/PopVarMedianEstimator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/SeleDiffEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/SeleDiffEstimator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/CountSnpNumInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/CountSnpNumInfo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/IndInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/IndInfo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/Info.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/Info.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/InfoReader.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/InfoReader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/PopVarInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/PopVarInfo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/SnpInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/SnpInfo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/TimeInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/TimeInfo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/SeleDiff.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/main/SeleDiff.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.tar" afterPath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.tar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.zip" afterPath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.zip" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/install/SeleDiff/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/install/SeleDiff/SeleDiff-1.0.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/install/SeleDiff/lib/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/install/SeleDiff/lib/SeleDiff-1.0.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/libs/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/libs/SeleDiff-1.0.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/binary/output.bin" afterPath="$PROJECT_DIR$/build/test-results/test/binary/output.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/binary/output.bin.idx" afterPath="$PROJECT_DIR$/build/test-results/test/binary/output.bin.idx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" afterPath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.ArrayPopVarMedianEstimatorTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.ArrayPopVarMedianEstimatorTest.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.ChiSquareTableTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.ChiSquareTableTest.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.TDigestPopVarMedianEstimatorTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.estimators.TDigestPopVarMedianEstimatorTest.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.CountSnpNumInfoTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.CountSnpNumInfoTest.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.PopVarInfoTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.PopVarInfoTest.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.SnpInfoTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.SnpInfoTest.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.TimeInfoTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/com.xin.popgen.infos.TimeInfoTest.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/index.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/packages/com.xin.popgen.estimators.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/packages/com.xin.popgen.estimators.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/test/packages/com.xin.popgen.infos.html" afterPath="$PROJECT_DIR$/build/reports/tests/test/packages/com.xin.popgen.infos.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.ArrayPopVarMedianEstimatorTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.ArrayPopVarMedianEstimatorTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.ChiSquareTableTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.ChiSquareTableTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.TDigestPopVarMedianEstimatorTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.estimators.TDigestPopVarMedianEstimatorTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.CountSnpNumInfoTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.CountSnpNumInfoTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.PopVarInfoTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.PopVarInfoTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.SnpInfoTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.SnpInfoTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.TimeInfoTest.xml" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-com.xin.popgen.infos.TimeInfoTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,7 +87,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Info.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ComputeVar.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="251">
+              <caret line="40" column="60" lean-forward="false" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
+              <folding>
+                <element signature="e#0#4092#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Info.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/Info.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-33">
@@ -131,11 +186,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/CommandVar.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/CommandScan.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeDiff.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/SeleDiff.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/PopVarMedianEstimator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java" />
       </list>
     </option>
   </component>
@@ -429,7 +484,7 @@
         <state relative-caret-position="198">
           <caret line="34" column="80" lean-forward="false" selection-start-line="34" selection-start-column="80" selection-end-line="34" selection-end-column="80" />
           <folding>
-            <element signature="e#0#4091#0" expanded="true" />
+            <element signature="e#0#4092#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -468,7 +523,7 @@
         <state relative-caret-position="198">
           <caret line="34" column="80" lean-forward="false" selection-start-line="34" selection-start-column="80" selection-end-line="34" selection-end-column="80" />
           <folding>
-            <element signature="e#0#4091#0" expanded="true" />
+            <element signature="e#0#4092#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -551,7 +606,7 @@
         <state relative-caret-position="90">
           <caret line="21" column="80" lean-forward="false" selection-start-line="21" selection-start-column="80" selection-end-line="21" selection-end-column="80" />
           <folding>
-            <element signature="e#0#4091#0" expanded="true" />
+            <element signature="e#0#4092#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -750,16 +805,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="49" column="23" lean-forward="false" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#4091#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="219">
@@ -800,6 +845,16 @@
           <caret line="39" column="50" lean-forward="false" selection-start-line="39" selection-start-column="50" selection-end-line="39" selection-end-column="50" />
           <folding>
             <element signature="e#0#3422#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="40" column="60" lean-forward="false" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#4092#0" expanded="true" />
           </folding>
         </state>
       </provider>

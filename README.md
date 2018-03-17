@@ -35,7 +35,7 @@ There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is
 
 ### EIGENSTRAT
 
-`SeleDiff` accepts [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format of genetic data as inputs.
+`SeleDiff` accepts [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format of genetic data as inputs. These files can be compressed by `gzip`.
 
 ### Var File
 

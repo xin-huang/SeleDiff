@@ -38,7 +38,7 @@ import com.beust.jcommander.Parameters;
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
-@Parameters(commandDescription = "Sub-command for computing variances of population demography parameters")
+@Parameters(commandDescription = "Sub-command for estimating variances of population demography parameters")
 class ComputeVar {
 	
 	@Parameter(names = "--geno", required = true, 
