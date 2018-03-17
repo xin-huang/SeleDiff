@@ -78,8 +78,7 @@ The output file from `SeleDiff` is *TAB* delimited. The first row is a header th
 ## An Example
 
 Here is an example to show how `SeleDiff` estimates and tests selection differences between populations. 4 populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. [PLINK 1.7](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml) were used to remove correlated individuals and SNPs with minor allele frequences less than 0.05 and strong linkage disequilibrium. All the genetic data are stored in EIGENSTRAT format.
-
-The alternative allele of SNP rs12913832 in gene *HERC2* is associated with blue eyes<sup>2</sup>. Also, the alternative allele of SNP rs1800407 in gene *OCA2* is associated with blue eyes<sup>2</sup>.
+Two alternative alleles (rs12913832 and rs1800407) associated with blue eyes were identified in genes *HERC2* and *OCA2*<sup>2</sup>.
 
 The counts of alleles in our example data were summarized in below.
 
