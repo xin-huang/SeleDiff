@@ -115,7 +115,7 @@ To estimate selection differences of candidates, we use the sub-command `compute
         
 The result is stored in `./examples/example.candidates.results`. The main result is in below.
 
-| SNP ID | Population1 | Population2 | Selection difference | Std | delta | p-value |
+| SNP ID | Population1 | Population2 | Selection difference | Std | delta | *p*-value |
 | ------ | ------------ | ------------ | -------------- | --------- | --------- | -------- |
 | rs1800407  | YRI  | CEU | -0.000773 | 0.000380 | 4.129 | 0.042154 |
 | rs1800407  | YRI  | CHS | -0.000336 | 0.000393 | 0.731 | 0.392559 |
