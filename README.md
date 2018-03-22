@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 ## Introduction
-- `SeleDiff` is implemented with a probabilistic method for estimating and testing selection (coefficient) differences between populations<sup>1</sup>.
+- `SeleDiff` implements a probabilistic method for estimating and testing selection (coefficient) differences between populations<sup>1</sup>.
 - If you have any problem, please feel free to contact xin.huang07@gmail.com, or open an [issue](https://github.com/xin-huang/SeleDiff/issues) in this repository.
 - If you use `SeleDiff`, please cite 
 
@@ -11,7 +11,7 @@
 - For more details, please see the manual.
 
 ## Installation
-To install `SeleDiff`, you should first have [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and clone the `SeleDiff` repository from GitHub.
+To install `SeleDiff`, you should first install [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and clone the `SeleDiff` repository from GitHub.
 
 ### Linux
 
@@ -34,6 +34,17 @@ You can get help information by typing
     > SeleDiff
     
 ### Windows
+
+In Windows, you can download this repository directly. Please make sure your environment variable `JAVA_HOME` correctly point to you JDK directory. After download and uncompression, you can open `cmd` and enter the directory of `SeleDiff` in `cmd`. Please use `gradlew.bat` to build and install `SeleDiff`.
+
+        > cd /path/to/SeleDiff
+        > ./gradlew.bat build
+        > ./gradlew.bat install
+        
+ And run `SeleDiff.bat` in `./build/install/SeleDiff/bin/`
+ 
+        > cd ./build/install/SeleDiff/bin/
+        > SeleDiff.bat
     
 There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is used for estimating variances of population demography parameter Omega<sup>1</sup>, which are required for the second sub-command `compute-diff`.
 
