@@ -33,18 +33,27 @@ You can get help information by typing
 
     > SeleDiff
     
+You can use `gradlew` to remove `SeleDiff`.
+
+    > ./gradlew clean
+    
 ### Windows
 
 In Windows, you can download this repository directly. Please make sure your environment variable `JAVA_HOME` correctly point to you JDK directory. After download and uncompression, you can open `cmd` and enter the directory of `SeleDiff` in `cmd`. Please use `gradlew.bat` to build and install `SeleDiff`.
 
-        > cd /path/to/SeleDiff
-        > ./gradlew.bat build
-        > ./gradlew.bat install
+    > cd /path/to/SeleDiff
+    > gradlew.bat build
+    > gradlew.bat install
         
  And run `SeleDiff.bat` in `./build/install/SeleDiff/bin/`
  
-        > cd ./build/install/SeleDiff/bin/
-        > SeleDiff.bat
+    > cd /build/install/SeleDiff/bin/
+    > SeleDiff.bat
+        
+You can use `gradlew.bat` to remove `SeleDiff`.
+
+    > cd /path/to/SeleDiff
+    > gradlew.bat clean
     
 There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is used for estimating variances of population demography parameter Omega<sup>1</sup>, which are required for the second sub-command `compute-diff`.
 
@@ -149,5 +158,5 @@ From the result, we can see the selection coefficient of rs12913832 in CEU is si
 - [t-digest 3.1](https://github.com/tdunning/t-digest)
 
 ## References
-1. [He et al, *Genome Res*, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
-2. [Sturm et al, *Am J Hum Genet*, 2008](https://linkinghub.elsevier.com/retrieve/pii/S0002-9297(07)00040-7)
+1. [He et al., *Genome Res*, 2015](http://genome.cshlp.org/content/early/2015/10/13/gr.192336.115.abstract)
+2. [Sturm et al., *Am J Hum Genet*, 2008](https://linkinghub.elsevier.com/retrieve/pii/S0002-9297(07)00040-7)
