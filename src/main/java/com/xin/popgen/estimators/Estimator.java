@@ -23,13 +23,12 @@
  */
 package com.xin.popgen.estimators;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
-import com.xin.popgen.infos.CountSnpNumInfo;
+import com.xin.popgen.infos.GenoInfo;
+import com.xin.popgen.infos.SnpInfo;
 import com.xin.popgen.infos.IndInfo;
 
 /**
@@ -42,8 +41,13 @@ public abstract class Estimator {
 	
 	private static final int POW10[] = {1, 10, 100, 1000, 10000, 100000, 1000000};
 	
-    // a SampleInfo instance stores the sample information
+    // a GenoInfo instance stores the genotype information
+	final GenoInfo genoInfo;
+
+	// a SampleInfo instance stores the sample information
     final IndInfo sampleInfo;
+
+    final SnpInfo snpInfo;
 
     // an integer stores how many populations in the sample
     final int popNum;
@@ -60,7 +64,7 @@ public abstract class Estimator {
     // a String array stores population Ids of each pair
     final String[][] popPairIds;
     
-    int snpIndex = 0;
+    //int snpIndex = 0;
     
     /**
      * Constructor of {@code Estimator}.
@@ -68,12 +72,14 @@ public abstract class Estimator {
      * @param indFileName an EIGENSTRAT .ind file name
      * @param snpFileName an EIGENSTRAT .snp file name
      */
-    Estimator(String indFileName, String snpFileName) {
+    Estimator(String genoFileName, String indFileName, String snpFileName) {
     	this.sampleInfo = new IndInfo(indFileName);
+    	this.snpInfo = new SnpInfo(snpFileName);
     	this.popNum = sampleInfo.getPopNum();
     	this.indNum = sampleInfo.getIndNum();
-    	this.snpNum = new CountSnpNumInfo(snpFileName).getSnpNum();
+    	this.snpNum = snpInfo.getSnpNum();
     	this.popPairNum = (popNum * (popNum - 1))/2;
+        this.genoInfo = new GenoInfo(genoFileName, sampleInfo);
     	
     	// get population Ids of different pairs
     	this.popPairIds = new String[popPairNum][2];
@@ -84,10 +90,8 @@ public abstract class Estimator {
 
 	/**
 	 * An abstract method for analyzing genotypes.
-	 *
-	 * @param genoFileName an EIGENSTRAT .geno file name
 	 */
-	public abstract void analyze(String genoFileName);
+	public abstract void analyze();
    
     /**
      * Helper function for outputting results to files.
@@ -115,9 +119,7 @@ public abstract class Estimator {
         long end = System.currentTimeMillis();
         System.out.println("Used Time for writing: " + ((end-start)/1000) + " seconds");
     }
-    
-    protected abstract void parseLine(char[] cbuf);
-    
+
     /**
      * An abstract method for writing lines to the output file.
      *
@@ -133,30 +135,6 @@ public abstract class Estimator {
      * @throws IOException
      */
     protected abstract void writeHeader(BufferedWriter bw) throws IOException;
-    
-    /**
-     * Helper function for reading files.
-     * 
-     * @param br a BufferedReader instance to the input file
-     */
-    protected void readFile(BufferedReader br) {
-    	char[] cbuf = new char[indNum];
-    	try {
-    		for (int i = 0; i < snpNum; i++) {
-    			br.read(cbuf);
-    			parseLine(cbuf);
-    			br.read();
-    		}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-    }
     
     String format(double[] vals, int precision) {
     	StringBuilder sb = new StringBuilder();
@@ -191,34 +169,4 @@ public abstract class Estimator {
     	return sb.toString();
     }
     
-    /**
-     * Helper function for counting alleles.
-     * 
-     * @param cbuf a char array containing alleles
-     * @return a 2-D integer array containing counts of each allele
-     */
-    int[][] countAlleles(char[] cbuf) {
-    	int[][] alleleCounts = new int[popNum][2];
-    	if (indNum != cbuf.length)
-    		throw new IllegalArgumentException();
-    	for (int i = 0; i < indNum; i++) {
-    		int popIndex = sampleInfo.getPopIndex(i);
-    		int count = cbuf[i] - 48;
-    		switch (count) {
-	    		case 0:
-	    			alleleCounts[popIndex][1] += 2; 
-	    			break;
-	    		case 1:
-	    			alleleCounts[popIndex][0] += 1;
-	    			alleleCounts[popIndex][1] += 1;
-	    			break;
-	    		case 2:
-	    			alleleCounts[popIndex][0] += 2;
-	    			break;
-	    		default: break;
-    		}
-    	}
-        return alleleCounts;
-    }
-
 }

@@ -25,10 +25,7 @@ package com.xin.popgen.estimators;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.StringJoiner;
-
-import com.xin.popgen.infos.InfoReader;
 
 /**
  * Class {@code PopVarMedianEstimator} extends {@code Estimator} to
@@ -47,14 +44,14 @@ public abstract class PopVarMedianEstimator extends Estimator {
      * @param indFileName an EIGENSTRAT .ind file name
      * @param snpFileName an EIGENSTRAT .snp file name
      */
-    public PopVarMedianEstimator(String indFileName, String snpFileName) {
-    	super(indFileName, snpFileName);
+    public PopVarMedianEstimator(String genoFileName, String indFileName, String snpFileName) {
+    	super(genoFileName, indFileName, snpFileName);
+
         popPairVarMedians = new double[popPairNum];
     }
     
     @Override
-	public void analyze(String genoFileName) {
-		readFile(new InfoReader(genoFileName).getBufferedReader());
+	public void analyze() {
 		findMedians();
 	}
     

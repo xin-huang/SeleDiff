@@ -45,8 +45,8 @@ public final class TDigestPopVarMedianEstimator extends PopVarMedianEstimator {
      * @param indFileName an EIGENSTRAT .ind file name
      * @param snpFileName an EIGENSTRAT .snp file name
      */
-	public TDigestPopVarMedianEstimator(String indFileName, String snpFileName) {
-		super(indFileName, snpFileName);
+	public TDigestPopVarMedianEstimator(String genoFileName, String indFileName, String snpFileName) {
+		super(genoFileName, indFileName, snpFileName);
         popPairVarDigests = new ArrayDigest[popPairNum];
         for (int i = 0; i < popPairNum; i++) {
         	popPairVarDigests[i] = TDigest.createArrayDigest(100);
@@ -54,25 +54,24 @@ public final class TDigestPopVarMedianEstimator extends PopVarMedianEstimator {
 	}
 	
 	@Override
-	protected void parseLine(char[] cbuf) {
-		int[][] alleleCounts = countAlleles(cbuf);
-        for (int m = 0; m < alleleCounts.length; m++) {
-			for (int n = m + 1; n < alleleCounts.length; n++) {
-				// Only use SNP neither fix nor lose in any population
-				if ((alleleCounts[m][0] * alleleCounts[m][1] == 0) || (alleleCounts[n][0] * alleleCounts[n][1] == 0))
-				    continue;
-                int popPairIndex = sampleInfo.getPopPairIndex(m,n);
-				popPairVarDigests[popPairIndex].add(calDriftVar(alleleCounts[m][0],
-                		alleleCounts[m][1], alleleCounts[n][0],alleleCounts[n][1]));
-			}
-		}
-	}
-	
-	@Override
     protected void findMedians() {
+	    for (int i = 0; i < snpNum; i++) {
+            int[][] alleleCounts = genoInfo.countAlleles();
+            for (int m = 0; m < popNum; m++) {
+                for (int n = m + 1; n < popNum; n++) {
+                    // Only use SNP neither fix nor lose in any population
+                    if ((alleleCounts[m][0] * alleleCounts[m][1] == 0) || (alleleCounts[n][0] * alleleCounts[n][1] == 0))
+                        continue;
+                    int popPairIndex = sampleInfo.getPopPairIndex(m, n);
+                    popPairVarDigests[popPairIndex].add(calDriftVar(alleleCounts[m][0],
+                            alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]));
+                }
+            }
+        }
         for (int i = 0; i < popPairNum; i++) {
         	popPairVarMedians[i] = popPairVarDigests[i].quantile(0.5d);
         }
+        genoInfo.close();
     }
 	
 }

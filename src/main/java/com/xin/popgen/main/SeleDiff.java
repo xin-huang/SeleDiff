@@ -59,19 +59,21 @@ public final class SeleDiff {
             Estimator estimator;
             if (jc.getParsedCommand().equals("compute-var")) {
                 estimator = new TDigestPopVarMedianEstimator(
+                        var.genoFileName,
                         var.indFileName,
                         var.snpFileName
                 );
-                estimator.analyze(var.genoFileName);
+                estimator.analyze();
                 estimator.writeResults(var.outputFileName);
             } else if (jc.getParsedCommand().equals("compute-diff")) {
                 estimator = new SeleDiffEstimator(
+                        diff.genoFileName,
                         diff.indFileName,
                         diff.snpFileName,
                         diff.popVarFileName,
                         diff.timeFileName
                 );
-                estimator.analyze(diff.genoFileName);
+                estimator.analyze();
                 estimator.writeResults(diff.outputFileName);
             }
 
