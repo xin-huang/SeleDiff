@@ -11,7 +11,11 @@
 - For more details, please see the manual.
 
 ## Installation
-To install `SeleDiff`, you should first have [Java SE Runtime Environment 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) and clone the `SeleDiff` repository from GitHub.
+To install `SeleDiff`, you should first have [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and clone the `SeleDiff` repository from GitHub.
+
+### Linux
+
+In Linux, you can open the terminal and clone `SeleDiff` using `git`.
 
     > git clone https://github.com/xin-huang/SeleDiff
 
@@ -28,6 +32,8 @@ The runnable `SeleDiff` is in `./build/install/SeleDiff/bin/`. You can add this 
 You can get help information by typing
 
     > SeleDiff
+    
+### Windows
     
 There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is used for estimating variances of population demography parameter Omega<sup>1</sup>, which are required for the second sub-command `compute-diff`.
 
