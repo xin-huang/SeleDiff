@@ -6,20 +6,6 @@
  * user guide available at https://docs.gradle.org/3.5/userguide/java_library_plugin.html
  */
 
-//buildscript {
-//	repositories {
-//		jcenter()
-//		maven {
-//			url "https://plugins.gradle.org/m2/"
-//		}
-//	}
-//	dependencies {
-//		classpath "me.champeau.gradle:jmh-gradle-plugin:0.3.1"
-//	}
-//}
-
-//apply plugin: "me.champeau.gradle.jmh"
-
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java'
 apply plugin: 'java-library'
@@ -44,19 +30,4 @@ dependencies {
     api 'org.apache.commons:commons-math3:3.6.1'
     api 'com.tdunning:t-digest:3.1'
     api 'com.beust:jcommander:1.72'
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    //implementation 'com.google.guava:guava:23.0'
-
-    // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
-    
-    //jmh 'org.openjdk.jmh:jmh-core:1.19'
-    //jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.19'
 }
-
-//jmh {
-//	timeUnit = 's'
-	
-	//duplicateClassesStrategy = 'warn'
-//}

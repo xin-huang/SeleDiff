@@ -58,8 +58,10 @@ public final class TDigestPopVarMedianEstimator extends PopVarMedianEstimator {
 		int[][] alleleCounts = countAlleles(cbuf);
         for (int m = 0; m < alleleCounts.length; m++) {
 			for (int n = m + 1; n < alleleCounts.length; n++) {
-				int popPairIndex = sampleInfo.getPopPairIndex(m,n);
-				// Assume no missing SNP in any population
+				// Only use SNP neither fix nor lose in any population
+				if ((alleleCounts[m][0] * alleleCounts[m][1] == 0) || (alleleCounts[n][0] * alleleCounts[n][1] == 0))
+				    continue;
+                int popPairIndex = sampleInfo.getPopPairIndex(m,n);
 				popPairVarDigests[popPairIndex].add(calDriftVar(alleleCounts[m][0],
                 		alleleCounts[m][1], alleleCounts[n][0],alleleCounts[n][1]));
 			}

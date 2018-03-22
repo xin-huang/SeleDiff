@@ -154,6 +154,7 @@ From the result, we can see the selection coefficient of rs12913832 in CEU is si
 
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [Apache Commons Math 3.6](https://commons.apache.org/proper/commons-math/index.html)
 - [JCommander 1.72](http://mvnrepository.com/artifact/com.beust/jcommander/1.72)
 - [t-digest 3.1](https://github.com/tdunning/t-digest)
 
