@@ -6,24 +6,14 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Estimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/Estimator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/EstimatorFactory.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/EstimatorFactory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/PopVarMedianEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/PopVarMedianEstimator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/SeleDiffEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/SeleDiffEstimator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/GenoInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/GenoInfo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/VcfInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/VcfInfo.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.tar" afterPath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.tar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.zip" afterPath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.zip" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/install/SeleDiff/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/install/SeleDiff/SeleDiff-1.0.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/install/SeleDiff/lib/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/install/SeleDiff/lib/SeleDiff-1.0.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/libs/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/libs/SeleDiff-1.0.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/EstimatorFactory.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/EstimatorFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/PopVarMedianEstimator.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/PopVarMedianEstimator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,9 +28,11 @@
       <file leaf-file-name="GenoInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="82" column="33" lean-forward="false" selection-start-line="82" selection-start-column="33" selection-end-line="82" selection-end-column="33" />
-              <folding />
+            <state relative-caret-position="412">
+              <caret line="23" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#3845#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -48,21 +40,10 @@
       <file leaf-file-name="VcfInfo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="27" column="55" lean-forward="false" selection-start-line="27" selection-start-column="55" selection-end-line="27" selection-end-column="55" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TDigestPopVarMedianEstimator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="47" column="99" lean-forward="false" selection-start-line="47" selection-start-column="99" selection-end-line="47" selection-end-column="99" />
+            <state relative-caret-position="900">
+              <caret line="50" column="9" lean-forward="false" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
               <folding>
-                <element signature="e#0#3186#0" expanded="true" />
-                <element signature="imports" expanded="true" />
+                <element signature="e#0#2871#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -157,27 +138,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="popgen" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SeleDiff" type="b2602c69:ProjectViewProjectNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="popgen" type="462c0819:PsiDirectoryNode" />
-              <item name="estimators" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SeleDiff" type="b2602c69:ProjectViewProjectNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="popgen" type="462c0819:PsiDirectoryNode" />
-              <item name="infos" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SeleDiff" type="b2602c69:ProjectViewProjectNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="popgen" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SeleDiff" type="b2602c69:ProjectViewProjectNode" />
@@ -332,7 +292,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-54" y="178" width="1857" height="1092" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -346,7 +305,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28137094" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28137094" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -718,9 +677,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="82" column="33" lean-forward="false" selection-start-line="82" selection-start-column="33" selection-end-line="82" selection-end-column="33" />
-          <folding />
+        <state relative-caret-position="412">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#3845#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -737,9 +698,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="27" column="55" lean-forward="false" selection-start-line="27" selection-start-column="55" selection-end-line="27" selection-end-column="55" />
-          <folding />
+        <state relative-caret-position="900">
+          <caret line="50" column="9" lean-forward="false" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#2871#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -1,8 +1,31 @@
+/*
+	Copyright (c) 2018 Xin Huang
+
+	This file is part of SeleDiff.
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+ */
 package com.xin.popgen.infos;
 
 import java.io.IOException;
 
-public class VcfInfo extends GenoInfo {
+public final class VcfInfo extends GenoInfo {
     /**
      * Constructor of {@code GenoInfo}.
      *
@@ -32,16 +55,25 @@ public class VcfInfo extends GenoInfo {
         return alleleCounts;
     }
 
+    /**
+     *
+     * @param line
+     * @return
+     */
     private int[][] countAlleles(String line) {
         int[][] alleleCounts = new int[popNum][2];
-        String[] elements = line.split("\\s+");
-        for (int i = 9; i < elements.length; i++) {
-            String[] alleles = elements[i].split("[|/]");
-            int popIndex = sampleInfo.getPopIndex(i - 9);
-            if (alleles[0].equals("0")) alleleCounts[popIndex][0]++;
-            else if (alleles[0].equals("1")) alleleCounts[popIndex][1]++;
-            if (alleles[1].equals("0")) alleleCounts[popIndex][0]++;
-            else if (alleles[1].equals("1")) alleleCounts[popIndex][1]++;
+        int start = line.indexOf("\t");
+        for (int i = 1; i < 9; i++) {
+            start = line.indexOf("\t", start+1);
+        }
+        for (int i = 0; i < indNum; i++) {
+            int popIndex = sampleInfo.getPopIndex(i);
+            char allele1 = line.charAt(4*i+start+1);
+            char allele2 = line.charAt(4*i+start+3);
+            if (allele1 == '0') alleleCounts[popIndex][0]++;
+            else if (allele1 == '1') alleleCounts[popIndex][1]++;
+            if (allele2 == '0') alleleCounts[popIndex][0]++;
+            else if (allele2 == '1') alleleCounts[popIndex][1]++;
         }
         return alleleCounts;
     }
