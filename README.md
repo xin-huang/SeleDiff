@@ -59,9 +59,15 @@ There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is
 
 ## Input Files
 
+`SeleDiff` assumes biallelic genetic data and will not perform any checks on this assumption. All input files can be compressed by `gzip`.
+
 ### EIGENSTRAT
 
-`SeleDiff` accepts [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format of genetic data as inputs. These files can be compressed by `gzip`.
+`SeleDiff` accepts [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format of genetic data as inputs.
+
+### VCF
+
+`SeleDiff` also accepts [VCF](https://samtools.github.io/hts-specs/VCFv4.2.pdf) format of genetic data as inputs, and assumes genotypes of each individual are encoded with 0 and 1.
 
 ### Var File
 
