@@ -1,5 +1,5 @@
 # SeleDiff
-[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Language](http://img.shields.io/badge/language-java-brightgreen.svg)](https://www.java.com/)
 
 ## Introduction
