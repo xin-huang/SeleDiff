@@ -44,8 +44,8 @@ public abstract class PopVarMedianEstimator extends Estimator {
      * @param indFileName an EIGENSTRAT .ind file name
      * @param snpFileName an EIGENSTRAT .snp file name
      */
-    PopVarMedianEstimator(String genoFileName, String indFileName, String snpFileName, String outputFileName) {
-    	super(genoFileName, indFileName, snpFileName, outputFileName);
+    PopVarMedianEstimator(String genoFileName, String indFileName, String snpFileName, String outputFileName, char format) {
+    	super(genoFileName, indFileName, snpFileName, outputFileName, format);
 
         popPairVarMedians = new double[popPairNum];
     }

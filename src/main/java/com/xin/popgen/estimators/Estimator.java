@@ -30,6 +30,7 @@ import java.io.IOException;
 import com.xin.popgen.infos.GenoInfo;
 import com.xin.popgen.infos.SnpInfo;
 import com.xin.popgen.infos.IndInfo;
+import com.xin.popgen.infos.VcfInfo;
 
 /**
  * Class {@code Estimator} defines an abstract class
@@ -72,14 +73,18 @@ public abstract class Estimator {
      * @param indFileName an EIGENSTRAT .ind file name
      * @param snpFileName an EIGENSTRAT .snp file name
      */
-    Estimator(String genoFileName, String indFileName, String snpFileName, String outputFileName) {
+    Estimator(String genoFileName, String indFileName, String snpFileName, String outputFileName, char format) {
     	this.sampleInfo = new IndInfo(indFileName);
     	this.snpInfo = new SnpInfo(snpFileName);
+    	snpInfo.setFormat(format);
     	this.popNum = sampleInfo.getPopNum();
     	this.indNum = sampleInfo.getIndNum();
     	this.snpNum = snpInfo.getSnpNum();
     	this.popPairNum = (popNum * (popNum - 1))/2;
-        this.genoInfo = new GenoInfo(genoFileName, sampleInfo);
+    	if (format == 'v')
+    	    this.genoInfo = new VcfInfo(genoFileName, sampleInfo, snpInfo.getSkipNum());
+    	else
+            this.genoInfo = new GenoInfo(genoFileName, sampleInfo);
         this.outputFileName = outputFileName;
     	
     	// get population Ids of different pairs

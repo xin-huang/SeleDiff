@@ -34,15 +34,15 @@ import java.io.IOException;
 public class GenoInfo implements Info{
 
     // an IndInfo instance stores the individual information
-    private final IndInfo sampleInfo;
+    final IndInfo sampleInfo;
 
     // an integer indicates how many individuals in the sample
-    private final int indNum;
+    final int indNum;
 
     // an integer indicates how many population in the sample
-    private final int popNum;
+    final int popNum;
 
-    private BufferedReader br = null;
+    BufferedReader br = null;
 
     /**
      * Constructor of {@code GenoInfo}.

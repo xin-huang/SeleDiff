@@ -45,8 +45,8 @@ public final class TDigestPopVarMedianEstimator extends PopVarMedianEstimator {
      * @param indFileName an EIGENSTRAT .ind file name
      * @param snpFileName an EIGENSTRAT .snp file name
      */
-	TDigestPopVarMedianEstimator(String genoFileName, String indFileName, String snpFileName, String outputFileName) {
-		super(genoFileName, indFileName, snpFileName, outputFileName);
+	TDigestPopVarMedianEstimator(String genoFileName, String indFileName, String snpFileName, String outputFileName, char format) {
+		super(genoFileName, indFileName, snpFileName, outputFileName, format);
         popPairVarDigests = new ArrayDigest[popPairNum];
         for (int i = 0; i < popPairNum; i++) {
         	popPairVarDigests[i] = TDigest.createArrayDigest(100);

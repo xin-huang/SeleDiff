@@ -56,8 +56,8 @@ public class SeleDiffEstimator extends Estimator {
      * @param timeFileName the name of a file stores divergence time between populations
      */
     SeleDiffEstimator(String genoFileName, String indFileName, String snpFileName,
-    		String popVarFileName, String timeFileName, String outputFileName) {
-    	super(genoFileName, indFileName, snpFileName, outputFileName);
+    		String popVarFileName, String timeFileName, String outputFileName, char format) {
+    	super(genoFileName, indFileName, snpFileName, outputFileName, format);
         this.popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
         this.timeInfo = new TimeInfo(timeFileName, sampleInfo);
     }

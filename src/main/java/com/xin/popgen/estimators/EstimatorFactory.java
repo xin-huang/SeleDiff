@@ -1,11 +1,44 @@
+/*
+	Copyright (c) 2018 Xin Huang
+
+	This file is part of SeleDiff.
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+ */
 package com.xin.popgen.estimators;
 
 import com.beust.jcommander.JCommander;
 import com.xin.popgen.main.ComputeDiff;
 import com.xin.popgen.main.ComputeVar;
 
+/**
+ *
+ */
 public class EstimatorFactory {
 
+    /**
+     *
+     * @param jc
+     * @param var
+     * @param diff
+     * @return
+     */
     public static Estimator create(JCommander jc, ComputeVar var, ComputeDiff diff) {
 
         Estimator estimator = null;
@@ -17,14 +50,16 @@ public class EstimatorFactory {
                         var.genoFileName,
                         var.indFileName,
                         var.snpFileName,
-                        var.outputFileName
+                        var.outputFileName,
+                        format
                 );
             if (format == 'v')
                 estimator = new TDigestPopVarMedianEstimator(
                         var.vcfFileName,
                         var.indFileName,
                         var.vcfFileName,
-                        var.outputFileName
+                        var.outputFileName,
+                        format
                 );
         } else if (jc.getParsedCommand().equals("compute-diff")) {
             char format = checkParameters(diff.vcfFileName, diff.genoFileName, diff.snpFileName);
@@ -35,7 +70,8 @@ public class EstimatorFactory {
                         diff.snpFileName,
                         diff.popVarFileName,
                         diff.timeFileName,
-                        diff.outputFileName
+                        diff.outputFileName,
+                        format
                 );
             if (format == 'v')
                 estimator = new SeleDiffEstimator(
@@ -44,7 +80,8 @@ public class EstimatorFactory {
                         diff.vcfFileName,
                         diff.popVarFileName,
                         diff.timeFileName,
-                        diff.outputFileName
+                        diff.outputFileName,
+                        format
                 );
         }
 
@@ -52,6 +89,13 @@ public class EstimatorFactory {
 
     }
 
+    /**
+     *
+     * @param vcfFileName
+     * @param genoFileName
+     * @param snpFileName
+     * @return
+     */
     private static char checkParameters(String vcfFileName, String genoFileName, String snpFileName) {
 
         char format = 'e';
