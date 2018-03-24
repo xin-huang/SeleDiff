@@ -1,5 +1,6 @@
 # SeleDiff
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+[![Language](http://img.shields.io/badge/language-java-brightgreen.svg)](https://www.java.com/)
 
 ## Introduction
 - `SeleDiff` implements a probabilistic method for estimating and testing selection (coefficient) differences between populations<sup>1</sup>.
