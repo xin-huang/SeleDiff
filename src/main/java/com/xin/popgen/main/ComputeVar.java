@@ -39,29 +39,34 @@ import com.beust.jcommander.Parameters;
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
 @Parameters(commandDescription = "Sub-command for estimating variances of population demography parameters")
-class ComputeVar {
+public class ComputeVar {
 	
-	@Parameter(names = "--geno", required = true, 
+	@Parameter(names = "--vcf",
+            description = "The VCF file",
+            validateWith = FileValidator.class)
+    public String vcfFileName;
+
+    @Parameter(names = "--geno",
 			description = "The EIGENSTRAT GENO file stores allele counts: "
 					+ "0, zero copy of the reference allele; 1, one copy of the reference allele "
 					+ "and one copy of the alternative allele; 2, two copies of the reference allele; "
 					+ "9, missing values.", 
 					validateWith = FileValidator.class)
-    String genoFileName;
+    public String genoFileName;
     
-    @Parameter(names = "--snp", required = true, 
+    @Parameter(names = "--snp",
     		description = "The EIGENSTRAT SNP file stores information of variants.", 
     		validateWith = FileValidator.class)
-    String snpFileName;
+    public String snpFileName;
     
     @Parameter(names = "--ind", required = true, 
     		description = "The EIGENSTRAT IND file stores information of individuals and populations.", 
     		validateWith = FileValidator.class)
-    String indFileName;
+    public String indFileName;
 
     @Parameter(names = "--output", required = true,
             description = "The output file.", validateWith = FileValidator.class)
-    String outputFileName;
+    public String outputFileName;
     
     /**
      * Validates whether a file exists and whether a path is a directory.
@@ -86,20 +91,6 @@ class ComputeVar {
             	throw new ParameterException("Parameter " + name + " " + value + " is a directory");
         }
 
-    }
-    
-    /**
-     * Validates thread number is larger than 0
-     */
-    public static class ThreadValidator implements IParameterValidator {
-
-		@Override
-		public void validate(String name, String value) throws ParameterException {
-			int thread = Integer.parseInt(value);
-			if (thread <= 0)
-				throw new ParameterException("Paramether " + name + " should be larger than 0");
-		}
-    	
     }
 
 }

@@ -56,27 +56,8 @@ public final class SeleDiff {
         }
         else {
             jc.parse(args);
-            Estimator estimator;
-            if (jc.getParsedCommand().equals("compute-var")) {
-                estimator = new TDigestPopVarMedianEstimator(
-                        var.genoFileName,
-                        var.indFileName,
-                        var.snpFileName
-                );
-                estimator.analyze();
-                estimator.writeResults(var.outputFileName);
-            } else if (jc.getParsedCommand().equals("compute-diff")) {
-                estimator = new SeleDiffEstimator(
-                        diff.genoFileName,
-                        diff.indFileName,
-                        diff.snpFileName,
-                        diff.popVarFileName,
-                        diff.timeFileName
-                );
-                estimator.analyze();
-                estimator.writeResults(diff.outputFileName);
-            }
-
+            Estimator estimator = EstimatorFactory.create(jc, var, diff);
+            estimator.analyze();
         }
         
         long afterUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();

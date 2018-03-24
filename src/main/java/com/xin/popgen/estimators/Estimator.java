@@ -63,8 +63,8 @@ public abstract class Estimator {
     
     // a String array stores population Ids of each pair
     final String[][] popPairIds;
-    
-    //int snpIndex = 0;
+
+    final String outputFileName;
     
     /**
      * Constructor of {@code Estimator}.
@@ -72,7 +72,7 @@ public abstract class Estimator {
      * @param indFileName an EIGENSTRAT .ind file name
      * @param snpFileName an EIGENSTRAT .snp file name
      */
-    Estimator(String genoFileName, String indFileName, String snpFileName) {
+    Estimator(String genoFileName, String indFileName, String snpFileName, String outputFileName) {
     	this.sampleInfo = new IndInfo(indFileName);
     	this.snpInfo = new SnpInfo(snpFileName);
     	this.popNum = sampleInfo.getPopNum();
@@ -80,6 +80,7 @@ public abstract class Estimator {
     	this.snpNum = snpInfo.getSnpNum();
     	this.popPairNum = (popNum * (popNum - 1))/2;
         this.genoInfo = new GenoInfo(genoFileName, sampleInfo);
+        this.outputFileName = outputFileName;
     	
     	// get population Ids of different pairs
     	this.popPairIds = new String[popPairNum][2];
@@ -96,10 +97,9 @@ public abstract class Estimator {
     /**
      * Helper function for outputting results to files.
      *
-     * @param outputFileName the output file name
      * @throws IOException 
      */
-    public void writeResults(String outputFileName) {
+    protected void writeResults() {
     	long start = System.currentTimeMillis();
     	BufferedWriter bw = null;
         try {
