@@ -1,7 +1,6 @@
 package com.xin.popgen.infos;
 
 import java.io.IOException;
-import java.util.StringJoiner;
 
 public final class VcfSnpInfo extends SnpInfo {
 

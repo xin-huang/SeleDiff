@@ -65,6 +65,7 @@ public class SeleDiffEstimator extends Estimator {
 	@Override
 	public void analyze() {
         snpInfo.open();
+        genoInfo.setSnpInfo(snpInfo);
         writeResults();
 	}
 
@@ -72,7 +73,7 @@ public class SeleDiffEstimator extends Estimator {
     protected void writeLine(BufferedWriter bw) throws IOException {
     	for (int i = 0; i < snpNum; i++) {
 			int[][] alleleCounts = genoInfo.countAlleles();
-			String snp = snpInfo.get();
+			String snp = genoInfo.getSnpInfo();
 			for (int m = 0; m < alleleCounts.length; m++) {
 				for (int n = m + 1; n < alleleCounts.length; n++) {
 					int popPairIndex = sampleInfo.getPopPairIndex(m, n);

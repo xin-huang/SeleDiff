@@ -26,6 +26,9 @@ package com.xin.popgen.infos;
 import java.io.IOException;
 
 public final class VcfInfo extends GenoInfo {
+
+    private String info;
+
     /**
      * Constructor of {@code GenoInfo}.
      *
@@ -40,6 +43,12 @@ public final class VcfInfo extends GenoInfo {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Override
+    public String getSnpInfo() {
+        return info;
     }
 
     @Override
@@ -62,14 +71,23 @@ public final class VcfInfo extends GenoInfo {
      */
     private int[][] countAlleles(String line) {
         int[][] alleleCounts = new int[popNum][2];
-        int start = line.indexOf("\t");
-        for (int i = 1; i < 9; i++) {
-            start = line.indexOf("\t", start+1);
+        int end = 0;
+        for (int i = 0; i < 2; i++) {
+            end = line.indexOf("\t", end+1);
+        }
+        int start = end + 1;
+        for (int i = 0; i < 3; i++) {
+            end = line.indexOf("\t", end+1);
+        }
+        info = line.substring(start, end);
+        //int start = line.indexOf("\t");
+        for (int i = 0; i < 4; i++) {
+            end = line.indexOf("\t", end+1);
         }
         for (int i = 0; i < indNum; i++) {
             int popIndex = sampleInfo.getPopIndex(i);
-            char allele1 = line.charAt(4*i+start+1);
-            char allele2 = line.charAt(4*i+start+3);
+            char allele1 = line.charAt(4*i+end+1);
+            char allele2 = line.charAt(4*i+end+3);
             if (allele1 == '0') alleleCounts[popIndex][0]++;
             else if (allele1 == '1') alleleCounts[popIndex][1]++;
             if (allele2 == '0') alleleCounts[popIndex][0]++;

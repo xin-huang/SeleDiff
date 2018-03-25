@@ -44,6 +44,8 @@ public class GenoInfo implements Info{
 
     BufferedReader br = null;
 
+    SnpInfo snpInfo;
+
     /**
      * Constructor of {@code GenoInfo}.
      *
@@ -68,6 +70,11 @@ public class GenoInfo implements Info{
         }
     }
 
+    public void setSnpInfo(SnpInfo snpInfo) {
+        this.snpInfo = snpInfo;
+    }
+
+    public String getSnpInfo() { return snpInfo.get(); }
 
     /**
      * Returns the counts of alleles.
