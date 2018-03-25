@@ -1,50 +1,48 @@
+/*
+	Copyright (c) 2018 Xin Huang
+
+	This file is part of SeleDiff.
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+ */
 package com.xin.popgen.infos;
 
 import java.io.IOException;
 
+/**
+ * Class {@code VcfSnpInfo} is used for counting how many SNPs in VCF
+ * and how many lines to skip.
+ *
+ * @author Xin Huang {@code <xin.huang07@gmail.com>}
+ */
 public final class VcfSnpInfo extends SnpInfo {
 
-
-
     /**
-     * Constructor of {@code SnpInfo}.
+     * Constructor of {@code VcfSnpInfo}.
      *
-     * @param snpFileName the name of an EIGENSTRAT SNP file
+     * @param snpFileName the name of a VCF file
      */
     public VcfSnpInfo(String snpFileName) {
         super(snpFileName);
     }
 
     @Override
-    /**
-     * Returns the information of a SNP.
-     * @return the SNP ID, the reference allele, and the alternative allele
-     */
-    public String get() {
-        String info = null;
-        try {
-            String line = br.readLine();
-            if (line != null) {
-                int end = 0;
-                for (int i = 0; i < 2; i++) {
-                    end = line.indexOf("\t", end+1);
-                }
-                int start = end + 1;
-                for (int i = 0; i < 3; i++) {
-                    end = line.indexOf("\t", end+1);
-                }
-                info = line.substring(start, end);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return info;
-    }
-
-    @Override
-    /**
-     * Open the file storing SNP information.
-     */
     public void open() {
         this.br = getBufferedReader(snpFileName);
         try {

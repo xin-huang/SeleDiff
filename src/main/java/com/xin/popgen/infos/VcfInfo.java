@@ -24,16 +24,21 @@
 package com.xin.popgen.infos;
 
 import java.io.IOException;
-import java.util.HashMap;
 
+/**
+ * Class {@code VcfInfo} extends Class {@code GenoInfo}
+ * and is used for counting alleles and obtaining SNP information from a VCF file.
+ *
+ * @author Xin Huang {@code <xin.huang07@gmail.com>}
+ */
 public final class VcfInfo extends GenoInfo {
 
     private String info;
 
     /**
-     * Constructor of {@code GenoInfo}.
+     * Constructor of {@code VcfInfo}.
      *
-     * @param genoFileName the name of the file containing genotype data
+     * @param genoFileName the name of the file containing genotype data in VCF format
      * @param sampleInfo   a IndInfo instance storing the individual information
      */
     public VcfInfo(String genoFileName, IndInfo sampleInfo, int skip) {
@@ -66,9 +71,9 @@ public final class VcfInfo extends GenoInfo {
     }
 
     /**
-     *
-     * @param line
-     * @return
+     * Helper function for counting alleles.
+     * @param line a String represents one line in the VCF file
+     * @return a 2-D integer array containing counts of each allele
      */
     private int[][] countAlleles(String line) {
         int[][] alleleCounts = new int[popNum][2];
@@ -88,8 +93,8 @@ public final class VcfInfo extends GenoInfo {
             int popIndex = sampleInfo.getPopIndex(i);
             int allele1 = line.charAt(4*i+end+1) - 48;
             int allele2 = line.charAt(4*i+end+3) - 48;
-            alleleCounts[popIndex][allele1]++;
-            alleleCounts[popIndex][allele2]++;
+            if (allele1 >= 0) alleleCounts[popIndex][allele1]++;
+            if (allele2 >= 0) alleleCounts[popIndex][allele2]++;
         }
         return alleleCounts;
     }

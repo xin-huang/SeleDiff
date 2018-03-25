@@ -71,14 +71,9 @@ public class SeleDiffEstimator extends Estimator {
 
     @Override
     protected void writeLine(BufferedWriter bw) throws IOException {
-        long readTime = 0;
-        long writeTime = 0;
     	for (int i = 0; i < snpNum; i++) {
-    	    long startReadTime = System.currentTimeMillis();
 			int[][] alleleCounts = genoInfo.countAlleles();
 			String snp = genoInfo.getSnpInfo();
-			long endReadTime = System.currentTimeMillis();
-            readTime += endReadTime - startReadTime;
 			for (int m = 0; m < alleleCounts.length; m++) {
 				for (int n = m + 1; n < alleleCounts.length; n++) {
 					int popPairIndex = sampleInfo.getPopPairIndex(m, n);
@@ -94,7 +89,6 @@ public class SeleDiffEstimator extends Estimator {
 	    			String delta = format((logOdds * logOdds / (varLogOdds + popVar)), 3);
 	    			double[] vals = new double[]{diff, std, diff-1.96*std, diff+1.96*std};
 
-                    long startTime = System.currentTimeMillis();
 	    			bw.write(snp);
 	    			bw.write("\t");
                     bw.write(popPairIds[popPairIndex][0]);
@@ -107,13 +101,9 @@ public class SeleDiffEstimator extends Estimator {
 	    			bw.write("\t");
 	    			bw.write(chisq.getPvalue(delta));
 	    			bw.newLine();
-                    long endTime = System.currentTimeMillis();
-                    writeTime += endTime - startTime;
 				}
 			}
     	}
-    	System.out.println(readTime);
-        System.out.println(writeTime);
     	snpInfo.close();
     	genoInfo.close();
     }

@@ -45,8 +45,10 @@ public class SnpInfo implements Info {
 	// a String stores the name of the file containing SNP information
 	final String snpFileName;
 
+	// a Pattern instance for splitting lines
     private final Pattern pattern = Pattern.compile("\\s+");
 
+    // a BufferedReader instance points to an EIGENSTRAT SNP file
     BufferedReader br = null;
 
 	/**
@@ -79,8 +81,8 @@ public class SnpInfo implements Info {
     }
 
     /**
-     *
-     * @return
+     * Returns how many lines to skip from the start.
+     * @return how many lines to skip
      */
     public int getSkipNum() {
         return skip;
@@ -109,8 +111,6 @@ public class SnpInfo implements Info {
 	 * @return the number of SNPs in the sample
 	 */
 	public int getSnpNum() { return snpNum;	}
-
-
 
 	@Override
 	public void parseLine(String line) { snpNum++; }

@@ -27,7 +27,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * Class {@code GenoInfo} is used for counting alleles from genotype file.
+ * Class {@code GenoInfo} is used for counting alleles from genotype file in EIGENSTRAT format.
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
@@ -39,17 +39,19 @@ public class GenoInfo implements Info{
     // an integer indicates how many individuals in the sample
     final int indNum;
 
-    // an integer indicates how many population in the sample
+    // an integer indicates how many populations in the sample
     final int popNum;
 
+    // a BufferedReader instances points to the genotype data
     BufferedReader br = null;
 
+    // a SnpInfo instances stores the information of the SNPs
     SnpInfo snpInfo;
 
     /**
      * Constructor of {@code GenoInfo}.
      *
-     * @param genoFileName the name of the file containing genotype data
+     * @param genoFileName the name of the file containing genotype data in EIGENSTRAT format
      * @param sampleInfo a IndInfo instance storing the individual information
      */
     public GenoInfo(String genoFileName, IndInfo sampleInfo) {
@@ -70,10 +72,18 @@ public class GenoInfo implements Info{
         }
     }
 
+    /**
+     * Helper function to set the SNP information corresponding to the genotype data.
+     * @param snpInfo the SNP information
+     */
     public void setSnpInfo(SnpInfo snpInfo) {
         this.snpInfo = snpInfo;
     }
 
+    /**
+     * Returns the information of a SNP.
+     * @return the information of a SNP
+     */
     public String getSnpInfo() { return snpInfo.get(); }
 
     /**

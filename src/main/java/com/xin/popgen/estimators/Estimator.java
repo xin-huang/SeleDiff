@@ -62,6 +62,7 @@ public abstract class Estimator {
     // a String array stores population Ids of each pair
     final String[][] popPairIds;
 
+    // a String stores the name of the output file
     final String outputFileName;
     
     /**
