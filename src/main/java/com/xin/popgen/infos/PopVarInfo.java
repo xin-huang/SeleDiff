@@ -49,7 +49,7 @@ public final class PopVarInfo implements Info {
         readFile(getBufferedReader(popVarFileName));
         checkPopPairs();
 
-        System.out.println(popPairNum + " population pairs with variances of drift are read from " 
+        System.out.println(popPairNum + " population pairs with variances of Omega are read from "
         		+ popVarFileName);
     }
     

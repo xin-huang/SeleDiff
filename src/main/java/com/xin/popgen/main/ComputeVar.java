@@ -42,7 +42,7 @@ import com.beust.jcommander.Parameters;
 public class ComputeVar {
 	
 	@Parameter(names = "--vcf",
-            description = "The VCF file",
+            description = "The VCF file stores SNP information and genotype data.",
             validateWith = FileValidator.class)
     public String vcfFileName;
 

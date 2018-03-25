@@ -45,6 +45,7 @@ public abstract class Estimator {
 	// a SampleInfo instance stores the sample information
     final IndInfo sampleInfo;
 
+    // a SnpInfo instance stores the SNP information
     final SnpInfo snpInfo;
 
     // an integer stores how many populations in the sample

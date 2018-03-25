@@ -33,6 +33,7 @@ import java.io.IOException;
  */
 public final class VcfInfo extends GenoInfo {
 
+    // a String stores the information of a SNP
     private String info;
 
     /**

@@ -28,7 +28,7 @@ package com.xin.popgen.estimators;
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
-final class Model {
+public final class Model {
 	
     /**
      * Calculates the logarithm of Odds ratio.
