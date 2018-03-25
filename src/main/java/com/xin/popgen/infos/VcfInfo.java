@@ -24,6 +24,7 @@
 package com.xin.popgen.infos;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public final class VcfInfo extends GenoInfo {
 
@@ -80,18 +81,15 @@ public final class VcfInfo extends GenoInfo {
             end = line.indexOf("\t", end+1);
         }
         info = line.substring(start, end);
-        //int start = line.indexOf("\t");
         for (int i = 0; i < 4; i++) {
             end = line.indexOf("\t", end+1);
         }
         for (int i = 0; i < indNum; i++) {
             int popIndex = sampleInfo.getPopIndex(i);
-            char allele1 = line.charAt(4*i+end+1);
-            char allele2 = line.charAt(4*i+end+3);
-            if (allele1 == '0') alleleCounts[popIndex][0]++;
-            else if (allele1 == '1') alleleCounts[popIndex][1]++;
-            if (allele2 == '0') alleleCounts[popIndex][0]++;
-            else if (allele2 == '1') alleleCounts[popIndex][1]++;
+            int allele1 = line.charAt(4*i+end+1) - 48;
+            int allele2 = line.charAt(4*i+end+3) - 48;
+            alleleCounts[popIndex][allele1]++;
+            alleleCounts[popIndex][allele2]++;
         }
         return alleleCounts;
     }

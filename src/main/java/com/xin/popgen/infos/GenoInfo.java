@@ -102,7 +102,7 @@ public class GenoInfo implements Info{
     private int[][] countAlleles(char[] cbuf) {
         int[][] alleleCounts = new int[popNum][2];
         if (indNum != cbuf.length)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("The column in .geno file is not consistent with individual number.");
         for (int i = 0; i < indNum; i++) {
             int popIndex = sampleInfo.getPopIndex(i);
             int count = cbuf[i] - 48;

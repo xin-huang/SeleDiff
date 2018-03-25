@@ -7,11 +7,21 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/SeleDiffEstimator.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/estimators/SeleDiffEstimator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/GenoInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/GenoInfo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/VcfInfo.class" afterPath="$PROJECT_DIR$/build/classes/main/com/xin/popgen/infos/VcfInfo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.tar" afterPath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.tar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.zip" afterPath="$PROJECT_DIR$/build/distributions/SeleDiff-1.0.zip" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/install/SeleDiff/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/install/SeleDiff/SeleDiff-1.0.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/install/SeleDiff/lib/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/install/SeleDiff/lib/SeleDiff-1.0.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/libs/SeleDiff-1.0.jar" afterPath="$PROJECT_DIR$/build/libs/SeleDiff-1.0.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfSnpInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfSnpInfo.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,38 +36,22 @@
       <file leaf-file-name="GenoInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="54" column="35" lean-forward="false" selection-start-line="54" selection-start-column="35" selection-end-line="54" selection-end-column="35" />
+            <state relative-caret-position="291">
+              <caret line="88" column="22" lean-forward="false" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="22" />
               <folding>
-                <element signature="e#0#4009#0" expanded="true" />
-                <element signature="e#2421#2422#0" expanded="true" />
-                <element signature="e#2459#2460#0" expanded="true" />
+                <element signature="e#0#4077#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VcfInfo.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="VcfInfo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="723">
-              <caret line="89" column="46" lean-forward="false" selection-start-line="89" selection-start-column="46" selection-end-line="89" selection-end-column="46" />
+              <caret line="92" column="9" lean-forward="true" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
               <folding>
-                <element signature="e#0#3247#0" expanded="true" />
-                <element signature="e#1790#1791#0" expanded="true" />
-                <element signature="e#1817#1818#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Estimator.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="972">
-              <caret line="98" column="35" lean-forward="true" selection-start-line="98" selection-start-column="35" selection-end-line="98" selection-end-column="35" />
-              <folding>
-                <element signature="e#0#5674#0" expanded="true" />
+                <element signature="e#0#3079#0" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
@@ -67,8 +61,8 @@
       <file leaf-file-name="SnpInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/SnpInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="507">
-              <caret line="68" column="0" lean-forward="true" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+            <state relative-caret-position="738">
+              <caret line="68" column="0" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -77,8 +71,8 @@
       <file leaf-file-name="VcfSnpInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfSnpInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="35" column="50" lean-forward="true" selection-start-line="27" selection-start-column="16" selection-end-line="35" selection-end-column="50" />
+            <state relative-caret-position="594">
+              <caret line="35" column="50" lean-forward="false" selection-start-line="27" selection-start-column="16" selection-end-line="35" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -87,10 +81,23 @@
       <file leaf-file-name="SeleDiffEstimator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
-              <caret line="77" column="67" lean-forward="true" selection-start-line="77" selection-start-column="67" selection-end-line="77" selection-end-column="67" />
+            <state relative-caret-position="93">
+              <caret line="74" column="27" lean-forward="false" selection-start-line="74" selection-start-column="27" selection-end-line="74" selection-end-column="27" />
               <folding>
-                <element signature="e#0#4918#0" expanded="true" />
+                <element signature="e#0#5390#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Estimator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1800">
+              <caret line="126" column="7" lean-forward="false" selection-start-line="126" selection-start-column="7" selection-end-line="126" selection-end-column="7" />
+              <folding>
+                <element signature="e#0#5674#0" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
@@ -135,11 +142,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/PopVarMedianEstimator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/EstimatorFactory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/SnpInfo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfSnpInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java" />
       </list>
     </option>
@@ -169,9 +176,8 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="Scratches" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -212,6 +218,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -353,7 +360,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-54" y="178" width="1857" height="1092" extended-state="6" />
+    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -398,9 +405,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
           <caret line="51" column="27" lean-forward="false" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#3241#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -417,8 +421,8 @@
         <state relative-caret-position="486">
           <caret line="46" column="9" lean-forward="false" selection-start-line="46" selection-start-column="9" selection-end-line="46" selection-end-column="9" />
           <folding>
-            <element signature="e#0#3186#0" expanded="true" />
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#3186#0" expanded="false" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -442,9 +446,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
           <caret line="51" column="27" lean-forward="true" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#3241#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -463,8 +464,8 @@
         <state relative-caret-position="378">
           <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="39" />
           <folding>
-            <element signature="e#0#3186#0" expanded="true" />
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#3186#0" expanded="false" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -492,9 +493,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1206">
           <caret line="85" column="13" lean-forward="false" selection-start-line="85" selection-start-column="13" selection-end-line="85" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#3241#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -511,8 +509,8 @@
         <state relative-caret-position="234">
           <caret line="32" column="66" lean-forward="false" selection-start-line="32" selection-start-column="66" selection-end-line="32" selection-end-column="66" />
           <folding>
-            <element signature="e#0#3186#0" expanded="true" />
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#3186#0" expanded="false" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -552,9 +550,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="41" column="31" lean-forward="false" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#3241#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -647,9 +642,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="42" column="89" lean-forward="false" selection-start-line="42" selection-start-column="89" selection-end-line="42" selection-end-column="89" />
-          <folding>
-            <element signature="e#0#3241#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -658,8 +650,8 @@
         <state relative-caret-position="738">
           <caret line="47" column="76" lean-forward="false" selection-start-line="47" selection-start-column="76" selection-end-line="47" selection-end-column="76" />
           <folding>
-            <element signature="e#0#2770#0" expanded="true" />
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#2770#0" expanded="false" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -669,7 +661,7 @@
         <state relative-caret-position="309">
           <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
           <folding>
-            <element signature="e#0#3914#0" expanded="true" />
+            <element signature="e#0#3914#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -679,8 +671,8 @@
         <state relative-caret-position="532">
           <caret line="98" column="90" lean-forward="false" selection-start-line="98" selection-start-column="90" selection-end-line="98" selection-end-column="90" />
           <folding>
-            <element signature="e#0#4249#0" expanded="true" />
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#4249#0" expanded="false" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -698,26 +690,47 @@
         <state relative-caret-position="288">
           <caret line="47" column="99" lean-forward="false" selection-start-line="47" selection-start-column="99" selection-end-line="47" selection-end-column="99" />
           <folding>
-            <element signature="e#0#3186#0" expanded="true" />
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#3186#0" expanded="false" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/SnpInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="68" column="0" lean-forward="true" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+        <state relative-caret-position="738">
+          <caret line="68" column="0" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1800">
+          <caret line="126" column="7" lean-forward="false" selection-start-line="126" selection-start-column="7" selection-end-line="126" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#5674#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="88" column="22" lean-forward="false" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#4077#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/SeleDiffEstimator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="77" column="67" lean-forward="true" selection-start-line="77" selection-start-column="67" selection-end-line="77" selection-end-column="67" />
+        <state relative-caret-position="93">
+          <caret line="74" column="27" lean-forward="false" selection-start-line="74" selection-start-column="27" selection-end-line="74" selection-end-column="27" />
           <folding>
-            <element signature="e#0#4918#0" expanded="true" />
+            <element signature="e#0#5390#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -725,8 +738,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfSnpInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="35" column="50" lean-forward="true" selection-start-line="27" selection-start-column="16" selection-end-line="35" selection-end-column="50" />
+        <state relative-caret-position="594">
+          <caret line="35" column="50" lean-forward="false" selection-start-line="27" selection-start-column="16" selection-end-line="35" selection-end-column="50" />
           <folding />
         </state>
       </provider>
@@ -734,33 +747,9 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="723">
-          <caret line="89" column="46" lean-forward="false" selection-start-line="89" selection-start-column="46" selection-end-line="89" selection-end-column="46" />
+          <caret line="92" column="9" lean-forward="true" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
           <folding>
-            <element signature="e#0#3247#0" expanded="true" />
-            <element signature="e#1790#1791#0" expanded="true" />
-            <element signature="e#1817#1818#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/GenoInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="54" column="35" lean-forward="false" selection-start-line="54" selection-start-column="35" selection-end-line="54" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#4009#0" expanded="true" />
-            <element signature="e#2421#2422#0" expanded="true" />
-            <element signature="e#2459#2460#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="972">
-          <caret line="98" column="35" lean-forward="true" selection-start-line="98" selection-start-column="35" selection-end-line="98" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#5674#0" expanded="true" />
+            <element signature="e#0#3079#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
