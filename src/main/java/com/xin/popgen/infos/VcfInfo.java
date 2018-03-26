@@ -52,10 +52,9 @@ public final class VcfInfo extends GenoInfo {
         }
     }
 
-
     @Override
     public String getSnpInfo() {
-        return info;
+        return this.info;
     }
 
     @Override
@@ -86,7 +85,7 @@ public final class VcfInfo extends GenoInfo {
         for (int i = 0; i < 3; i++) {
             end = line.indexOf("\t", end+1);
         }
-        info = line.substring(start, end);
+        this.info = line.substring(start, end);
         for (int i = 0; i < 4; i++) {
             end = line.indexOf("\t", end+1);
         }

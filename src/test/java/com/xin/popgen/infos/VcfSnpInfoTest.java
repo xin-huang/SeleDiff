@@ -27,40 +27,27 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class SnpInfoTest {
+public class VcfSnpInfoTest {
 
-    private final SnpInfo snpInfo = new SnpInfo("examples/data/example.snp");
-    private final SnpInfo gzSnpInfo = new SnpInfo("examples/compressed_data/example.snp.gz");
+    private final SnpInfo vcfSnpInfo = new VcfSnpInfo("examples/data/example.vcf");
+    private final SnpInfo gzVcfSnpInfo = new VcfSnpInfo("examples/compressed_data/example.vcf.gz");
 
     @Test
     public void testGetSkipNum() {
         // test uncompressed data
-        assertEquals(0, snpInfo.getSkipNum());
+        assertEquals(30, vcfSnpInfo.getSkipNum());
 
         // test compressed data
-        assertEquals(0, gzSnpInfo.getSkipNum());
+        assertEquals(30, gzVcfSnpInfo.getSkipNum());
     }
 
     @Test
     public void testGetSnpNum() {
         // test uncompressed data
-        assertEquals(20309, snpInfo.getSnpNum());
+        assertEquals(20309, vcfSnpInfo.getSnpNum());
 
         // test compressed data
-        assertEquals(20309, gzSnpInfo.getSnpNum());
-    }
-
-    @Test
-    public void testGet() {
-        // test uncompressed data
-        snpInfo.open();
-        assertEquals("rs13303118\tT\tG", snpInfo.get());
-        snpInfo.close();
-
-        // test compressed data
-        gzSnpInfo.open();
-        assertEquals("rs13303118\tT\tG", gzSnpInfo.get());
-        gzSnpInfo.close();
+        assertEquals(20309, gzVcfSnpInfo.getSnpNum());
     }
 
 }
