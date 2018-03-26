@@ -39,7 +39,7 @@ public final class PopVarInfo implements Info {
     /**
      * Constructor of class {@code PopVarInfo}.
      *
-     * @param popVarFileName the file name of a file containing variances of drift between populations
+     * @param popVarFileName the file name of a file containing variances of Omega between populations
      * @param indInfo a IndInfo instance containing sample information
      */
     public PopVarInfo(String popVarFileName, IndInfo indInfo) {
@@ -52,23 +52,12 @@ public final class PopVarInfo implements Info {
         System.out.println(popPairNum + " population pairs with variances of Omega are read from "
         		+ popVarFileName);
     }
-    
-    /**
-     * Returns the variance of drift with a given population pair.
-     *
-     * @param popi the population ID of the first population
-     * @param popj the population ID of the second population
-     * @return the variance of drift between the population pair {popi,popj}
-     */
-    public double getPopVar(String popi, String popj) {
-        return popVars[indInfo.getPopPairIndex(popi,popj)];
-    }
 
     /**
-     * Returns the variance of drift with a given population pair index.
+     * Returns the variance of Omega with a given population pair index.
      *
      * @param i a population pair index
-     * @return the variance of drift
+     * @return the variance of Omega
      */
     public double getPopVar(int i) {
         return popVars[i];

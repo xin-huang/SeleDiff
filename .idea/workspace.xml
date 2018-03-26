@@ -2,38 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="82ee4839-f8f8-45ff-9364-6f6f724181d8" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/estimators/ChiSquareTable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/estimators/Estimator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/estimators/EstimatorFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/estimators/Model.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/estimators/PopVarMedianEstimator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/estimators/SeleDiffEstimator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/estimators/TDigestPopVarMedianEstimator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/infos/GenoInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/infos/IndInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/infos/Info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/infos/PopVarInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/infos/SnpInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/infos/TimeInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/infos/VcfInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/infos/VcfSnpInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/main/ComputeDiff.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/main/ComputeVar$FileValidator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/main/ComputeVar.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/main/SeleDiff.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/com/xin/popgen/utils/TimeMeasurement.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/test/com/xin/popgen/estimators/ChiSquareTableTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/test/com/xin/popgen/estimators/TDigestPopVarMedianEstimatorTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/test/com/xin/popgen/infos/PopVarInfoTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/test/com/xin/popgen/infos/TimeInfoTest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/test.ind" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/test.ind.gz" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/test.popvar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/test.popvar.gz" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/test.snp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/test.snp.gz" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/test.time" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/test.time.gz" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/fileContent/fileContent.lock" afterPath="$PROJECT_DIR$/.gradle/3.5/fileContent/fileContent.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/fileSnapshots.bin" />
@@ -42,6 +10,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/3.5/taskHistory/taskHistory.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/PopVarInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/PopVarInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/TimeInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/TimeInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/IndInfoTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/IndInfoTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/PopVarInfoTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/PopVarInfoTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/TimeInfoTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/TimeInfoTest.java" />
     </list>
@@ -55,24 +26,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="IndInfoTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/IndInfoTest.java">
+      <file leaf-file-name="PopVarInfoTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/PopVarInfoTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="427">
-              <caret line="37" column="41" lean-forward="true" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
+            <state relative-caret-position="435">
+              <caret line="37" column="9" lean-forward="false" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
               <folding>
+                <element signature="e#0#2986#0" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IndInfo.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/IndInfo.java">
+      <file leaf-file-name="TimeInfoTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/TimeInfoTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1139">
-              <caret line="100" column="59" lean-forward="true" selection-start-line="100" selection-start-column="59" selection-end-line="100" selection-end-column="59" />
+            <state relative-caret-position="190">
+              <caret line="20" column="62" lean-forward="true" selection-start-line="20" selection-start-column="62" selection-end-line="20" selection-end-column="62" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SnpInfo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/SnpInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1062">
+              <caret line="87" column="9" lean-forward="false" selection-start-line="87" selection-start-column="9" selection-end-line="87" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SnpInfoTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/SnpInfoTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="486">
+              <caret line="27" column="23" lean-forward="false" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#1848#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -103,7 +97,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/IndInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/Info.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/InfoReader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/TimeInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/CommandVar.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/CommandScan.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/SeleDiff.java" />
@@ -117,15 +110,16 @@
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfSnpInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Estimator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/VcfInfo.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/SnpInfoTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/xin/popgen/estimators/ChiSquareTableTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/ChiSquareTable.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/estimators/Model.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/IndInfoTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/PopVarInfo.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/PopVarInfoTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/TimeInfoTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/IndInfoTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/TimeInfo.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/SnpInfoTest.java" />
       </list>
     </option>
   </component>
@@ -494,21 +488,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-54" y="178" width="1857" height="1092" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32879582" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32879582" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29463792" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29795468" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -519,6 +513,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -528,7 +523,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="7" />
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -537,9 +532,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1044">
           <caret line="77" column="32" lean-forward="true" selection-start-line="77" selection-start-column="32" selection-end-line="77" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#6141#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -564,9 +557,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
           <caret line="28" column="3" lean-forward="false" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#6141#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -661,16 +652,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/TimeInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="29" column="50" lean-forward="false" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#4532#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/SnpInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="219">
@@ -702,16 +683,8 @@
         <state relative-caret-position="-51">
           <caret line="35" column="47" lean-forward="false" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
           <folding>
-            <element signature="e#0#3489#0" expanded="true" />
+            <element signature="e#0#3489#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/SnpInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -723,7 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/SnpInfoTest.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/main/ComputeVar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="219">
@@ -737,7 +709,7 @@
         <state relative-caret-position="204">
           <caret line="35" column="7" lean-forward="false" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
           <folding>
-            <element signature="e#0#2284#0" expanded="true" />
+            <element signature="e#0#2284#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -765,7 +737,7 @@
         <state relative-caret-position="1368">
           <caret line="91" column="34" lean-forward="false" selection-start-line="91" selection-start-column="34" selection-end-line="91" selection-end-column="34" />
           <folding>
-            <element signature="e#0#4918#0" expanded="true" />
+            <element signature="e#0#4918#0" expanded="false" />
             <element signature="imports" expanded="false" />
           </folding>
         </state>
@@ -795,24 +767,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/PopVarInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="51" column="82" lean-forward="false" selection-start-line="51" selection-start-column="82" selection-end-line="51" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/TimeInfoTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/estimators/TDigestPopVarMedianEstimatorTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -828,7 +782,7 @@
         <state relative-caret-position="1263">
           <caret line="90" column="36" lean-forward="true" selection-start-line="90" selection-start-column="36" selection-end-line="90" selection-end-column="36" />
           <folding>
-            <element signature="e#0#4485#0" expanded="true" />
+            <element signature="e#0#4485#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -843,26 +797,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/PopVarInfoTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/IndInfoTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="37" column="41" lean-forward="true" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/Info.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-162">
@@ -873,8 +807,74 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/IndInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1139">
-          <caret line="100" column="59" lean-forward="true" selection-start-line="100" selection-start-column="59" selection-end-line="100" selection-end-column="59" />
+        <state relative-caret-position="2029">
+          <caret line="180" column="7" lean-forward="true" selection-start-line="180" selection-start-column="7" selection-end-line="180" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/PopVarInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="55" column="7" lean-forward="false" selection-start-line="55" selection-start-column="7" selection-end-line="55" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#3638#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/IndInfoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5">
+          <caret line="22" column="3" lean-forward="false" selection-start-line="22" selection-start-column="3" selection-end-line="22" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#3039#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/TimeInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/PopVarInfoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="37" column="9" lean-forward="false" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#2986#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/xin/popgen/infos/SnpInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1062">
+          <caret line="87" column="9" lean-forward="false" selection-start-line="87" selection-start-column="9" selection-end-line="87" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/SnpInfoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="27" column="23" lean-forward="false" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#1848#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/xin/popgen/infos/TimeInfoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="20" column="62" lean-forward="true" selection-start-line="20" selection-start-column="62" selection-end-line="20" selection-end-column="62" />
           <folding />
         </state>
       </provider>
