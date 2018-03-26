@@ -4,15 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.xin.popgen.infos.IndInfo;
-import com.xin.popgen.infos.PopVarInfo;
-
 public class PopVarInfoTest {
 	
-	private final PopVarInfo popVarInfo = new PopVarInfo("../../examples/results/example.var",
-			new IndInfo("../../examples/data/example.ind"));
-	private final PopVarInfo gzPopVarInfo = new PopVarInfo("../../examples/compressed_data/example.var.gz",
-			new IndInfo("../../examples/compressed_data/example.ind.gz"));
+	private final PopVarInfo popVarInfo = new PopVarInfo("examples/results/example.var",
+			new IndInfo("examples/data/example.ind"));
+	private final PopVarInfo gzPopVarInfo = new PopVarInfo("examples/compressed_data/example.var.gz",
+			new IndInfo("examples/compressed_data/example.ind.gz"));
 
 	@Test
 	public void test() {

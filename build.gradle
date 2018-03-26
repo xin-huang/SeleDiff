@@ -34,3 +34,10 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
+
+test {
+    reports {
+        junitXml.enabled = false
+        html.enabled = true
+    }               
+}

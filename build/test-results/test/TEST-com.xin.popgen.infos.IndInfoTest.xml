@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.xin.popgen.infos.IndInfoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-03-25T23:34:51" hostname="hash-P15FV2" time="0.001">
+  <properties/>
+  <testcase name="test" classname="com.xin.popgen.infos.IndInfoTest" time="0.001"/>
+  <system-out><![CDATA[505 individuals with 3 populations are read from examples/data/example.ind
+505 individuals with 3 populations are read from examples/compressed_data/example.ind.gz
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

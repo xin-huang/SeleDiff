@@ -4,15 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.xin.popgen.infos.IndInfo;
-import com.xin.popgen.infos.TimeInfo;
-
 public class TimeInfoTest {
 	
-	private final TimeInfo timeInfo = new TimeInfo("../../examples/data/example.time",
-			new IndInfo("../../examples/data/example.ind"));
-	private final TimeInfo gzTimeInfo = new TimeInfo("../../examples/compressed_data/example.time.gz",
-			new IndInfo("../../examples/compressed_data/example.ind.gz"));
+	private final TimeInfo timeInfo = new TimeInfo("examples/data/example.time",
+			new IndInfo("examples/data/example.ind"));
+	private final TimeInfo gzTimeInfo = new TimeInfo("examples/compressed_data/example.time.gz",
+			new IndInfo("examples/compressed_data/example.ind.gz"));
 
 	@Test
 	public void testGetTime() {
