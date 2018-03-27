@@ -28,16 +28,19 @@ import com.xin.popgen.main.ComputeDiff;
 import com.xin.popgen.main.ComputeVar;
 
 /**
+ * Class {@code EstimatorFactory} generates different instances of
+ * Class {@code Estimator} according to different input parameters.
  *
+ * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
 public class EstimatorFactory {
 
     /**
-     *
-     * @param jc
-     * @param var
-     * @param diff
-     * @return
+     * Static method to create an Estimator instance.
+     * @param jc a JCommander instance storing the input parameters
+     * @param var a ComputeVar instance storing the input parameters of sub-command compute-var
+     * @param diff a ComputeDiff instance storing the input parameters of sub-command compute-diff
+     * @return an Estimator instance for further analysis
      */
     public static Estimator create(JCommander jc, ComputeVar var, ComputeDiff diff) {
 
@@ -90,11 +93,11 @@ public class EstimatorFactory {
     }
 
     /**
-     *
-     * @param vcfFileName
-     * @param genoFileName
-     * @param snpFileName
-     * @return
+     * Helper function for validating input parameters.
+     * @param vcfFileName the name of a VCF file
+     * @param genoFileName the name of a EIGENSTRAT GENO file
+     * @param snpFileName the name of a EIGENSTRAT SNP file
+     * @return the format of the input files, 'e' for EIGENSTRAT format, 'v' for VCF format
      */
     private static char checkParameters(String vcfFileName, String genoFileName, String snpFileName) {
 

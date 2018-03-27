@@ -73,7 +73,6 @@ public final class Model {
         return round(logOdds * logOdds / 0.455 - varLogOdds);
     }
 
-
     /**
      * Helper function for continuously correction when count < 5.
      *

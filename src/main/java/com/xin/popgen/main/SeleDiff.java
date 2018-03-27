@@ -25,7 +25,6 @@ package com.xin.popgen.main;
 
 import com.beust.jcommander.JCommander;
 import com.xin.popgen.estimators.*;
-import com.xin.popgen.utils.TimeMeasurement;
 
 /**
  * Class {@code SeleDiff} is the entry class for the SeleDiff program.
@@ -35,12 +34,6 @@ import com.xin.popgen.utils.TimeMeasurement;
 public final class SeleDiff {
 
     public static void main(String[] args) {
-    	
-    	//long start = System.currentTimeMillis();
-    	//long startSystemTimeNano = TimeMeasurement.getSystemTime();
-    	//long startUserTimeNano = TimeMeasurement.getUserTime();
-    	//long startCpuTimeNano = TimeMeasurement.getCpuTime();
-    	//long beforeUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
     	
         ComputeVar var = new ComputeVar();
         ComputeDiff diff = new ComputeDiff();
@@ -60,16 +53,6 @@ public final class SeleDiff {
             estimator.analyze();
         }
         
-        //long afterUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-        //long taskWallTime = System.currentTimeMillis() - start;
-        //long taskCpuTimeNano = TimeMeasurement.getCpuTime() - startCpuTimeNano;
-        //long taskUserTimeNano = TimeMeasurement.getUserTime() - startUserTimeNano;
-        //long taskSystemTimeNano = TimeMeasurement.getSystemTime() - startSystemTimeNano;
-        //System.out.println("Wall time: " + taskWallTime/1000 + " seconds");
-        //System.out.println("CPU time: " + taskCpuTimeNano/1000000000 + " seconds");
-        //System.out.println("User Time: " + taskUserTimeNano/1000000000 + " seconds");
-        //System.out.println("System Time: " + taskSystemTimeNano/1000000000 + " seconds");
-        //System.out.println("Actual Used Memory: " + ((afterUsedMem - beforeUsedMem)/1000000) + "MB");
     }
 
 }

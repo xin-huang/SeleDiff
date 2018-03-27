@@ -106,13 +106,11 @@ public abstract class Estimator {
      * @throws IOException 
      */
     protected void writeResults() {
-    	//long start = System.currentTimeMillis();
     	BufferedWriter bw = null;
         try {
             bw = new BufferedWriter(new FileWriter(outputFileName));
             writeHeader(bw);
             writeLine(bw);
-            //bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -122,8 +120,6 @@ public abstract class Estimator {
 				e.printStackTrace();
 			}
         }
-        //long end = System.currentTimeMillis();
-        //System.out.println("Used Time for writing: " + ((end-start)/1000) + " seconds");
     }
 
     /**
