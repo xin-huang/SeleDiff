@@ -82,13 +82,13 @@ public class ComputeVar {
                 if (path.lastIndexOf(File.separator) > 0) {
                     path = path.substring(0, path.lastIndexOf(File.separator));
                     if (!new File(path).exists())
-                        throw new ParameterException("Parameter " + name + " " + value + " does not exist");
+                        throw new ParameterException("Parameter " + name + ": File " + value + " does not exist");
                 }
             }
             else if (!f.exists()) 
-            	throw new ParameterException("Parameter " + name + " " + value + " does not exist");
+            	throw new ParameterException("Parameter " + name + ": File " + value + " does not exist");
             else if (f.isDirectory()) 
-            	throw new ParameterException("Parameter " + name + " " + value + " is a directory");
+            	throw new ParameterException("Parameter " + name + ": " + value + " is a directory");
         }
 
     }

@@ -24,6 +24,7 @@
 package com.xin.popgen.estimators;
 
 import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
 import com.xin.popgen.main.ComputeDiff;
 import com.xin.popgen.main.ComputeVar;
 
@@ -48,44 +49,54 @@ public class EstimatorFactory {
 
         if (jc.getParsedCommand().equals("compute-var")) {
             char format = checkParameters(var.vcfFileName, var.genoFileName, var.snpFileName);
-            if (format == 'e')
-                estimator = new TDigestPopVarMedianEstimator(
-                        var.genoFileName,
-                        var.indFileName,
-                        var.snpFileName,
-                        var.outputFileName,
-                        format
-                );
-            if (format == 'v')
-                estimator = new TDigestPopVarMedianEstimator(
-                        var.vcfFileName,
-                        var.indFileName,
-                        var.vcfFileName,
-                        var.outputFileName,
-                        format
-                );
+            switch (format) {
+                case ('e'):
+                    estimator = new TDigestPopVarMedianEstimator(
+                            var.genoFileName,
+                            var.indFileName,
+                            var.snpFileName,
+                            var.outputFileName,
+                            format
+                    );
+                    break;
+                case('v'):
+                    estimator = new TDigestPopVarMedianEstimator(
+                            var.vcfFileName,
+                            var.indFileName,
+                            var.vcfFileName,
+                            var.outputFileName,
+                            format
+                    );
+                    break;
+                default: break;
+            }
         } else if (jc.getParsedCommand().equals("compute-diff")) {
             char format = checkParameters(diff.vcfFileName, diff.genoFileName, diff.snpFileName);
-            if (format == 'e')
-                estimator = new SeleDiffEstimator(
-                        diff.genoFileName,
-                        diff.indFileName,
-                        diff.snpFileName,
-                        diff.popVarFileName,
-                        diff.timeFileName,
-                        diff.outputFileName,
-                        format
-                );
-            if (format == 'v')
-                estimator = new SeleDiffEstimator(
-                        diff.vcfFileName,
-                        diff.indFileName,
-                        diff.vcfFileName,
-                        diff.popVarFileName,
-                        diff.timeFileName,
-                        diff.outputFileName,
-                        format
-                );
+            switch (format) {
+                case ('e'):
+                    estimator = new SeleDiffEstimator(
+                            diff.genoFileName,
+                            diff.indFileName,
+                            diff.snpFileName,
+                            diff.popVarFileName,
+                            diff.timeFileName,
+                            diff.outputFileName,
+                            format
+                    );
+                    break;
+                case ('v'):
+                    estimator = new SeleDiffEstimator(
+                            diff.vcfFileName,
+                            diff.indFileName,
+                            diff.vcfFileName,
+                            diff.popVarFileName,
+                            diff.timeFileName,
+                            diff.outputFileName,
+                            format
+                    );
+                    break;
+                default: break;
+            }
         }
 
         return estimator;
@@ -104,13 +115,13 @@ public class EstimatorFactory {
         char format = 'e';
 
         if ((vcfFileName != null) && (genoFileName != null))
-            throw new IllegalArgumentException("Only use --vcf or --geno to specify the genotype file.");
+            throw new ParameterException("Only use --vcf or --geno to specify the genotype file.");
         if ((vcfFileName != null) && (snpFileName != null))
-            throw new IllegalArgumentException("Cannot use --vcf with --snp.");
+            throw new ParameterException("Cannot use --vcf with --snp.");
         if ((vcfFileName == null) && (genoFileName == null))
-            throw new IllegalArgumentException("Cannot find --vcf or --geno to specify the genotype file.");
+            throw new ParameterException("Cannot find --vcf or --geno to specify the genotype file.");
         if ((genoFileName != null) && (snpFileName == null))
-            throw new IllegalArgumentException("Cannot find --snp when using --geno.");
+            throw new ParameterException("Cannot find --snp when using --geno.");
         if (vcfFileName != null) format = 'v';
 
         return format;
