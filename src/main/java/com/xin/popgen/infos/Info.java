@@ -52,9 +52,7 @@ public interface Info {
             while ((line = br.readLine()) != null) {
                 parseLine(line);
             }
-        } catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+        } catch (IOException e) {
 			e.printStackTrace();
 		} finally {
             try {

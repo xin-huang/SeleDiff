@@ -23,7 +23,14 @@
  */
 package com.xin.popgen.infos;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -48,6 +55,32 @@ public class VcfSnpInfoTest {
 
         // test compressed data
         assertEquals(20309, gzVcfSnpInfo.getSnpNum());
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void testReadFile() throws IOException {
+        thrown.expect(IOException.class);
+        vcfSnpInfo.readFile(new BufferedReader(new FileReader("test")));
+    }
+
+    @Test
+    public void testGetBufferedReader1() {
+        assertEquals(null,vcfSnpInfo.getBufferedReader(null));
+    }
+
+    @Test
+    public void testGetBufferedReader2() throws NullPointerException {
+        thrown.expect(NullPointerException.class);
+        vcfSnpInfo.getBufferedReader("test");
+    }
+
+    @Test
+    public void testOpen() {
+        vcfSnpInfo.open();
+        vcfSnpInfo.close();
     }
 
 }

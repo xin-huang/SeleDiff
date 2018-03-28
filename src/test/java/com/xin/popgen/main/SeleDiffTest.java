@@ -23,35 +23,35 @@
  */
 package com.xin.popgen.main;
 
-import com.beust.jcommander.JCommander;
-import com.xin.popgen.estimators.*;
+import org.junit.Test;
 
-/**
- * Class {@code SeleDiff} is the entry class for the SeleDiff program.
- *
- * @author Xin Huang {@code <xin.huang07@gmail.com>}
- */
-public final class SeleDiff {
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
-    public static void main(String[] args) {
-    	
-        ComputeVar var = new ComputeVar();
-        ComputeDiff diff = new ComputeDiff();
-        JCommander jc = JCommander.newBuilder()
-                .addCommand("compute-var", var)
-                .addCommand("compute-diff", diff)
-                .build();
-        jc.setProgramName("SeleDiff");
+import static org.junit.Assert.assertTrue;
 
-        if (args.length == 0) {
-            jc.usage();
-        }
-        else {
-            jc.parse(args);
-            Estimator estimator = EstimatorFactory.create(jc, var, diff);
-            estimator.analyze();
-        }
-        
+public class SeleDiffTest {
+
+    @Test
+    public void testMainWithoutParameters() {
+        String[] args = {};
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        SeleDiff.main(args);
+        String stdout = out.toString();
+        assertTrue(stdout.startsWith("Usage"));
+    }
+
+    @Test
+    public void testMain() {
+        String[] args = {"compute-diff",
+                "--geno", "examples/data/example.candidates.geno",
+                "--ind", "examples/data/example.candidates.ind",
+                "--snp", "examples/data/example.candidates.snp",
+                "--var", "examples/results/example.var",
+                "--time", "examples/data/example.time",
+                "--output", "examples/data/example.candidates.test.results"};
+        SeleDiff.main(args);
     }
 
 }
