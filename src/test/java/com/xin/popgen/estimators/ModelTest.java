@@ -50,13 +50,13 @@ public class ModelTest {
     }
 
     @Test
-    public void testCalDriftVar() {
+    public void testCalVarOmega() {
         // rs1800407 YRI-CEU
-        assertEquals(30.7390, Model.calDriftVar(290, 0, 207, 17), 0.0001);
+        assertEquals(30.7390, Model.calVarOmega(290, 0, 207, 17), 0.0001);
         // rs1800407 YRI-CHS
-        assertEquals(3.9819, Model.calDriftVar(290, 0, 486, 4), 0.0001);
+        assertEquals(3.9819, Model.calVarOmega(290, 0, 486, 4), 0.0001);
         // rs1800407 CEU-CHS
-        assertEquals(10.1820, Model.calDriftVar(207, 17, 486, 4), 0.0001);
+        assertEquals(10.1820, Model.calVarOmega(207, 17, 486, 4), 0.0001);
     }
 
 }

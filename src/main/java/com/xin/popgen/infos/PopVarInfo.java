@@ -24,13 +24,13 @@
 package com.xin.popgen.infos;
 
 /**
- * Class {@code PopVarInfo} stores variances of drift between populations.
+ * Class {@code PopVarInfo} stores variances of Omega between populations.
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
 public final class PopVarInfo implements Info {
 
-    // a Double array stores variances of drift between populations
+    // a Double array stores variances of Omega between populations
     private final Double[] popVars;
 
     // a SampleInfo instance stores sample information
@@ -64,14 +64,14 @@ public final class PopVarInfo implements Info {
     }
 
     /**
-     * Helper function for checking whether variances of drift of
+     * Helper function for checking whether variances of Omega of
      * all the population pairs exist.
      */
     private void checkPopPairs() {
         for (int k = 0; k < popVars.length; k++) {
             if (popVars[k] == null) {
                 String[] popPair = indInfo.getPopPair(k);
-                throw new IllegalArgumentException("Cannot find the variance of drift of the population pair {"
+                throw new IllegalArgumentException("Cannot find the variance of Omega of the population pair {"
                         + popPair[0] + "," + popPair[1] + "}");
             }
         }

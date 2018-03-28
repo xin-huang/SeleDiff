@@ -34,13 +34,6 @@ import static org.junit.Assert.assertTrue;
 
 public class EstimatorFactoryTest {
 
-/*    private final ComputeVar var = new ComputeVar();
-    private final ComputeDiff diff = new ComputeDiff();
-    private final JCommander jc = JCommander.newBuilder()
-                                    .addCommand("compute-var", var)
-                                    .addCommand("compute-diff", diff)
-                                    .build();*/
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 

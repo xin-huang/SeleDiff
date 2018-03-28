@@ -25,7 +25,9 @@ package com.xin.popgen.infos;
 
 import static org.junit.Assert.*;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class TimeInfoTest {
 
@@ -53,5 +55,27 @@ public class TimeInfoTest {
         assertEquals(5000, gzTimeInfo.getTime(gzIndInfo.getPopPairIndex("CHS", "YRI")));
         assertEquals(3000, gzTimeInfo.getTime(gzIndInfo.getPopPairIndex("CHS", "CEU")));
 	}
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void testParseLine1() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Cannot find population: WAF");
+        timeInfo.parseLine("WAF\tEUR\t3.000000");
+    }
+
+    @Test
+    public void testParseLine2() {
+        thrown.expectMessage("Cannot find population: EUR");
+        timeInfo.parseLine("YRI\tEUR\t3.000000");
+    }
+
+    @Test
+    public void testCheckPopPairs() {
+        thrown.expectMessage("Cannot find the divergence time of the population pair {YRI,CEU}");
+        TimeInfo t = new TimeInfo("examples/data/example.test.time", indInfo);
+    }
 
 }

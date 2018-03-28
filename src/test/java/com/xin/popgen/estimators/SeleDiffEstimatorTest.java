@@ -23,38 +23,32 @@
  */
 package com.xin.popgen.estimators;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import java.io.*;
 
-public class TDigestPopVarMedianEstimatorTest {
+import static org.junit.Assert.assertEquals;
 
-	@Test
-	public void testFindMedians() {
-		TDigestPopVarMedianEstimator td = new TDigestPopVarMedianEstimator("examples/data/example.geno",
-                                              "examples/data/example.ind",
-                                              "examples/data/example.snp",
-                                              "examples/results/example.var", 'e');
-		td.findMedians();
-		assertEquals(1.542796, td.popPairVarMedians[0], 0.000001);
-		assertEquals(1.633976, td.popPairVarMedians[1], 0.000001);
-		assertEquals(0.988984, td.popPairVarMedians[2], 0.000001);
-	}
+public class SeleDiffEstimatorTest {
 
-	@Test
+    private final SeleDiffEstimator selediff = new SeleDiffEstimator("examples/data/example.candidates.geno",
+                                                                     "examples/data/example.candidates.ind",
+                                                                     "examples/data/example.candidates.snp",
+                                                                     "examples/results/example.var",
+                                                                     "examples/data/example.time",
+                                                                     "selediff.results",
+                                                                     'e');
+
+    @Test
     public void testAnalyze() {
-        TDigestPopVarMedianEstimator td = new TDigestPopVarMedianEstimator("examples/data/example.geno",
-                "examples/data/example.ind",
-                "examples/data/example.snp",
-                "selediff.var", 'e');
-        td.analyze();
-        try (BufferedReader br = new BufferedReader(new FileReader("selediff.var"))) {
+        selediff.analyze();
+        try (BufferedReader br = new BufferedReader(new FileReader("selediff.results"))) {
+            String header = br.readLine().trim();
+            assertEquals("SNP ID\tRef\tAlt\tPopulation 1\tPopulation 2\tSelection difference (Population 1 - Population 2)\tStd\tLower bound of 95% CI\tUpper bound of 95% CI\tDelta\tp-value", header);
             String line = br.readLine().trim();
-            assertEquals("YRI\tCEU\t1.542796", line);
+            assertEquals("rs1800407\tC\tT\tYRI\tCEU\t-0.000773\t0.000380\t-0.001517\t-0.000028\t\t4.135\t0.042005", line);
             br.close();
-            File file = new File("selediff.var");
+            File file = new File("selediff.results");
             file.delete();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

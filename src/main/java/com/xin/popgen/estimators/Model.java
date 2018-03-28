@@ -67,7 +67,7 @@ public final class Model {
      * @param countBm counts of derived allele in population B
      * @return the drift variance between two populations
      */
-    static double calDriftVar(int countAw, int countAm, int countBw, int countBm) {
+    static double calVarOmega(int countAw, int countAm, int countBw, int countBm) {
         double logOdds = calLogOdds(countAw, countAm, countBw, countBm);
         double varLogOdds = calVarLogOdds(countAw, countAm, countBw, countBm);
         return round(logOdds * logOdds / 0.455 - varLogOdds);

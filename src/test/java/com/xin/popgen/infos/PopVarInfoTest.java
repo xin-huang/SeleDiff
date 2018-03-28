@@ -25,7 +25,9 @@ package com.xin.popgen.infos;
 
 import static org.junit.Assert.*;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class PopVarInfoTest {
 
@@ -52,6 +54,28 @@ public class PopVarInfoTest {
         assertEquals(1.542796, gzPopVarInfo.getPopVar(gzIndInfo.getPopPairIndex("CEU", "YRI")), 0.000001);
         assertEquals(1.633976, gzPopVarInfo.getPopVar(gzIndInfo.getPopPairIndex("CHS", "YRI")), 0.000001);
         assertEquals(0.988984, gzPopVarInfo.getPopVar(gzIndInfo.getPopPairIndex("CHS", "CEU")), 0.000001);
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void testParseLine1() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Cannot find population: WAF");
+	    popVarInfo.parseLine("WAF\tEUR\t3.000000");
+    }
+
+    @Test
+    public void testParseLine2() {
+        thrown.expectMessage("Cannot find population: EUR");
+        popVarInfo.parseLine("YRI\tEUR\t3.000000");
+    }
+
+    @Test
+    public void testCheckPopPairs() {
+        thrown.expectMessage("Cannot find the variance of Omega of the population pair {CEU,CHS}");
+        PopVarInfo p = new PopVarInfo("examples/data/example.test.var", indInfo);
     }
 
 }

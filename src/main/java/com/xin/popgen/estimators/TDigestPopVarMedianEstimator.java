@@ -23,7 +23,7 @@
  */
 package com.xin.popgen.estimators;
 
-import static com.xin.popgen.estimators.Model.calDriftVar;
+import static com.xin.popgen.estimators.Model.calVarOmega;
 
 import com.tdunning.math.stats.ArrayDigest;
 import com.tdunning.math.stats.TDigest;
@@ -63,7 +63,7 @@ public final class TDigestPopVarMedianEstimator extends PopVarMedianEstimator {
                     if ((alleleCounts[m][0] * alleleCounts[m][1] == 0) || (alleleCounts[n][0] * alleleCounts[n][1] == 0))
                         continue;
                     int popPairIndex = sampleInfo.getPopPairIndex(m, n);
-                    popPairVarDigests[popPairIndex].add(calDriftVar(alleleCounts[m][0],
+                    popPairVarDigests[popPairIndex].add(calVarOmega(alleleCounts[m][0],
                             alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]));
                 }
             }

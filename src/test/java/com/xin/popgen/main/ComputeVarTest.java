@@ -43,12 +43,6 @@ public class ComputeVarTest {
     @Test
     public void testComputeVar() {
         thrown.expect(com.beust.jcommander.ParameterException.class);
-        thrown.expectMessage("Parameter --geno: File test.geno does not exist");
-        jc.parse("compute-var", "--geno", "test.geno");
-
-        thrown.expectMessage("Parameter --geno: examples is a directory");
-        jc.parse("compute-var", "--geno", "examples");
-
         thrown.expectMessage("The following options are required: [--output], [--ind]");
         jc.parse("compute-var", "--geno", "examples/data/example.geno");
 
@@ -63,6 +57,24 @@ public class ComputeVarTest {
         assertEquals(var.indFileName, "examples/data/example.ind");
         assertEquals(var.snpFileName, "examples/data/example.snp");
         assertEquals(var.outputFileName, "examples/data/example.var");
+    }
+
+    @Test
+    public void testFileValidator1() {
+        thrown.expectMessage("Parameter --geno: File test.geno does not exist");
+        jc.parse("compute-var", "--geno", "test.geno");
+    }
+
+    @Test
+    public void testFileValidator2() {
+        thrown.expectMessage("Parameter --geno: examples is a directory");
+        jc.parse("compute-var", "--geno", "examples");
+    }
+
+    @Test
+    public void testFileValidator3() {
+        thrown.expectMessage("Parameter --output: Path test does not exist");
+        jc.parse("compute-var", "--ind", "examples/data/example.ind", "--output", "test/test.output");
     }
 
 }
