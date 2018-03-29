@@ -42,7 +42,7 @@ dependencies {
 }
 
 test {
-    ignoreFailures = true
+    //ignoreFailures = true
     reports {
         junitXml.enabled = false
         html.enabled = true

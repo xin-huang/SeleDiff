@@ -23,7 +23,6 @@
  */
 package com.xin.popgen.infos;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
@@ -31,24 +30,10 @@ import java.io.IOException;
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
-public class GenoInfo implements Info{
-
-    // an IndInfo instance stores the individual information
-    final IndInfo sampleInfo;
-
-    // an integer indicates how many individuals in the sample
-    final int indNum;
-
-    // an integer indicates how many populations in the sample
-    final int popNum;
-
-    final String snpFileName;
-
-    // a BufferedReader instances points to the genotype data
-    BufferedReader br = null;
+public final class GenoInfo extends VcfInfo{
 
     // a SnpInfo instances stores the information of the SNPs
-    SnpInfo snpInfo;
+    private final SnpInfo snpInfo;
 
     /**
      * Constructor of {@code GenoInfo}.
@@ -57,43 +42,24 @@ public class GenoInfo implements Info{
      * @param sampleInfo a IndInfo instance storing the individual information
      */
     public GenoInfo(String genoFileName, IndInfo sampleInfo, String snpFileName) {
-        this.sampleInfo = sampleInfo;
-        this.snpFileName = snpFileName;
-        this.indNum = sampleInfo.getIndNum();
-        this.popNum = sampleInfo.getPopNum();
-        this.br = getBufferedReader(genoFileName);
+        super(genoFileName, sampleInfo, false);
+        this.snpInfo = new SnpInfo(snpFileName);
     }
 
-    /**
-     * Close the file storing genotype information.
-     */
+    @Override
     public void close() {
         try {
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void openSnp() {
-        this.snpInfo = new SnpInfo(snpFileName);
-        snpInfo.open();
-    }
-
-    public void closeSnp() {
         snpInfo.close();
     }
 
-    /**
-     * Returns the information of a SNP.
-     * @return the information of a SNP
-     */
+    @Override
     public String getSnpInfo() { return snpInfo.get(); }
 
-    /**
-     * Returns the counts of alleles.
-     * @return the counts of alleles
-     */
+    @Override
     public int[][] countAlleles() {
         char[] cbuf = new char[indNum];
         int[][] alleleCounts = new int[popNum][2];
@@ -136,8 +102,5 @@ public class GenoInfo implements Info{
         }
         return alleleCounts;
     }
-
-    @Override
-    public void parseLine(String line) {}
 
 }

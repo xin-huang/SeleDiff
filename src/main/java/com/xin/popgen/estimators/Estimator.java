@@ -40,7 +40,7 @@ public abstract class Estimator {
 	private static final int POW10[] = {1, 10, 100, 1000, 10000, 100000, 1000000};
 	
     // a GenoInfo instance stores the genotype information
-	final GenoInfo genoInfo;
+	final VcfInfo genoInfo;
 
 	// a SampleInfo instance stores the sample information
     final IndInfo sampleInfo;
@@ -75,7 +75,7 @@ public abstract class Estimator {
     	this.sampleInfo = new IndInfo(indFileName);
     	this.snpFileName = snpFileName;
     	if (format == 'v') {
-            this.genoInfo = new VcfInfo(genoFileName, sampleInfo, snpFileName);
+            this.genoInfo = new VcfInfo(genoFileName, sampleInfo, true);
     	}
     	else {
             this.genoInfo = new GenoInfo(genoFileName, sampleInfo, snpFileName);

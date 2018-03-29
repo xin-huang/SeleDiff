@@ -36,17 +36,11 @@ import java.util.regex.Pattern;
  */
 public class SnpInfo implements Info {
 	
-    // an integer indicates how many start line to skip
-    int skip = 0;
-
-	// a String stores the name of the file containing SNP information
-	final String snpFileName;
-
 	// a Pattern instance for splitting lines
     private final Pattern pattern = Pattern.compile("\\s+");
 
     // a BufferedReader instance points to an EIGENSTRAT SNP file
-    BufferedReader br = null;
+    private BufferedReader br = null;
 
 	/**
 	 * Constructor of {@code SnpInfo}.
@@ -54,16 +48,9 @@ public class SnpInfo implements Info {
 	 * @param snpFileName the name of an EIGENSTRAT SNP file
 	 */
 	public SnpInfo(String snpFileName) {
-	    this.snpFileName = snpFileName;
+        this.br = getBufferedReader(snpFileName);
         //System.out.println(snpNum + " variants are read from " + snpFileName);
 	}
-
-    /**
-     * Open the file storing SNP information.
-     */
-	public void open() {
-        this.br = getBufferedReader(snpFileName);
-    }
 
     /**
      * Close the file storing SNP information.
@@ -74,14 +61,6 @@ public class SnpInfo implements Info {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Returns how many lines to skip from the start.
-     * @return how many lines to skip
-     */
-    public int getSkipNum() {
-        return skip;
     }
 
     /**

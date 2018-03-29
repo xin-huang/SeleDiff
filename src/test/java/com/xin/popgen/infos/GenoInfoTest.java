@@ -29,28 +29,21 @@ import static org.junit.Assert.assertEquals;
 
 public class GenoInfoTest {
 
-    /*private final IndInfo indInfo = new IndInfo("examples/data/example.candidates.ind");
+    private final IndInfo indInfo = new IndInfo("examples/data/example.candidates.ind");
     private final IndInfo gzIndInfo = new IndInfo("examples/compressed_data/example.candidates.ind.gz");
 
-    private final SnpInfo snpInfo = new SnpInfo("examples/data/example.candidates.snp");
-    private final SnpInfo gzSnpInfo = new SnpInfo("examples/compressed_data/example.candidates.snp.gz");
-
-    private final GenoInfo genoInfo = new GenoInfo("examples/data/example.candidates.geno", indInfo);
-    private final GenoInfo gzGenoInfo = new GenoInfo("examples/compressed_data/example.candidates.geno.gz", gzIndInfo);
+    private final GenoInfo genoInfo = new GenoInfo("examples/data/example.candidates.geno",
+            indInfo, "examples/data/example.candidates.snp");
+    private final GenoInfo gzGenoInfo = new GenoInfo("examples/compressed_data/example.candidates.geno.gz",
+            gzIndInfo, "examples/compressed_data/example.candidates.snp.gz");
 
     @Test
     public void testGetSnpInfo() {
         // test uncompressed data
-        snpInfo.open();
-        genoInfo.setSnpInfo(snpInfo);
         assertEquals("rs1800407\tC\tT", genoInfo.getSnpInfo());
-        snpInfo.close();
 
         // test compressed data
-        gzSnpInfo.open();
-        gzGenoInfo.setSnpInfo(gzSnpInfo);
         assertEquals("rs1800407\tC\tT", gzGenoInfo.getSnpInfo());
-        gzSnpInfo.close();
     }
 
     @Test
@@ -79,6 +72,6 @@ public class GenoInfoTest {
         assertEquals(486, alleleCounts[2][0]);
         assertEquals(4, alleleCounts[2][1]);
         gzGenoInfo.close();
-    }*/
+    }
 
 }

@@ -69,7 +69,6 @@ public class SeleDiffEstimator extends Estimator {
 
     @Override
     protected void writeLine(BufferedWriter bw) throws IOException {
-        genoInfo.openSnp();
         int snpNum = 0;
     	int[][] alleleCounts;
     	while ((alleleCounts = genoInfo.countAlleles()) != null) {
@@ -106,7 +105,6 @@ public class SeleDiffEstimator extends Estimator {
             }
         }
         System.out.println(snpNum + " variants are read from " + snpFileName);
-        genoInfo.closeSnp();
     	genoInfo.close();
     }
 

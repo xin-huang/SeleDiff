@@ -29,38 +29,19 @@ import static org.junit.Assert.assertEquals;
 
 public class SnpInfoTest {
 
-    /*private final SnpInfo snpInfo = new SnpInfo("examples/data/example.snp");
+    private final SnpInfo snpInfo = new SnpInfo("examples/data/example.snp");
     private final SnpInfo gzSnpInfo = new SnpInfo("examples/compressed_data/example.snp.gz");
 
-    @Test
-    public void testGetSkipNum() {
-        // test uncompressed data
-        assertEquals(0, snpInfo.getSkipNum());
-
-        // test compressed data
-        assertEquals(0, gzSnpInfo.getSkipNum());
-    }
-
-    @Test
-    public void testGetSnpNum() {
-        // test uncompressed data
-        assertEquals(20309, snpInfo.getSnpNum());
-
-        // test compressed data
-        assertEquals(20309, gzSnpInfo.getSnpNum());
-    }
 
     @Test
     public void testGet() {
         // test uncompressed data
-        snpInfo.open();
         assertEquals("rs13303118\tT\tG", snpInfo.get());
         snpInfo.close();
 
         // test compressed data
-        gzSnpInfo.open();
         assertEquals("rs13303118\tT\tG", gzSnpInfo.get());
         gzSnpInfo.close();
-    }*/
+    }
 
 }
