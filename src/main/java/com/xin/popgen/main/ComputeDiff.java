@@ -45,7 +45,7 @@ public final class ComputeDiff extends ComputeVar {
     public String timeFileName;
 
     @Parameter(names = "--var", required = true,
-            description = "The file stores variances of population demography parameters, " +
+            description = "The file stores variances of Omega, " +
                     "which is space delimited without header " +
                     "the first column is the first population ID " +
                     "the second column is the second population ID " +
