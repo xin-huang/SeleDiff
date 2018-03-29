@@ -50,7 +50,7 @@ public class SeleDiffTest {
                 "--snp", "examples/data/example.candidates.snp",
                 "--var", "examples/results/example.var",
                 "--time", "examples/data/example.time",
-                "--output", "examples/data/example.candidates.test.results"};
+                "--output", "examples/results/example.candidates.test.results"};
         SeleDiff.main(args);
     }
 
