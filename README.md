@@ -72,13 +72,13 @@ There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is
 
 ### Var File
 
-The Var file is the output file from the first sub-command `compute-var`, which stores variances of pairwise Ω's. When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of Ω' between populations.
+The Var file is the output file from the first sub-command `compute-var`, which stores variances of pairwise Ω's. When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of Ω between populations.
 
         YRI CEU 1.547660
         YRI CHS 1.639591
         CEU CHS 0.989241
 
-The first two columns are the population IDs, and the third column is the variances of Ω's between populations.
+The first two columns are the population IDs, and the third column is the variances of Ω between populations.
 
 ### Divergence Time File
 
@@ -110,7 +110,7 @@ The output file from `SeleDiff` is *TAB* delimited. The first row is a header th
 
 ## An Example
 
-Here is an example to show how `SeleDiff` estimates and tests selection differences between populations. 4 populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. [PLINK 1.7](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml) were used to remove correlated individuals and SNPs with minor allele frequences less than 0.05 and strong linkage disequilibrium. These genome-wide data are stored in `./examples/data/example.geno` and used for estimating variances of Ω's.
+Here is an example to show how `SeleDiff` estimates and tests selection differences between populations. 4 populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. [PLINK 1.7](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml) were used to remove correlated individuals and SNPs with minor allele frequences less than 0.05 and strong linkage disequilibrium. These genome-wide data are stored in `./examples/data/example.geno` and used for estimating variances of Ω.
 
 Two alternative alleles (rs1800407 and rs12913832) associated with blue eyes were identified in genes *HERC2* and *OCA2*<sup>2</sup>. These candidate data are stored in `./examples/data/example.candidates.geno` and used for estimating selection differences of these SNPs between populations.
 
@@ -127,7 +127,7 @@ The counts of alleles in our example data were summarized in below.
 
 We assume the divergence time of YRI-CEU and YRI-CHS are both 5000 generations, while the divergence time of CEU-CHS is 3000 generations. This information is stored in `./examples/data/example.time`.
 
-First, we estimate variances of Ω's using sub-command `compute-var`.
+First, we estimate variances of Ω using sub-command `compute-var`.
 
 
     > SeleDiff compute-var --geno ./examples/data/example.geno \
