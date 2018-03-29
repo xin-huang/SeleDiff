@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 
 public class SnpInfoTest {
 
-    private final SnpInfo snpInfo = new SnpInfo("examples/data/example.snp");
+    /*private final SnpInfo snpInfo = new SnpInfo("examples/data/example.snp");
     private final SnpInfo gzSnpInfo = new SnpInfo("examples/compressed_data/example.snp.gz");
 
     @Test
@@ -61,6 +61,6 @@ public class SnpInfoTest {
         gzSnpInfo.open();
         assertEquals("rs13303118\tT\tG", gzSnpInfo.get());
         gzSnpInfo.close();
-    }
+    }*/
 
 }

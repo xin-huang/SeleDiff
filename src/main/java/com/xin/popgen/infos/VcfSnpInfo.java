@@ -23,6 +23,7 @@
  */
 package com.xin.popgen.infos;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
@@ -40,6 +41,15 @@ public final class VcfSnpInfo extends SnpInfo {
      */
     public VcfSnpInfo(String snpFileName) {
         super(snpFileName);
+        try (BufferedReader br = getBufferedReader(snpFileName)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("#")) skip++;
+                else break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -55,9 +65,5 @@ public final class VcfSnpInfo extends SnpInfo {
 
     @Override
     public void parseLine(String line) {
-        if (line.startsWith("#"))
-            skip++;
-        else
-            snpNum++;
     }
 }

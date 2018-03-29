@@ -36,9 +36,6 @@ import java.util.regex.Pattern;
  */
 public class SnpInfo implements Info {
 	
-	// an integer stores the number of SNPs in the sample
-	int snpNum = 0;
-
     // an integer indicates how many start line to skip
     int skip = 0;
 
@@ -58,8 +55,7 @@ public class SnpInfo implements Info {
 	 */
 	public SnpInfo(String snpFileName) {
 	    this.snpFileName = snpFileName;
-        readFile(getBufferedReader(snpFileName));
-        System.out.println(snpNum + " variants are read from " + snpFileName);
+        //System.out.println(snpNum + " variants are read from " + snpFileName);
 	}
 
     /**
@@ -106,13 +102,7 @@ public class SnpInfo implements Info {
         return sj.toString();
     }
 
-	/**
-	 * Returns how many SNPs in the sample.
-	 * @return the number of SNPs in the sample
-	 */
-	public int getSnpNum() { return snpNum;	}
-
 	@Override
-	public void parseLine(String line) { snpNum++; }
+	public void parseLine(String line) {}
 	
 }

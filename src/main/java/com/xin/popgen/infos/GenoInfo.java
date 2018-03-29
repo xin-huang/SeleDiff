@@ -42,6 +42,8 @@ public class GenoInfo implements Info{
     // an integer indicates how many populations in the sample
     final int popNum;
 
+    final String snpFileName;
+
     // a BufferedReader instances points to the genotype data
     BufferedReader br = null;
 
@@ -54,8 +56,9 @@ public class GenoInfo implements Info{
      * @param genoFileName the name of the file containing genotype data in EIGENSTRAT format
      * @param sampleInfo a IndInfo instance storing the individual information
      */
-    public GenoInfo(String genoFileName, IndInfo sampleInfo) {
+    public GenoInfo(String genoFileName, IndInfo sampleInfo, String snpFileName) {
         this.sampleInfo = sampleInfo;
+        this.snpFileName = snpFileName;
         this.indNum = sampleInfo.getIndNum();
         this.popNum = sampleInfo.getPopNum();
         this.br = getBufferedReader(genoFileName);
@@ -72,12 +75,13 @@ public class GenoInfo implements Info{
         }
     }
 
-    /**
-     * Helper function to set the SNP information corresponding to the genotype data.
-     * @param snpInfo the SNP information
-     */
-    public void setSnpInfo(SnpInfo snpInfo) {
-        this.snpInfo = snpInfo;
+    public void openSnp() {
+        this.snpInfo = new SnpInfo(snpFileName);
+        snpInfo.open();
+    }
+
+    public void closeSnp() {
+        snpInfo.close();
     }
 
     /**
@@ -94,7 +98,7 @@ public class GenoInfo implements Info{
         char[] cbuf = new char[indNum];
         int[][] alleleCounts = new int[popNum][2];
         try {
-            br.read(cbuf);
+            if (br.read(cbuf) == -1) return null;
             alleleCounts = countAlleles(cbuf);
             br.read();
         } catch (IOException e) {

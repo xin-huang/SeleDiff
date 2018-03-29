@@ -70,7 +70,7 @@ public final class IndInfo implements Info {
      * @param indFileName the name of a EIGENSTRAT IND file
      */
     public IndInfo(String indFileName) {
-        ind2popQueue = new ArrayList<String>();
+        ind2popQueue = new ArrayList<>();
         popIndex = new HashMap<>(); // key: pop id; value: pop index
         popSet = new HashSet<>();
         readFile(getBufferedReader(indFileName));
@@ -88,6 +88,9 @@ public final class IndInfo implements Info {
         for (int j = 0; j < indNum; j++) {
         	indId2popIndex[j] = popIndex.get(ind2popQueue.get(j));
         }
+
+        if (popNum == 1) throw new IllegalArgumentException("Find Only 1 population in " + indFileName
+                + ", please check your input file.");
 
         System.out.println(indNum + " individuals with " + popNum
                 + " populations are read from " + indFileName);

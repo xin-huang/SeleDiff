@@ -42,10 +42,11 @@ public final class VcfInfo extends GenoInfo {
      * @param genoFileName the name of the file containing genotype data in VCF format
      * @param sampleInfo   a IndInfo instance storing the individual information
      */
-    public VcfInfo(String genoFileName, IndInfo sampleInfo, int skip) {
-        super(genoFileName, sampleInfo);
+    public VcfInfo(String genoFileName, IndInfo sampleInfo, String snpFileName) {
+        super(genoFileName, sampleInfo, snpFileName);
+        this.snpInfo = new VcfSnpInfo(snpFileName);
         try {
-            for (int i = 0; i < skip; i++)
+            for (int i = 0; i < snpInfo.getSkipNum(); i++)
                 br.readLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,6 +65,7 @@ public final class VcfInfo extends GenoInfo {
             String line = br.readLine();
             if (line != null)
                 alleleCounts = countAlleles(line.trim());
+            else return null;
         } catch (IOException e) {
             e.printStackTrace();
         }

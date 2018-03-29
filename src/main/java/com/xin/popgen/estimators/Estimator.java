@@ -46,7 +46,7 @@ public abstract class Estimator {
     final IndInfo sampleInfo;
 
     // a SnpInfo instance stores the SNP information
-    final SnpInfo snpInfo;
+    //final SnpInfo snpInfo;
 
     // an integer stores how many populations in the sample
     final int popNum;
@@ -54,14 +54,13 @@ public abstract class Estimator {
     // an integer stores how many individuals in the sample
     final int indNum;
     
-    // an integer stores how many SNPs in the sample
-    final int snpNum;
-    
     // an integer stores how many population pairs in the sample
     final int popPairNum;
     
     // a String array stores population Ids of each pair
     final String[][] popPairIds;
+
+    final String snpFileName;
 
     // a String stores the name of the output file
     final String outputFileName;
@@ -74,17 +73,15 @@ public abstract class Estimator {
      */
     Estimator(String genoFileName, String indFileName, String snpFileName, String outputFileName, char format) {
     	this.sampleInfo = new IndInfo(indFileName);
+    	this.snpFileName = snpFileName;
     	if (format == 'v') {
-    	    this.snpInfo = new VcfSnpInfo(snpFileName);
-            this.genoInfo = new VcfInfo(genoFileName, sampleInfo, snpInfo.getSkipNum());
+            this.genoInfo = new VcfInfo(genoFileName, sampleInfo, snpFileName);
     	}
     	else {
-    	    this.snpInfo = new SnpInfo(snpFileName);
-            this.genoInfo = new GenoInfo(genoFileName, sampleInfo);
+            this.genoInfo = new GenoInfo(genoFileName, sampleInfo, snpFileName);
     	}
     	this.popNum = sampleInfo.getPopNum();
     	this.indNum = sampleInfo.getIndNum();
-    	this.snpNum = snpInfo.getSnpNum();
     	this.popPairNum = (popNum * (popNum - 1))/2;
         this.outputFileName = outputFileName;
     	

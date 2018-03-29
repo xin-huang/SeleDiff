@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 
 public class VcfInfoTest {
 
-    private final IndInfo indInfo = new IndInfo("examples/data/example.candidates.ind");
+    /*private final IndInfo indInfo = new IndInfo("examples/data/example.candidates.ind");
     private final IndInfo gzIndInfo = new IndInfo("examples/compressed_data/example.candidates.ind.gz");
 
     private final GenoInfo vcfInfo = new VcfInfo("examples/data/example.candidates.vcf", indInfo, 7);
@@ -67,6 +67,6 @@ public class VcfInfoTest {
         assertEquals("rs1800407\tC\tT", gzVcfInfo.getSnpInfo());
 
         gzVcfInfo.close();
-    }
+    }*/
 
 }

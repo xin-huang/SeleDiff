@@ -55,8 +55,10 @@ public final class TDigestPopVarMedianEstimator extends PopVarMedianEstimator {
 	
 	@Override
     protected void findMedians() {
-	    for (int i = 0; i < snpNum; i++) {
-            int[][] alleleCounts = genoInfo.countAlleles();
+	    int[][] alleleCounts;
+	    int snpNum = 0;
+	    while ((alleleCounts = genoInfo.countAlleles()) != null) {
+	        snpNum++;
             for (int m = 0; m < popNum; m++) {
                 for (int n = m + 1; n < popNum; n++) {
                     // Only use SNP neither fix nor lose in any population
@@ -64,13 +66,14 @@ public final class TDigestPopVarMedianEstimator extends PopVarMedianEstimator {
                         continue;
                     int popPairIndex = sampleInfo.getPopPairIndex(m, n);
                     popPairVarDigests[popPairIndex].add(calVarOmega(alleleCounts[m][0],
-                            alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]));
+                                alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]));
                 }
             }
         }
         for (int i = 0; i < popPairNum; i++) {
         	popPairVarMedians[i] = popPairVarDigests[i].quantile(0.5d);
         }
+        System.out.println(snpNum + " variants are read from " + snpFileName);
         genoInfo.close();
     }
 	

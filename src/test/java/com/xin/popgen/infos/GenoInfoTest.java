@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 
 public class GenoInfoTest {
 
-    private final IndInfo indInfo = new IndInfo("examples/data/example.candidates.ind");
+    /*private final IndInfo indInfo = new IndInfo("examples/data/example.candidates.ind");
     private final IndInfo gzIndInfo = new IndInfo("examples/compressed_data/example.candidates.ind.gz");
 
     private final SnpInfo snpInfo = new SnpInfo("examples/data/example.candidates.snp");
@@ -79,6 +79,6 @@ public class GenoInfoTest {
         assertEquals(486, alleleCounts[2][0]);
         assertEquals(4, alleleCounts[2][1]);
         gzGenoInfo.close();
-    }
+    }*/
 
 }
