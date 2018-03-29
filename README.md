@@ -72,7 +72,7 @@ There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is
 
 ### Var File
 
-The Var file is the output file from the first sub-command `compute-var`, which stores variances of pairwise Ω's. When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of Ω between populations.
+The Var file is the output file from the first sub-command `compute-var`, which stores variances of pairwise Ω. When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of Ω between populations.
 
         YRI CEU 1.547660
         YRI CHS 1.639591
