@@ -6,7 +6,7 @@ do
         do
                 sleep 10
                 echo "time: $j"
-                /usr/bin/time --verbose ../SeleDiff/build/install/SeleDiff/bin/SeleDiff compute-diff --geno ./test_pop_2_ind_2000_snp_${var[$i]}.geno --ind test_pop_2_ind_2000.ind --snp ./test_pop_2_ind_2000_snp_${var[$i]}.snp --var test_pop_2_ind_2000_snp_${var[$i]}.var --time test_pop_2_ind_2000_snp_${var[$i]}.time --output test_pop_2_ind_2000_snp_${var[$i]}.selediff
+                /usr/bin/time --verbose ../../../build/install/SeleDiff/bin/SeleDiff compute-diff --geno ./test_pop_2_ind_2000_snp_${var[$i]}.geno --ind test_pop_2_ind_2000.ind --snp ./test_pop_2_ind_2000_snp_${var[$i]}.snp --var test_pop_2_ind_2000_snp_${var[$i]}.var --time test_pop_2_ind_2000_snp_${var[$i]}.time --output test_pop_2_ind_2000_snp_${var[$i]}.selediff
                 echo
         done
 done
