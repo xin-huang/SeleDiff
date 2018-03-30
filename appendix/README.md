@@ -1,6 +1,6 @@
 ## Introduction
 
-In this appendix, we would like to share the programs/scripts used in our simulation in order to make our study more reproducible. We performed all the simulations in [Digital Ocean](https://cloud.digitalocean.com/) Optimized Droplets. The information of these droplets is as follows:
+In this appendix, we would like to share the used programs/scripts in order to make our study more reproducible. We performed all the simulations in [Digital Ocean](https://cloud.digitalocean.com/) Optimized Droplets. The information of these droplets is as follows:
 
 - CPU: Intel(R) Xeon(R) Platinum 8168 Processor
 - Random-access memory: 64 GB
@@ -11,9 +11,12 @@ In this appendix, we would like to share the programs/scripts used in our simula
 
 ## Simulation Programs
 
+We used five programs for simulation. These programs are in `./programs`. `EigenStratSimulator.jar` and `VCFGenerator.jar` generate random genetic data in EIGENSTRAT and VCF formats, respectively. 
+Three other programs--SLiM 2, 4P, and selscan--are written by other researchers, and can be obtained through `0_download_programs.sh`.
+
 ### Simulation for Demographic Models
 
-We used [SLiM 2](https://messerlab.org/slim/) to simulate different demographic models. In total, we considered six scenarios and tuned them with different parameters. All the SLiM2 scripts are in `./appendix/scripts/SLiM2`. You can simulate any model by
+We used [SLiM 2](https://messerlab.org/slim/) to simulate different demographic models. In total, we considered six scenarios and tuned them with different parameters. All the SLiM 2 scripts are in `./scripts/SLiM2`. You can simulate any model by
 
 	> slim model.txt
 
