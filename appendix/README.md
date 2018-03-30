@@ -14,13 +14,28 @@ In this appendix, we shared the used programs/scripts in order to make our study
 ### Programs
 
 We used five programs for simulation. These programs are in `./programs`. `EigenStratSimulator.jar` and `VCFGenerator.jar` generate random genetic data in EIGENSTRAT and VCF formats, respectively. 
-Three other programs--SLiM 2, 4P, and selscan--are written by other researchers<sup>1-3</sup>, and can be obtained through `0_download_programs.sh`.
+Three other programs--SLiM 2, 4P, and selscan--are written by other researchers<sup>1-3</sup>, and can be obtained through `0_download_programs.sh`. All the programs were executed with a single thread.
 
 ### Simulation for Demographic Models
 
 We used [SLiM 2](https://messerlab.org/slim/) to simulate different demographic models. In total, we considered six scenarios and tuned them with different parameters. All the SLiM 2 scripts are in `./scripts/SLiM2`. You can simulate any model by
 
 	> slim model.txt
+
+Here, we briefly describe our demographic models. Except the Complex Models, we assume two populations, and the selection coefficient is larger in Population1 than in Population2. For the Complex Models, we follow the recipe in SLiM 2 Manual, and simulate recent selection started from the 
+
+- Basic Models: Two populations without migration, and constant population sizes through time. We vary:
+	- Magnitudes of selection differences: 0-0.002/generation
+	- Population sizes: 5000-100,000 individuals/population
+	- Initial frequencies of the selective allele: 0.01-0.2
+	- Divergenc times: 1000-5000 generations
+- Bottleneck Models
+- Expansion Models
+- Migration Models
+- Substructure Models
+- Complex Models: Three populations (Africans, Europeans, and East Asians) involving multiple demographic events.
+	- The initial frequency of the selective allele: 0.1
+	- Selection differences: 0-0.002/generation between Africans and Eurasians
 
 ### Simulation for Performance analysis
 
