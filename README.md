@@ -1,5 +1,5 @@
 # SeleDiff
-[![License](http://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Language](http://img.shields.io/badge/language-java-brightgreen.svg)](https://www.java.com/)
 
 ## Introduction
@@ -60,11 +60,11 @@ There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is
 
 ## Input Files
 
-`SeleDiff` assumes biallelic genetic data and will not perform any checks on this assumption. All input files can be compressed by `gzip`.
+`SeleDiff` assumes bi-allelic genetic data and will not perform any checks on this assumption. All input files can be compressed by `gzip`.
 
 ### EIGENSTRAT
 
-`SeleDiff` accepts [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format of genetic data as inputs.
+`SeleDiff` accepts [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format of genetic data as inputs. [EIGENSOFT](https://github.com/DReichLab/EIG) provides several functions to convert other formats to EIGENSTRAT format.
 
 ### VCF
 
