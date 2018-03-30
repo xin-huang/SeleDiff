@@ -1,8 +1,8 @@
 # SeleDiff
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Language](http://img.shields.io/badge/language-java-yellow.svg)](https://www.java.com/)
-[![codecov](https://codecov.io/gh/xin-huang/SeleDiff/branch/master/graph/badge.svg)](https://codecov.io/gh/xin-huang/SeleDiff)
+[![Language](http://img.shields.io/badge/language-java-orange.svg)](https://www.java.com/)
+[![codecov](https://img.shields.io/codecov/c/github/xin-huang/SeleDiff/master.svg)](https://codecov.io/gh/xin-huang/SeleDiff)
 [![Build Status](https://travis-ci.org/xin-huang/SeleDiff.svg?branch=master)](https://travis-ci.org/xin-huang/SeleDiff)
 
 
