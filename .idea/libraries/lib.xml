@@ -4,7 +4,6 @@
       <root url="jar://$PROJECT_DIR$/build/install/SeleDiff/lib/t-digest-3.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/build/install/SeleDiff/lib/SeleDiff-1.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/build/install/SeleDiff/lib/commons-math3-3.6.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/build/install/SeleDiff/lib/guava-23.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/build/install/SeleDiff/lib/jcommander-1.72.jar!/" />
     </CLASSES>
     <JAVADOC />

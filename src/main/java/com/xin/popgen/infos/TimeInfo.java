@@ -61,17 +61,6 @@ public final class TimeInfo implements Info {
     }
 
     /**
-     * Returns the divergence time of a population pair.
-     *
-     * @param popi the population ID of the first population
-     * @param popj the population ID of the second population
-     * @return the divergence time of the population pair {popi,popj}
-     */
-    public int getTime(String popi, String popj) {
-        return times[indInfo.getPopPairIndex(popi,popj)];
-    }
-
-    /**
      * Returns the divergence time of a population pair with a given index.
      *
      * @param k the index of the population pair

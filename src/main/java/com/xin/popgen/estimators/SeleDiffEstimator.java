@@ -55,54 +55,56 @@ public class SeleDiffEstimator extends Estimator {
      * @param popVarFileName the name of a file stores population variances
      * @param timeFileName the name of a file stores divergence time between populations
      */
-    public SeleDiffEstimator(String genoFileName, String indFileName, String snpFileName,
-    		String popVarFileName, String timeFileName) {
-    	super(genoFileName, indFileName, snpFileName);
+    SeleDiffEstimator(String genoFileName, String indFileName, String snpFileName,
+    		String popVarFileName, String timeFileName, String outputFileName, char format) {
+    	super(genoFileName, indFileName, snpFileName, outputFileName, format);
         this.popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
         this.timeInfo = new TimeInfo(timeFileName, sampleInfo);
     }
     
 	@Override
 	public void analyze() {
-		snpInfo.open();
+        writeResults();
 	}
 
     @Override
     protected void writeLine(BufferedWriter bw) throws IOException {
-    	for (int i = 0; i < snpNum; i++) {
-			int[][] alleleCounts = genoInfo.countAlleles();
-			String snp = snpInfo.get();
-			for (int m = 0; m < alleleCounts.length; m++) {
-				for (int n = m + 1; n < alleleCounts.length; n++) {
-					int popPairIndex = sampleInfo.getPopPairIndex(m, n);
-					double popVar = popVarInfo.getPopVar(popPairIndex);
-					double time = timeInfo.getTime(popPairIndex);
-					double logOdds = Model.calLogOdds(alleleCounts[m][0], 
-						alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
-					double varLogOdds = Model.calVarLogOdds(alleleCounts[m][0], 
-						alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
-					double diff = logOdds / time;
-	    			double std = Math.sqrt(varLogOdds + popVar)
-	    					/ time;
-	    			String delta = format((logOdds * logOdds / (varLogOdds + popVar)), 3);
-	    			double[] vals = new double[]{diff, std, diff-1.96*std, diff+1.96*std};
+        int snpNum = 0;
+    	int[][] alleleCounts;
+    	while ((alleleCounts = genoInfo.countAlleles()) != null) {
+    	    snpNum++;
+            String snp = genoInfo.getSnpInfo();
+            for (int m = 0; m < alleleCounts.length; m++) {
+                for (int n = m + 1; n < alleleCounts.length; n++) {
+                    int popPairIndex = sampleInfo.getPopPairIndex(m, n);
+                    double popVar = popVarInfo.getPopVar(popPairIndex);
+                    double time = timeInfo.getTime(popPairIndex);
+                    double logOdds = Model.calLogOdds(alleleCounts[m][0],
+                                alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
+                    double varLogOdds = Model.calVarLogOdds(alleleCounts[m][0],
+                                alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]);
+                    double diff = logOdds / time;
+                    double std = Math.sqrt(varLogOdds + popVar)
+                                / time;
+                    String delta = format((logOdds * logOdds / (varLogOdds + popVar)), 3);
+                    double[] vals = new double[]{diff, std, diff - 1.96 * std, diff + 1.96 * std};
 
-	    			bw.write(snp);
-	    			bw.write("\t");
+                    bw.write(snp);
+                    bw.write("\t");
                     bw.write(popPairIds[popPairIndex][0]);
                     bw.write("\t");
                     bw.write(popPairIds[popPairIndex][1]);
                     bw.write("\t");
-	    			bw.write(format(vals, 6));
+                    bw.write(format(vals, 6));
                     bw.write("\t");
-	    			bw.write(delta);
-	    			bw.write("\t");
-	    			bw.write(chisq.getPvalue(delta));
-	    			bw.newLine();
-				}
-			}
-    	}
-    	snpInfo.close();
+                    bw.write(delta);
+                    bw.write("\t");
+                    bw.write(chisq.getPvalue(delta));
+                    bw.newLine();
+                }
+            }
+        }
+        System.out.println(snpNum + " variants are read from " + snpFileName);
     	genoInfo.close();
     }
 

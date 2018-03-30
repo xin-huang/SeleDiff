@@ -36,7 +36,7 @@ import java.util.StringJoiner;
 public abstract class PopVarMedianEstimator extends Estimator {
 
     // a double array stores medians of variances of drift
-    protected final double[] popPairVarMedians;
+    final double[] popPairVarMedians;
     
     /**
      * Constructor of class {@code PopVarMedianEstimator}.
@@ -44,8 +44,8 @@ public abstract class PopVarMedianEstimator extends Estimator {
      * @param indFileName an EIGENSTRAT .ind file name
      * @param snpFileName an EIGENSTRAT .snp file name
      */
-    public PopVarMedianEstimator(String genoFileName, String indFileName, String snpFileName) {
-    	super(genoFileName, indFileName, snpFileName);
+    PopVarMedianEstimator(String genoFileName, String indFileName, String snpFileName, String outputFileName, char format) {
+    	super(genoFileName, indFileName, snpFileName, outputFileName, format);
 
         popPairVarMedians = new double[popPairNum];
     }
@@ -53,6 +53,7 @@ public abstract class PopVarMedianEstimator extends Estimator {
     @Override
 	public void analyze() {
 		findMedians();
+		writeResults();
 	}
     
     /**

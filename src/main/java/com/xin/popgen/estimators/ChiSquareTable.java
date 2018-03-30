@@ -33,7 +33,7 @@ import org.apache.commons.math3.distribution.ChiSquaredDistribution;
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
-class ChiSquareTable {
+public class ChiSquareTable {
 
 	// a HashMap stores chi-squared statistics and corresponding p-values
 	// key: a chi-squared statistic

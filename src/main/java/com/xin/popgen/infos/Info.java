@@ -52,9 +52,7 @@ public interface Info {
             while ((line = br.readLine()) != null) {
                 parseLine(line);
             }
-        } catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+        } catch (IOException e) {
 			e.printStackTrace();
 		} finally {
             try {
@@ -74,6 +72,7 @@ public interface Info {
      * @return a BufferedReader instance from a ungzipped or gzipped file
      */
     default BufferedReader getBufferedReader(String fileName) {
+	int bufferSize = 1000 * 1024;
     	if (fileName == null)
     		return null;
     	InputStream in = null;
@@ -85,10 +84,10 @@ public interface Info {
 					&& signature[0] == (byte) 0x1f 
 					&& signature[1] == (byte) 0x8b) {
 				GZIPInputStream gzip = new GZIPInputStream(new FileInputStream(fileName));
-				return new BufferedReader(new InputStreamReader(gzip));
+				return new BufferedReader(new InputStreamReader(gzip), bufferSize);
 			}
 			else {
-				return new BufferedReader(new FileReader(fileName));
+				return new BufferedReader(new FileReader(fileName), bufferSize);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

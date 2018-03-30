@@ -23,61 +23,48 @@
  */
 package com.xin.popgen.infos;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * Class {@code GenoInfo} is used for counting alleles from genotype file.
+ * Class {@code GenoInfo} is used for counting alleles from genotype file in EIGENSTRAT format.
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
-public class GenoInfo implements Info{
+public final class GenoInfo extends VcfInfo{
 
-    // an IndInfo instance stores the individual information
-    private final IndInfo sampleInfo;
-
-    // an integer indicates how many individuals in the sample
-    private final int indNum;
-
-    // an integer indicates how many population in the sample
-    private final int popNum;
-
-    private BufferedReader br = null;
+    // a SnpInfo instances stores the information of the SNPs
+    private final SnpInfo snpInfo;
 
     /**
      * Constructor of {@code GenoInfo}.
      *
-     * @param genoFileName the name of the file containing genotype data
+     * @param genoFileName the name of the file containing genotype data in EIGENSTRAT format
      * @param sampleInfo a IndInfo instance storing the individual information
      */
-    public GenoInfo(String genoFileName, IndInfo sampleInfo) {
-        this.sampleInfo = sampleInfo;
-        this.indNum = sampleInfo.getIndNum();
-        this.popNum = sampleInfo.getPopNum();
-        this.br = getBufferedReader(genoFileName);
+    public GenoInfo(String genoFileName, IndInfo sampleInfo, String snpFileName) {
+        super(genoFileName, sampleInfo, false);
+        this.snpInfo = new SnpInfo(snpFileName);
     }
 
-    /**
-     * Close the file storing genotype information.
-     */
+    @Override
     public void close() {
         try {
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        snpInfo.close();
     }
 
+    @Override
+    public String getSnpInfo() { return snpInfo.get(); }
 
-    /**
-     * Returns the counts of alleles.
-     * @return the counts of alleles
-     */
+    @Override
     public int[][] countAlleles() {
         char[] cbuf = new char[indNum];
         int[][] alleleCounts = new int[popNum][2];
         try {
-            br.read(cbuf);
+            if (br.read(cbuf) == -1) return null;
             alleleCounts = countAlleles(cbuf);
             br.read();
         } catch (IOException e) {
@@ -95,7 +82,7 @@ public class GenoInfo implements Info{
     private int[][] countAlleles(char[] cbuf) {
         int[][] alleleCounts = new int[popNum][2];
         if (indNum != cbuf.length)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("The column in .geno file is not consistent with individual number.");
         for (int i = 0; i < indNum; i++) {
             int popIndex = sampleInfo.getPopIndex(i);
             int count = cbuf[i] - 48;
@@ -115,8 +102,5 @@ public class GenoInfo implements Info{
         }
         return alleleCounts;
     }
-
-    @Override
-    public void parseLine(String line) {}
 
 }

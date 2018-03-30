@@ -28,7 +28,7 @@ package com.xin.popgen.estimators;
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
-final class Model {
+public final class Model {
 	
     /**
      * Calculates the logarithm of Odds ratio.
@@ -67,12 +67,11 @@ final class Model {
      * @param countBm counts of derived allele in population B
      * @return the drift variance between two populations
      */
-    static double calDriftVar(int countAw, int countAm, int countBw, int countBm) {
+    static double calVarOmega(int countAw, int countAm, int countBw, int countBm) {
         double logOdds = calLogOdds(countAw, countAm, countBw, countBm);
         double varLogOdds = calVarLogOdds(countAw, countAm, countBw, countBm);
         return round(logOdds * logOdds / 0.455 - varLogOdds);
     }
-
 
     /**
      * Helper function for continuously correction when count < 5.

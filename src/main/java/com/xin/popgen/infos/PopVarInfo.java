@@ -24,13 +24,13 @@
 package com.xin.popgen.infos;
 
 /**
- * Class {@code PopVarInfo} stores variances of drift between populations.
+ * Class {@code PopVarInfo} stores variances of Omega between populations.
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
 public final class PopVarInfo implements Info {
 
-    // a Double array stores variances of drift between populations
+    // a Double array stores variances of Omega between populations
     private final Double[] popVars;
 
     // a SampleInfo instance stores sample information
@@ -39,7 +39,7 @@ public final class PopVarInfo implements Info {
     /**
      * Constructor of class {@code PopVarInfo}.
      *
-     * @param popVarFileName the file name of a file containing variances of drift between populations
+     * @param popVarFileName the file name of a file containing variances of Omega between populations
      * @param indInfo a IndInfo instance containing sample information
      */
     public PopVarInfo(String popVarFileName, IndInfo indInfo) {
@@ -49,40 +49,29 @@ public final class PopVarInfo implements Info {
         readFile(getBufferedReader(popVarFileName));
         checkPopPairs();
 
-        System.out.println(popPairNum + " population pairs with variances of drift are read from " 
+        System.out.println(popPairNum + " population pairs with variances of Omega are read from "
         		+ popVarFileName);
-    }
-    
-    /**
-     * Returns the variance of drift with a given population pair.
-     *
-     * @param popi the population ID of the first population
-     * @param popj the population ID of the second population
-     * @return the variance of drift between the population pair {popi,popj}
-     */
-    public double getPopVar(String popi, String popj) {
-        return popVars[indInfo.getPopPairIndex(popi,popj)];
     }
 
     /**
-     * Returns the variance of drift with a given population pair index.
+     * Returns the variance of Omega with a given population pair index.
      *
      * @param i a population pair index
-     * @return the variance of drift
+     * @return the variance of Omega
      */
     public double getPopVar(int i) {
         return popVars[i];
     }
 
     /**
-     * Helper function for checking whether variances of drift of
+     * Helper function for checking whether variances of Omega of
      * all the population pairs exist.
      */
     private void checkPopPairs() {
         for (int k = 0; k < popVars.length; k++) {
             if (popVars[k] == null) {
                 String[] popPair = indInfo.getPopPair(k);
-                throw new IllegalArgumentException("Cannot find the variance of drift of the population pair {"
+                throw new IllegalArgumentException("Cannot find the variance of Omega of the population pair {"
                         + popPair[0] + "," + popPair[1] + "}");
             }
         }

@@ -11,12 +11,18 @@ apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: 'java-library-distribution'
 apply plugin: 'application'
+apply plugin: 'jacoco'
 apply from: rootProject.file('gradle/jmh.gradle')
 
 mainClassName = "com.xin.popgen.main.SeleDiff"
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 version = '1.0'
+
+jacoco {
+    toolVersion = "0.8.0"
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -30,4 +36,15 @@ dependencies {
     api 'org.apache.commons:commons-math3:3.6.1'
     api 'com.tdunning:t-digest:3.1'
     api 'com.beust:jcommander:1.72'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+}
+
+test {
+    //ignoreFailures = true
+    reports {
+        junitXml.enabled = false
+        html.enabled = true
+    }               
 }

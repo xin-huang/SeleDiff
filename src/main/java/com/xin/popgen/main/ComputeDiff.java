@@ -33,7 +33,7 @@ import com.beust.jcommander.Parameters;
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
 @Parameters(commandDescription = "Sub-command for estimating selection differences of loci")
-final class ComputeDiff extends ComputeVar {
+public final class ComputeDiff extends ComputeVar {
 
     @Parameter(names = "--time", required = true,
             description = "The file stores divergence times between populations. " +
@@ -42,16 +42,16 @@ final class ComputeDiff extends ComputeVar {
                     "the second column is the population ID of the second population, " +
                     "the third column is the divergence time of this population pair. "
                     + "This file is needed when estimating selection differences.", validateWith = FileValidator.class)
-    String timeFileName;
+    public String timeFileName;
 
     @Parameter(names = "--var", required = true,
-            description = "The file stores variances of population demography parameters, " +
+            description = "The file stores variances of Omega, " +
                     "which is space delimited without header " +
                     "the first column is the first population ID " +
                     "the second column is the second population ID " +
                     "the third column is the variance of drift of this population pair. "
                     + "This file is needed when estimating selection differences.",
             validateWith = FileValidator.class)
-    String popVarFileName;
+    public String popVarFileName;
 
 }

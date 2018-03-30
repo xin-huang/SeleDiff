@@ -27,9 +27,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.xin.popgen.infos.GenoInfo;
-import com.xin.popgen.infos.SnpInfo;
-import com.xin.popgen.infos.IndInfo;
+import com.xin.popgen.infos.*;
 
 /**
  * Class {@code Estimator} defines an abstract class
@@ -42,12 +40,13 @@ public abstract class Estimator {
 	private static final int POW10[] = {1, 10, 100, 1000, 10000, 100000, 1000000};
 	
     // a GenoInfo instance stores the genotype information
-	final GenoInfo genoInfo;
+	final VcfInfo genoInfo;
 
 	// a SampleInfo instance stores the sample information
     final IndInfo sampleInfo;
 
-    final SnpInfo snpInfo;
+    // a SnpInfo instance stores the SNP information
+    //final SnpInfo snpInfo;
 
     // an integer stores how many populations in the sample
     final int popNum;
@@ -55,16 +54,16 @@ public abstract class Estimator {
     // an integer stores how many individuals in the sample
     final int indNum;
     
-    // an integer stores how many SNPs in the sample
-    final int snpNum;
-    
     // an integer stores how many population pairs in the sample
     final int popPairNum;
     
     // a String array stores population Ids of each pair
     final String[][] popPairIds;
-    
-    //int snpIndex = 0;
+
+    final String snpFileName;
+
+    // a String stores the name of the output file
+    final String outputFileName;
     
     /**
      * Constructor of {@code Estimator}.
@@ -72,14 +71,19 @@ public abstract class Estimator {
      * @param indFileName an EIGENSTRAT .ind file name
      * @param snpFileName an EIGENSTRAT .snp file name
      */
-    Estimator(String genoFileName, String indFileName, String snpFileName) {
+    Estimator(String genoFileName, String indFileName, String snpFileName, String outputFileName, char format) {
     	this.sampleInfo = new IndInfo(indFileName);
-    	this.snpInfo = new SnpInfo(snpFileName);
+    	this.snpFileName = snpFileName;
+    	if (format == 'v') {
+            this.genoInfo = new VcfInfo(genoFileName, sampleInfo, true);
+    	}
+    	else {
+            this.genoInfo = new GenoInfo(genoFileName, sampleInfo, snpFileName);
+    	}
     	this.popNum = sampleInfo.getPopNum();
     	this.indNum = sampleInfo.getIndNum();
-    	this.snpNum = snpInfo.getSnpNum();
     	this.popPairNum = (popNum * (popNum - 1))/2;
-        this.genoInfo = new GenoInfo(genoFileName, sampleInfo);
+        this.outputFileName = outputFileName;
     	
     	// get population Ids of different pairs
     	this.popPairIds = new String[popPairNum][2];
@@ -96,17 +100,14 @@ public abstract class Estimator {
     /**
      * Helper function for outputting results to files.
      *
-     * @param outputFileName the output file name
      * @throws IOException 
      */
-    public void writeResults(String outputFileName) {
-    	long start = System.currentTimeMillis();
+    protected void writeResults() {
     	BufferedWriter bw = null;
         try {
             bw = new BufferedWriter(new FileWriter(outputFileName));
             writeHeader(bw);
             writeLine(bw);
-            //bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -116,8 +117,6 @@ public abstract class Estimator {
 				e.printStackTrace();
 			}
         }
-        long end = System.currentTimeMillis();
-        System.out.println("Used Time for writing: " + ((end-start)/1000) + " seconds");
     }
 
     /**

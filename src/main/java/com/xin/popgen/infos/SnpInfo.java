@@ -36,26 +36,10 @@ import java.util.regex.Pattern;
  */
 public class SnpInfo implements Info {
 	
-	// an integer stores the number of SNPs in the sample
-	private int snpNum = 0;
-
-	// an integer indicates how many start line to skip
-	private int skip = 0;
-
-	// an integer indicates which column stores SNP ID
-	private int idCol = 0;
-
-	// an integer indicates which column stores reference allele
-	private int refCol = 4;
-
-	// an integer indicates which column stores alternative allele
-	private int altCol = 5;
-
-	// a String stores the name of the file containing SNP information
-	private final String snpFileName;
-
+	// a Pattern instance for splitting lines
     private final Pattern pattern = Pattern.compile("\\s+");
 
+    // a BufferedReader instance points to an EIGENSTRAT SNP file
     private BufferedReader br = null;
 
 	/**
@@ -64,21 +48,9 @@ public class SnpInfo implements Info {
 	 * @param snpFileName the name of an EIGENSTRAT SNP file
 	 */
 	public SnpInfo(String snpFileName) {
-	    this.snpFileName = snpFileName;
-	}
-
-    /**
-     * Open the file storing SNP information.
-     */
-	public void open() {
         this.br = getBufferedReader(snpFileName);
-        try {
-            for (int i = 0; i < skip; i++)
-                br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+        //System.out.println(snpNum + " variants are read from " + snpFileName);
+	}
 
     /**
      * Close the file storing SNP information.
@@ -92,55 +64,24 @@ public class SnpInfo implements Info {
     }
 
     /**
-     *
-     * @param format
-     */
-    public void setFormat(char format) {
-	    if (format == 'v') {
-	        idCol = 2;
-	        refCol = 3;
-	        altCol = 4;
-        }
-    }
-
-    /**
      * Returns the information of a SNP.
      * @return the SNP ID, the reference allele, and the alternative allele
      */
     public String get() {
         StringJoiner sj = new StringJoiner("\t");
         try {
-            String[] snpInfo = pattern.split(br.readLine().trim());
-            sj.add(snpInfo[idCol]).add(snpInfo[refCol]).add(snpInfo[altCol]);
+        	String line = br.readLine();
+        	if (line != null) {
+                String[] snpInfo = pattern.split(line.trim());
+                sj.add(snpInfo[0]).add(snpInfo[4]).add(snpInfo[5]);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return sj.toString();
     }
 
-	/**
-	 * Returns how many SNPs in the sample.
-	 * @return the number of SNPs in the sample
-	 */
-	public int getSnpNum() {
-        readFile(getBufferedReader(snpFileName));
-        System.out.println(snpNum + " variants are read from " + snpFileName);
-	    return snpNum;
-	}
-
-    /**
-     *
-     * @return
-     */
-	public int getSkipNum() {
-	    return skip;
-    }
-
 	@Override
-	public void parseLine(String line) {
-		if (line.startsWith("#"))
-		    skip++;
-	    snpNum++;
-	}
+	public void parseLine(String line) {}
 	
 }
