@@ -27,25 +27,28 @@ Here, we briefly describe our demographic models. Except the Complex Models, we 
 	- Magnitudes of selection differences: 0-0.002/generation;
 	- Population sizes: 5000-100,000 diploid individuals/population;
 	- Initial frequencies of the selective allele: 0.01-0.2;
-	- Divergenc times: 1000-5000 generations.
+	- Divergence times: 1000-5000 generations.
 - Bottleneck Models: Two populations without migration, and one population suddenly reduces its population size at the 1000th generation.
 	- The initial frequency of the selective allele: 0.1;
+	- The initial population size: 10,000 diploid individuals/population;
 	- The selection difference: 0.001/generation;
 	- The divergence time: 2000 generations;
 	- Bottleneck strength: 0.1-0.9. 
 - Expansion Models: Two populations without migration, and one population grows exponentially at the 1000th generation.
 	- The initial frequency of the selective allele: 0.1;
+	- The initial population size: 10,000 diploid individuals/population;
 	- The selection difference: 0.001/generation;
 	- The divergence time: 2000 generations;
 	- Expansion strength: 0.1-0.9.
 - Migration Models:
 	- The initial frequency of the selective allele: 0.1;
 	- The divergence time: 2000 generations;
-	- Constant population size: 10000 diploid individuals/population.
+	- Constant population size: 10,000 diploid individuals/population;
 	- Selection differences: 0-0.002/generation;
 	- Migration rates: 0.00001-0.002/generation.
 - Substructure Models: Two populations without migration, and at least one population divides into two subpopulations at the 1000th generation.
 	- The initial frequency of the selective allele: 0.1;
+	- The initial population size: 10,000 diploid individuals/population;
 	- The divergence time: 2000 generations;
 	- Selection differences: 0-0.002/generation.
 - Complex Models: Three populations (Africans, Europeans, and East Asians) involving multiple demographic events.
