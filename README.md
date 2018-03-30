@@ -1,6 +1,10 @@
 # SeleDiff
+
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Language](http://img.shields.io/badge/language-java-brightgreen.svg)](https://www.java.com/)
+[![Language](http://img.shields.io/badge/language-java-yellow.svg)](https://www.java.com/)
+[![codecov](https://codecov.io/gh/xin-huang/SeleDiff/branch/master/graph/badge.svg)](https://codecov.io/gh/xin-huang/SeleDiff)
+[![Build Status](https://travis-ci.org/xin-huang/SeleDiff.svg?branch=master)](https://travis-ci.org/xin-huang/SeleDiff)
+
 
 ## Introduction
 - `SeleDiff` implements a probabilistic method for estimating and testing selection (coefficient) differences between populations<sup>1</sup>.
