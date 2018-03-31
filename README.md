@@ -63,7 +63,8 @@ You can use `gradlew.bat` to remove `SeleDiff`.
     
 ## Commands
 
-SeleDiff contains two sub-commands:
+`SeleDiff` contains two sub-commands:
+
 	- `compute-var` for estimating variances of Ω<sup>1</sup>, which is required for the `compute-diff` command;
 	- `compute-diff` for estimating selection differences among loci.
 
