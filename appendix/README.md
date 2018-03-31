@@ -18,6 +18,7 @@ Three other programs--`SLiM 2`, `4P`, and `selscan`--are written by other resear
 All the programs were executed with a single thread.
 
 `./programs/TDigestTest.java` compares median estimations from `t-digest` and `quickselect`.
+After build and install `SeleDiff`, you can execute `./programs/run_TDigestTest.sh` to see the results.
 
 ### Simulation for Demographic Models
 
