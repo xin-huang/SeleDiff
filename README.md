@@ -16,7 +16,8 @@
 - For more details, please see the manual.
 
 ## Installation
-To install `SeleDiff`, you should first install [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and clone the `SeleDiff` repository from GitHub.
+To install `SeleDiff`, you should first install [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
+or [OpenJDK8](http://openjdk.java.net/install/), and clone the `SeleDiff` repository from GitHub.
 
 ### Linux
 
@@ -60,7 +61,11 @@ You can use `gradlew.bat` to remove `SeleDiff`.
     > cd /path/to/SeleDiff
     > gradlew.bat clean
     
-There are two sub-commands in `SeleDiff`. The first sub-command `compute-var` is used for estimating variances of Ω<sup>1</sup>, which are required for the second sub-command `compute-diff`.
+## Commands
+
+SeleDiff contains two sub-commands:
+	- `compute-var` for estimating variances of Ω<sup>1</sup>, which is required for the `compute-diff` command;
+	- `compute-diff` for estimating selection differences among loci.
 
 ## Input Files
 
@@ -148,7 +153,7 @@ To estimate selection differences of candidates, we use the sub-command `compute
                             --snp ./examples/data/example.candidates.snp \
                             --var ./examples/results/example.geno.var \
                             --time ./examples/data/example.time \
-                            --output ./examples/results/example.candidates.results
+                            --output ./examples/results/example.candidates.geno.results
         
 The result is stored in `./examples/example.candidates.results`. The main result is in below.
 

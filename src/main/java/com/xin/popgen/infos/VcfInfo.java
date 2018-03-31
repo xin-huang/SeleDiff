@@ -19,8 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * Class {@code VcfInfo} extends Class {@code GenoInfo}
- * and is used for counting alleles and obtaining SNP information from a VCF file.
+ * Class {@code VcfInfo} extends is used for counting alleles and obtaining SNP information from a VCF file.
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */

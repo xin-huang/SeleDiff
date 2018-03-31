@@ -18,7 +18,7 @@ public class TDigestTest {
     public static void main(String[] args) {
 
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("tDigestMedians.txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("tDigestMedianErrors.txt"));
             for (int i = 0; i < 10000; i++) {
                 double[] arr = generateRandomNums();
                 double tMedian = tdigestMedian(arr);
