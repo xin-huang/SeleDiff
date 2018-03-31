@@ -1,9 +1,10 @@
 # SeleDiff
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-red.svg)](LICENSE)
 [![Language](http://img.shields.io/badge/language-java-orange.svg)](https://www.java.com/)
-[![codecov](https://img.shields.io/codecov/c/github/xin-huang/SeleDiff/master.svg)](https://codecov.io/gh/xin-huang/SeleDiff)
+[![Codecov](https://img.shields.io/codecov/c/github/xin-huang/SeleDiff/master.svg)](https://codecov.io/gh/xin-huang/SeleDiff)
 [![Build Status](https://travis-ci.org/xin-huang/SeleDiff.svg?branch=master)](https://travis-ci.org/xin-huang/SeleDiff)
+[![Release](https://img.shields.io/github/release/xin-huang/SeleDiff.svg)](https://github.com/xin-huang/SeleDiff/releases)
 
 
 ## Introduction
@@ -17,7 +18,7 @@
 
 ## Installation
 To install `SeleDiff`, you should first install [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
-or [OpenJDK8](http://openjdk.java.net/install/), and clone the `SeleDiff` repository from GitHub.
+or [OpenJDK8](http://openjdk.java.net/install/).
 
 ### Linux
 
@@ -45,7 +46,7 @@ You can use `gradlew` to remove `SeleDiff`.
     
 ### Windows
 
-In Windows, you can download this repository directly using the green button `Clone or download` at the upright corner. Please make sure your environment variable `JAVA_HOME` correctly point to you JDK directory. After download and uncompression, you can open `cmd` and enter the directory of `SeleDiff` in `cmd`. Please use `gradlew.bat` to build and install `SeleDiff`.
+In Windows, you can download the latest [release](https://github.com/xin-huang/SeleDiff/releases). Please make sure your environment variable `JAVA_HOME` correctly point to you JDK directory. After download and uncompression, you can open `cmd` and enter the directory of `SeleDiff` in `cmd`. Please use `gradlew.bat` to build and install `SeleDiff`.
 
     > cd /path/to/SeleDiff
     > gradlew.bat build
