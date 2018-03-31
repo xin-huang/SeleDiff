@@ -46,7 +46,7 @@ You can use `gradlew` to remove `SeleDiff`.
     
 ### Windows
 
-In Windows, you can download the latest [release](https://github.com/xin-huang/SeleDiff/releases). Please make sure your environment variable `JAVA_HOME` correctly point to you JDK directory. After download and uncompression, you can open `cmd` and enter the directory of `SeleDiff` in `cmd`. Please use `gradlew.bat` to build and install `SeleDiff`.
+In Windows, you can download the [latest release](https://github.com/xin-huang/SeleDiff/releases). Please make sure your environment variable `JAVA_HOME` correctly point to you JDK directory. After download and uncompression, you can open `cmd` and enter the directory of `SeleDiff` in `cmd`. Please use `gradlew.bat` to build and install `SeleDiff`.
 
     > cd /path/to/SeleDiff
     > gradlew.bat build
