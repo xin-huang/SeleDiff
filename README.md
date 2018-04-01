@@ -75,7 +75,7 @@ You can use `gradlew.bat` to remove `SeleDiff`.
 
 ### EIGENSTRAT
 
-`SeleDiff` accepts [EIGENSTRAT](http://genepath.med.harvard.edu/~reich/InputFileFormats.htm) format of genetic data as inputs. [EIGENSOFT](https://github.com/DReichLab/EIG) provides several functions to convert other formats to EIGENSTRAT format.
+`SeleDiff` accepts [EIGENSTRAT](https://reich.hms.harvard.edu/software/InputFileFormats) format of genetic data as inputs. [EIGENSOFT](https://github.com/DReichLab/EIG) provides several functions to convert other formats to EIGENSTRAT format.
 
 ### VCF
 
