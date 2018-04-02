@@ -22,11 +22,11 @@ After build and install `SeleDiff`, you can execute `./programs/run_TDigestTest.
 
 ### Simulation for Demographic Models
 
-We used [SLiM 2](https://messerlab.org/slim/) to simulate different demographic models. In total, we considered six scenarios and tuned them with different parameters. All the SLiM 2 scripts are in `./scripts/SLiM2`. You can simulate any model by
+We used [SLiM 2](https://messerlab.org/slim/) to simulate different demographic models. In total, we considered six scenarios and tuned them with different parameters. All the SLiM 2 scripts are in `./scripts/SLiM2`. You can simulate any model by:
 
 	> slim model.txt
 
-Here, we briefly describe our demographic models. Except the Complex Models, we assume two populations, and the selection coefficient is larger in Population1 than in Population2. For the Complex Models, we follow the recipe in [SLiM 2 Manual](https://messerlab.org/slim/), and simulate recent selection started from the divergence of Eurasians and Africans, and continued in both Europeans and East Asians.
+Here, we briefly describe our demographic models. Except the Complex Models, we assume two populations, and the selection coefficient is larger in Population1 than in Population2. For the Complex Models, we follow the recipe in the [SLiM 2 Manual](https://messerlab.org/slim/), and simulate recent selection started from the divergence of Eurasians and Africans, and continued in both Europeans and East Asians.
 
 - Basic Models: Two populations without migration, and constant population sizes through time. We vary:
 	- Magnitudes of selection differences: 0-0.002/generation;

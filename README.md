@@ -2,9 +2,10 @@
 
 [![license](https://img.shields.io/badge/license-Apache%202.0-red.svg)](LICENSE)
 [![language](http://img.shields.io/badge/language-java-orange.svg)](https://www.java.com/)
-[![Codecov](https://img.shields.io/codecov/c/github/xin-huang/SeleDiff/master.svg)](https://codecov.io/gh/xin-huang/SeleDiff)
-[![Build Status](https://travis-ci.org/xin-huang/SeleDiff.svg?branch=master)](https://travis-ci.org/xin-huang/SeleDiff)
-[![Release](https://img.shields.io/github/release/xin-huang/SeleDiff.svg)](https://github.com/xin-huang/SeleDiff/releases)
+[![codecov](https://img.shields.io/codecov/c/github/xin-huang/SeleDiff/master.svg)](https://codecov.io/gh/xin-huang/SeleDiff)
+[![build Status](https://travis-ci.org/xin-huang/SeleDiff.svg?branch=master)](https://travis-ci.org/xin-huang/SeleDiff)
+[![release](https://img.shields.io/github/release/xin-huang/SeleDiff.svg)](https://github.com/xin-huang/SeleDiff/releases)
+[![manual](https://img.shields.io/badge/manual-SeleDiff-BA55D3.svg)](https://github.com/xin-huang/SeleDiff/docs/SeleDiff_Manual_v1.0.pdf)
 
 
 ## Introduction
@@ -14,7 +15,7 @@
 
         Huang X, Jin L, He Y. 2018. SeleDiff: A fast and scalable tool for estimating and testing 
         selection differences between populations. *In submission*.
-- For more details, please see the manual.
+- For more details, please see the manual in `./docs`.
 
 ## Installation
 To install `SeleDiff`, you should first install [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
@@ -22,25 +23,25 @@ or [OpenJDK8](http://openjdk.java.net/install/).
 
 ### Linux
 
-In Linux, you can open the terminal and clone `SeleDiff` using `git`.
+In Linux, you can open the terminal and clone `SeleDiff` using `git`:
 
     > git clone https://github.com/xin-huang/SeleDiff
 
-Then you can enter the `SeleDiff` directory and use `gradlew` to install `SeleDiff`.
+Then you can enter the `SeleDiff` directory and use `gradlew` to install `SeleDiff`:
 
     > cd ./SeleDiff
     > ./gradlew build
     > ./gradlew install
     
-The runnable `SeleDiff` is in `./build/install/SeleDiff/bin/`. You can add this directory into your `PATH` environment variable by
+The runnable `SeleDiff` is in `./build/install/SeleDiff/bin/`. You can add this directory into your `PATH` environment variable by:
 
     > export PATH="/path/to/SeleDiff/build/install/SeleDiff/bin/":$PATH
     
-You can get help information by typing
+You can get help information by typing:
 
     > SeleDiff
     
-You can use `gradlew` to remove `SeleDiff`.
+You can use `gradlew` to remove `SeleDiff`:
 
     > ./gradlew clean
     
@@ -52,12 +53,12 @@ In Windows, you can download the [latest release](https://github.com/xin-huang/S
     > gradlew.bat build
     > gradlew.bat install
         
- And run `SeleDiff.bat` in `./build/install/SeleDiff/bin/`
+ And run `SeleDiff.bat` in `./build/install/SeleDiff/bin/`:
  
     > cd /build/install/SeleDiff/bin/
     > SeleDiff.bat
         
-You can use `gradlew.bat` to remove `SeleDiff`.
+You can use `gradlew.bat` to remove `SeleDiff`:
 
     > cd /path/to/SeleDiff
     > gradlew.bat clean
@@ -121,7 +122,7 @@ The output file from `SeleDiff` is *TAB* delimited. The first row is a header th
 
 ## An Example
 
-Here is an example to show how `SeleDiff` estimates and tests selection differences between populations. 4 populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. [PLINK 1.7](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml) were used to remove correlated individuals and SNPs with minor allele frequences less than 0.05 and strong linkage disequilibrium. These genome-wide data are stored in `./examples/data/example.geno` and used for estimating variances of Ω.
+Here is an example to show how `SeleDiff` estimates and tests selection differences between populations. Four populations (YRI, CEU, CHB, CHD) from [HapMap3 (release3)](http://hapmap.ncbi.nlm.nih.gov/) were extracted. CHB and CHD were merged into one population called CHS. [PLINK 1.7](http://pngu.mgh.harvard.edu/~purcell/plink/download.shtml) were used to remove correlated individuals and SNPs with minor allele frequences less than 0.05 and strong linkage disequilibrium. These genome-wide data are stored in `./examples/data/example.geno` and used for estimating variances of Ω.
 
 Two alternative alleles (rs1800407 and rs12913832) associated with blue eyes were identified in genes *HERC2* and *OCA2*<sup>2</sup>. These candidate data are stored in `./examples/data/example.candidates.geno` and used for estimating selection differences of these SNPs between populations.
 
@@ -138,7 +139,7 @@ The counts of alleles in our example data were summarized in below.
 
 We assume the divergence time of YRI-CEU and YRI-CHS are both 5000 generations, while the divergence time of CEU-CHS is 3000 generations. This information is stored in `./examples/data/example.time`.
 
-First, we estimate variances of Ω using sub-command `compute-var`.
+First, we estimate variances of Ω using sub-command `compute-var`:
 
 
     > SeleDiff compute-var --geno ./examples/data/example.geno \
@@ -147,7 +148,7 @@ First, we estimate variances of Ω using sub-command `compute-var`.
                            --output ./examples/results/example.geno.var
 
 
-To estimate selection differences of candidates, we use the sub-command `compute-diff`.
+To estimate selection differences of candidates, we use the sub-command `compute-diff`:
 
 
     > SeleDiff compute-diff --geno ./examples/data/example.candidates.geno \
@@ -157,7 +158,7 @@ To estimate selection differences of candidates, we use the sub-command `compute
                             --time ./examples/data/example.time \
                             --output ./examples/results/example.candidates.geno.results
         
-The result is stored in `./examples/example.candidates.results`. The main result is in below.
+The result is stored in `./examples/example.candidates.geno.results`. The main result is in below.
 
 | SNP ID | Population1 | Population2 | Selection difference | Std | delta | *p*-value |
 | ------ | ------------ | ------------ | -------------- | --------- | --------- | -------- |
