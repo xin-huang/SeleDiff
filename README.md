@@ -5,7 +5,7 @@
 [![codecov](https://img.shields.io/codecov/c/github/xin-huang/SeleDiff/master.svg)](https://codecov.io/gh/xin-huang/SeleDiff)
 [![build Status](https://travis-ci.org/xin-huang/SeleDiff.svg?branch=master)](https://travis-ci.org/xin-huang/SeleDiff)
 [![release](https://img.shields.io/github/release/xin-huang/SeleDiff.svg)](https://github.com/xin-huang/SeleDiff/releases)
-[![manual](https://img.shields.io/badge/manual-SeleDiff-BA55D3.svg)](https://github.com/xin-huang/SeleDiff/blob/master/docs/SeleDiff_Manual_v1.0.pdf)
+[![manual](https://img.shields.io/badge/manual-v1.0-BA55D3.svg)](https://github.com/xin-huang/SeleDiff/blob/master/docs/SeleDiff_Manual_v1.0.pdf)
 
 
 ## Introduction
