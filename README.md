@@ -6,7 +6,7 @@
 [![build Status](https://travis-ci.org/xin-huang/SeleDiff.svg?branch=master)](https://travis-ci.org/xin-huang/SeleDiff)
 [![manual](https://img.shields.io/badge/manual-v1.0-00838F.svg)](https://github.com/xin-huang/SeleDiff/blob/master/docs/SeleDiff_Manual_v1.0.pdf)
 [![release](https://img.shields.io/github/release/xin-huang/SeleDiff.svg)](https://github.com/xin-huang/SeleDiff/releases)
-[![doi](https://img.shields.io/badge/doi-in%20submission-BA55D3.svg)]
+![doi](https://img.shields.io/badge/doi-in%20submission-BA55D3.svg)
 
 
 
