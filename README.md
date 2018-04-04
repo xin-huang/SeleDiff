@@ -4,8 +4,10 @@
 [![language](http://img.shields.io/badge/language-java-orange.svg)](https://www.java.com/)
 [![codecov](https://img.shields.io/codecov/c/github/xin-huang/SeleDiff/master.svg)](https://codecov.io/gh/xin-huang/SeleDiff)
 [![build Status](https://travis-ci.org/xin-huang/SeleDiff.svg?branch=master)](https://travis-ci.org/xin-huang/SeleDiff)
+[![manual](https://img.shields.io/badge/manual-v1.0-00838F.svg)](https://github.com/xin-huang/SeleDiff/blob/master/docs/SeleDiff_Manual_v1.0.pdf)
 [![release](https://img.shields.io/github/release/xin-huang/SeleDiff.svg)](https://github.com/xin-huang/SeleDiff/releases)
-[![manual](https://img.shields.io/badge/manual-v1.0-BA55D3.svg)](https://github.com/xin-huang/SeleDiff/blob/master/docs/SeleDiff_Manual_v1.0.pdf)
+[![doi][https://img.shields.io/badge/doi-in%20submission-BA55D3.svg]]
+
 
 
 ## Introduction
@@ -21,9 +23,9 @@
 To install `SeleDiff`, you should first install [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
 or [OpenJDK8](http://openjdk.java.net/install/).
 
-### Linux
+### Linux/Mac
 
-In Linux, you can open the terminal and clone `SeleDiff` using `git`:
+In Linux/Mac, you can open the terminal and clone `SeleDiff` using `git`:
 
     > git clone https://github.com/xin-huang/SeleDiff
 
