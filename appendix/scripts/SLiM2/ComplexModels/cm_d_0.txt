@@ -1,7 +1,10 @@
 initialize() {
     initializeMutationRate(2.36e-8);
+	// m1 simulates neutral alleles
     initializeMutationType("m1", 0.5, "f", 0.0);
+	// m2 simulates the neutral allele in p1
     initializeMutationType("m2", 0.5, "f", 0.0);
+	// m3 simulates the beneficial allele in p2 and p3
     initializeMutationType("m3", 0.5, "f", 0.0);
     m1.mutationStackPolicy = "f";
     m2.mutationStackPolicy = "f";

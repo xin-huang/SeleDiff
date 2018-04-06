@@ -1,7 +1,10 @@
 initialize() {
     initializeMutationRate(2.36e-8);
+	// m1 simulates neutral alleles
     initializeMutationType("m1", 0.5, "f", 0.0);
+	// m2 simulates the neutral allele in p1
     initializeMutationType("m2", 0.5, "f", 0.0);
+	// m3 simulates the beneficial allele in p2 and p3
     initializeMutationType("m3", 0.5, "f", 0.0002);
     m1.mutationStackPolicy = "f";
     m2.mutationStackPolicy = "f";
@@ -43,8 +46,13 @@ initialize() {
     p3.setSubpopulationSize(asInteger(p3_size));
 }
 
+// m2 and m3 are actually the same allele diverging from the same common ancestor
+// thus, their selection coefficient should be the same if they are in the same population
+// the selection coefficient of m3 becomes 0 if enters into p1
 2:2040 fitness(m3, p1) { return 1; }
+// the selection coefficient of m2 becomes 0.0002 if enters into p2
 2:2040 fitness(m2, p2) { return 1.0002; }
+// the selection coefficient of m2 becomes 0.0002 if enters into p3
 1120:2040 fitness(m2, p3) { return 1.0002; }
 
 2040 late() {

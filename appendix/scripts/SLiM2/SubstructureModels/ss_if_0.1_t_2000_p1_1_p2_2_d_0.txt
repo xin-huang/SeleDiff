@@ -25,20 +25,18 @@ initialize() {
 }
 
 1000 late() {
-    //sim.addSubpopSplit("p3", 5000, p1);
+	// p2 divides into two subpopulations: p2 and p4
     sim.addSubpopSplit("p4", 5000, p2);
-    p1.setSubpopulationSize(5000);
     p2.setSubpopulationSize(5000);
 }
 
-//1001:2000 fitness(m2, p3) { return 1.0; }
+// the beneficial allele in p4 returns to neutral
 1001:2000 fitness(m3, p4) { return 1.0; }
 
 2000 late() {
     mut1 = sim.mutationsOfType(m2);
     mut2 = sim.mutationsOfType(m3);
     cat("Result:\t" + sim.mutationFrequencies(p1, mut1)
-        //+ "\t" + sim.mutationFrequencies(p3, mut1) 
         + "\t" + sim.mutationFrequencies(p2, mut2)
         + "\t" + sim.mutationFrequencies(p4, mut2) + "\n");
     sim.simulationFinished();

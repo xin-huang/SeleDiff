@@ -3,7 +3,7 @@ initialize() {
 	// m1 simulates neutral alleles
     initializeMutationType("m1", 0.5, "f", 0.0);
 	// m2 simulates the beneficial allele in p1
-    initializeMutationType("m2", 0.5, "f", 0.001);
+    initializeMutationType("m2", 0.5, "f", 0.003);
 	// m3 simulates the beneficial allele in p2
     initializeMutationType("m3", 0.5, "f", 0.001);
     m1.mutationStackPolicy = "f";
@@ -17,23 +17,31 @@ initialize() {
 1 {
     sim.addSubpop("p1", 10000);
     sim.addSubpop("p2", 10000);
-    p1.setMigrationRates(p2, 0.00002);
-    p2.setMigrationRates(p1, 0.00002);
 }
 
 1 late() {
-    targets = sample(p1.genomes, 2000);
+    // Add beneficial mutation for estimating selection difference
+    targets = sample(p1.genomes, 1000);
     targets.addNewDrawnMutation(m2, 499999);
-    targets = sample(p2.genomes, 2000);
+    targets = sample(p2.genomes, 1000);
     targets.addNewDrawnMutation(m3, 499999);
 }
+
+1000 late() {
+	// p1 divides into two subpopulations: p1 and p3
+    sim.addSubpopSplit("p3", 5000, p1);
+    p1.setSubpopulationSize(5000);
+}
+
+// the beneficial allele in p3 returns to neutral
+1001:2000 fitness(m2, p3) { return 1.0; }
 
 2000 late() {
     mut1 = sim.mutationsOfType(m2);
     mut2 = sim.mutationsOfType(m3);
-    cat("Result:\t" + sim.mutationFrequencies(p1, mut1) 
-        + "\t" + sim.mutationFrequencies(p1, mut2) 
-        + "\t" + sim.mutationFrequencies(p2, mut1) 
-        + "\t" + sim.mutationFrequencies(p2, mut2) + "\n");
+    cat("Result:\t" + sim.mutationFrequencies(p1, mut1)
+        + "\t" + sim.mutationFrequencies(p3, mut1) 
+        + "\t" + sim.mutationFrequencies(p2, mut2)
+        + "\n");
     sim.simulationFinished();
 }

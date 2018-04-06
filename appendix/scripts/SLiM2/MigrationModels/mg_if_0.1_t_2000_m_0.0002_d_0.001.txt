@@ -1,7 +1,10 @@
 initialize() {
     initializeMutationRate(1e-8);
+	// m1 simulates neutral alleles
     initializeMutationType("m1", 0.5, "f", 0.0);
+	// m2 simulates the beneficial allele in p1
     initializeMutationType("m2", 0.5, "f", 0.003);
+	// m3 simulates the beneficial allele in p2
     initializeMutationType("m3", 0.5, "f", 0.001);
     m1.mutationStackPolicy = "f";
     m2.mutationStackPolicy = "f";
@@ -25,7 +28,11 @@ initialize() {
     targets.addNewDrawnMutation(m3, 499999);
 }
 
+// m2 and m3 are actually the same allele diverging from the same common ancestor
+// thus, their selection coefficient should be the same if they are in the same population
+// the selection coefficient of m3 becomes 0.003 if enters into p1
 2:2000 fitness(m3, p1) { return 1.003; }
+// the selection coefficient of m2 becomes 0.001 if enters into p2
 2:2000 fitness(m2, p2) { return 1.001; }
 
 2000 late() {
