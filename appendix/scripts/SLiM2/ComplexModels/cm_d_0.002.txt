@@ -49,7 +49,7 @@ initialize() {
 // m2 and m3 are actually the same allele diverging from the same common ancestor
 // thus, their selection coefficient should be the same if they are in the same population
 // the selection coefficient of m3 becomes 0 if enters into p1
-2:2040 fitness(m3, p1) { return 1; }
+2:2040 fitness(m3, p1) { return 1.0; }
 // the selection coefficient of m2 becomes 0.004 if enters into p2
 2:2040 fitness(m2, p2) { return 1.004; }
 // the selection coefficient of m2 becomes 0.004 if enters into p3

@@ -18,9 +18,9 @@ initialize() {
 
 1 late() {
     // Add beneficial mutation for estimating selection difference
-    targets = sample(p1.genomes, 1000);
+    targets = sample(p1.genomes, 2000);
     targets.addNewDrawnMutation(m2, 499999);
-    targets = sample(p2.genomes, 1000);
+    targets = sample(p2.genomes, 2000);
     targets.addNewDrawnMutation(m3, 499999);
 }
 
