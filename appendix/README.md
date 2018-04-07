@@ -90,7 +90,7 @@ We compared `SeleDiff` with other cross-population methods in two programs: `DIS
 In these comparisons, we used `VCFGenerator.jar` to simulate two populations (1000 diploid individuals/population), and varied sizes of variants from 10,000 to 5,000,000 bp. 
 You should prepare about 5TB hard disk space, if you want to replicate all the simulations.
 
-The scripts for performance analysis are in `./scripts/performance`
+The scripts for the performance analysis are in `./scripts/performance`.
 
 ### Visualization
 
