@@ -14,6 +14,7 @@ In this appendix, we shared the used programs/scripts in order to make our study
 ### Programs
 
 We provide five programs in `./programs`. `EigenStratSimulator.jar` and `VCFGenerator.jar` generate random genetic data in EIGENSTRAT and VCF formats, respectively. 
+Because these two programs produce random numbers of individuals in each population, we provide an additional file describing two populations, each comprising 1000 diploid individuals.
 Three other programs--`SLiM 2`, `4P`, and `selscan`--are written by other researchers<sup>1-3</sup>, and can be obtained through `0_download_programs.sh`. 
 All the programs were executed with a single thread.
 
@@ -31,54 +32,55 @@ Here, we briefly describe our demographic models. Except the Complex Models, we 
 - Basic Models: Two populations without migration, and constant population sizes through time. We vary:
 	- Magnitudes of selection differences: 0-0.002/generation;
 	- Population sizes: 5000-100,000 diploid individuals/population;
-	- Initial frequencies of the selective allele: 0.01-0.2;
+	- Initial frequencies of the beneficial allele: 0.01-0.2;
 	- Divergence times: 1000-5000 generations.
 - Bottleneck Models: Two populations without migration, and one population suddenly reduces its population size at the 1000th generation.
-	- The initial frequency of the selective allele: 0.1;
+	- The initial frequency of the beneficial allele: 0.1;
 	- The initial population size: 10,000 diploid individuals/population;
 	- The selection difference: 0.001/generation;
 	- The divergence time: 2000 generations;
 	- Bottleneck strength: 0.1-0.9. 
 - Expansion Models: Two populations without migration, and one population grows exponentially at the 1000th generation.
-	- The initial frequency of the selective allele: 0.1;
+	- The initial frequency of the beneficial allele: 0.1;
 	- The initial population size: 10,000 diploid individuals/population;
 	- The selection difference: 0.001/generation;
 	- The divergence time: 2000 generations;
 	- Expansion strength: 0.1-0.9.
 - Migration Models:
-	- The initial frequency of the selective allele: 0.1;
+	- The initial frequency of the beneficial allele: 0.1;
 	- The divergence time: 2000 generations;
 	- Constant population size: 10,000 diploid individuals/population;
 	- Selection differences: 0-0.002/generation;
 	- Migration rates: 0.00001-0.002/generation.
 - Substructure Models: Two populations without migration, and at least one population divides into two subpopulations at the 1000th generation.
-	- The initial frequency of the selective allele: 0.1;
+	- The initial frequency of the beneficial allele: 0.1;
 	- The initial population size: 10,000 diploid individuals/population;
+	- The population size of each subpopulation: 5000 diploid individuals/population;
 	- The divergence time: 2000 generations;
 	- Selection differences before divergence: 0-0.002/generation.
 - Complex Models: Three populations (Africans, Europeans, and East Asians) involving multiple demographic events.
-	- The initial frequency of the selective allele: 0.1;
+	- The initial frequency of the beneficial allele: 0.1;
 	- Selection differences: 0-0.002/generation between Africans and Eurasians.
 	
 The nomenclature of each file in `./SLiM2` is as follow.
 
 - The first two letters specify models:
-	- bm: The Basic Models;
-	- bn: The Bottleneck Models;
-	- pe: The Expansion Models;
-	- ss: The Substructure Models;
-	- mg: The Migration Models;
-	- cm: The Complex Models.
-- if: The initial frequency of the beneficial allele.
-- t: The divergence time.
-- m: The migration rate.
-- d: The selection difference.
-- f: The strength of the bottleneck.
-- a: The strength of the expansion.
-- p1: The bottleneck/expansion occurs in the population p1.
-- p2: The bottleneck/expansion occurs in the population p2.
+	- `bm`: The Basic Models;
+	- `bn`: The Bottleneck Models;
+	- `pe`: The Expansion Models;
+	- `ss`: The Substructure Models;
+	- `mg`: The Migration Models;
+	- `cm`: The Complex Models.
+- `if`: The initial frequency of the beneficial allele.
+- `t`: The divergence time.
+- `m`: The migration rate.
+- `d`: The selection difference.
+- `f`: The strength of the bottleneck.
+- `a`: The strength of the expansion.
+- `p1`: The bottleneck/expansion occurs in the population p1.
+- `p2`: The bottleneck/expansion occurs in the population p2.
 
-### Simulation for Performance analysis
+### Simulation for the Performance Analysis
 
 To analyse the performance of `SeleDiff`, we first used `EigenStratSimulator.jar` and `VCFGenerator.jar` to simulate two populations (1000 diploid individuals/population), 
 and varied sizes of variants from 10,000 to 100,000,000 bp. Then we fixed the size of variants to 1,000,000 bp, and varied the numbers of individuals in each population from 1000 to 100,000.
@@ -92,7 +94,7 @@ The scripts for performance analysis are in `./scripts/performance`
 
 ### Visualization
 
-We provided a Jupyter Notebook `./scripts/visualization/SeleDiff-Figures.ipynb` for visualizing our results. You can execute this notebook in [Anaconda](https://anaconda.org/) with Python 3.
+We provide a Jupyter Notebook `./scripts/visualization/SeleDiff-Figures.ipynb` for visualizing our results. You can execute this notebook in [Anaconda](https://anaconda.org/) with Python 3.
 
 ## References
 
