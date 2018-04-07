@@ -55,15 +55,33 @@ Here, we briefly describe our demographic models. Except the Complex Models, we 
 	- The initial frequency of the selective allele: 0.1;
 	- The initial population size: 10,000 diploid individuals/population;
 	- The divergence time: 2000 generations;
-	- Selection differences: 0-0.002/generation.
+	- Selection differences before divergence: 0-0.002/generation.
 - Complex Models: Three populations (Africans, Europeans, and East Asians) involving multiple demographic events.
 	- The initial frequency of the selective allele: 0.1;
 	- Selection differences: 0-0.002/generation between Africans and Eurasians.
+	
+The nomenclature of each file in `./SLiM2` is as follow.
+
+- The first two letters specify models:
+	- bm: The Basic Models;
+	- bn: The Bottleneck Models;
+	- pe: The Expansion Models;
+	- ss: The Substructure Models;
+	- mg: The Migration Models;
+	- cm: The Complex Models.
+- if: The initial frequency of the beneficial allele.
+- t: The divergence time.
+- m: The migration rate.
+- d: The selection difference.
+- f: The strength of the bottleneck.
+- a: The strength of the expansion.
+- p1: The bottleneck/expansion occurs in the population p1.
+- p2: The bottleneck/expansion occurs in the population p2.
 
 ### Simulation for Performance analysis
 
 To analyse the performance of `SeleDiff`, we first used `EigenStratSimulator.jar` and `VCFGenerator.jar` to simulate two populations (1000 diploid individuals/population), 
-and varied sizes of variants from 10,000 to 100,000,000 bp. Then we fixed the size of variants to 1,000,000 bp, and varied the numbers of individuals in each population from 1,000 to 100,000.
+and varied sizes of variants from 10,000 to 100,000,000 bp. Then we fixed the size of variants to 1,000,000 bp, and varied the numbers of individuals in each population from 1000 to 100,000.
 
 We compared `SeleDiff` with other cross-population methods in two programs: `DIST` in [4P](https://github.com/anbena/4p) and `XP-EHH` in [selscan](https://github.com/szpiech/selscan). 
 `DIST` in `4P` contains five statistics: Nei's Gst (1973), Nei's Gst (1983), Hedrick's G'st (2005), Jost's D, and Weir & Cockerham's Fst (1984). 
@@ -71,6 +89,10 @@ In these comparisons, we used `VCFGenerator.jar` to simulate two populations (10
 You should prepare about 5TB hard disk space, if you want to replicate all the simulations.
 
 The scripts for performance analysis are in `./scripts/performance`
+
+### Visualization
+
+We provided a Jupyter Notebook `./scripts/visualization/SeleDiff-Figures.ipynb` for visualizing our results. You can execute this notebook in [Anaconda](https://anaconda.org/) with Python 3.
 
 ## References
 
