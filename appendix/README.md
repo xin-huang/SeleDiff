@@ -45,7 +45,7 @@ Here, we briefly describe our demographic models. Except the Complex Models, we 
 	- The initial population size: 10,000 diploid individuals/population;
 	- The selection difference: 0.001/generation;
 	- The divergence time: 2000 generations;
-	- Expansion strength: 0.1-0.9.
+	- Expansion strength: 0.0005-0.002.
 - Migration Models:
 	- The initial frequency of the beneficial allele: 0.1;
 	- The divergence time: 2000 generations;
