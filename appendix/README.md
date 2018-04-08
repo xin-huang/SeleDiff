@@ -1,6 +1,6 @@
 ## Introduction
 
-In this appendix, we shared the used programs/scripts in order to make our study more reproducible. We performed all the simulations in [Digital Ocean](https://cloud.digitalocean.com/) Optimized Droplets. The information of these droplets is as follows:
+In this appendix, we share the used programs/scripts in order to make our study more reproducible. We performed all the simulations in [Digital Ocean](https://cloud.digitalocean.com/) Optimized Droplets. The information of these droplets is as follows:
 
 - CPU: Intel(R) Xeon(R) Platinum 8168 Processor
 - Random-access memory: 64 GB
