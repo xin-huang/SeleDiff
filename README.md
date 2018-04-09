@@ -88,6 +88,7 @@ You can use `gradlew.bat` to remove `SeleDiff`:
 
 The Var file is the output file from the first sub-command `compute-var`, which stores variances of pairwise Ω. 
 `SeleDiff` does not divide Ω with generation times as He et al. (2015)<sup>1</sup> in order to reduce floating-point rounding errors.
+When estimating Ω, `SeleDiff` uses SNPs are not fixed in any population.
 When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of Ω between populations.
 
         YRI CEU 1.547660
