@@ -163,7 +163,7 @@ To estimate selection differences of candidates, we use the sub-command `compute
                             --time ./examples/data/example.time \
                             --output ./examples/results/example.candidates.geno.results
         
-The result is stored in `./examples/example.candidates.geno.results`. The main result is in below.
+The result is stored in `./examples/results/example.candidates.geno.results`. The main result is in below.
 
 | SNP ID | Population1 | Population2 | Selection difference | Std | delta | *p*-value |
 | ------ | ------------ | ------------ | -------------- | --------- | --------- | -------- |
