@@ -74,6 +74,7 @@ The nomenclature of each file in `./SLiM2` is as follow.
 - `if`: The initial frequency of the beneficial allele.
 - `t`: The divergence time.
 - `m`: The migration rate.
+- `n`: The population size.
 - `d`: The selection difference.
 - `f`: The strength of the bottleneck.
 - `a`: The strength of the expansion.
