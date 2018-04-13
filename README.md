@@ -176,6 +176,8 @@ The result is stored in `./examples/results/example.candidates.geno.results`. Th
 
 From the result, we can see the selection coefficient of rs12913832 in CEU is significantly larger than that in YRI or CHS, which indicates rs12913832 is under directional selection in CEU. While the selection coefficient of rs1800407 in CEU is marginal significantly larger than that in YRI or CHS.
 
+Please refer to our previous study<sup>1</sup> for a more comprehensive working example using HapMap3 dataset.
+
 ## Dependencies
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Apache Commons Math 3.6](https://commons.apache.org/proper/commons-math/index.html)
