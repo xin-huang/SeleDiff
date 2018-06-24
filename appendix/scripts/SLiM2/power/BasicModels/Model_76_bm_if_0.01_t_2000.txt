@@ -1,0 +1,36 @@
+initialize() {
+    initializeMutationRate(1e-8);
+    // m1 simulates neutral mutations
+    initializeMutationType("m1", 0.5, "f", 0.0);
+    // m4 simulates the neutral alleles in p1
+    initializeMutationType("m4", 0.5, "f", 0.0);
+    // m5 simulates the neutral alleles in p2
+    initializeMutationType("m5", 0.5, "f", 0.0);
+    m1.mutationStackPolicy = "f";
+    m4.mutationStackPolicy = "f";
+    m5.mutationStackPolicy = "f";
+    initializeGenomicElementType("g1", m1, 1.0);
+    initializeGenomicElement(g1, 0, 999999);
+    initializeRecombinationRate(1e-8);
+}
+
+1 {
+    sim.addSubpop("p1", 10000);
+    sim.addSubpop("p2", 10000);
+}
+
+1 late() {
+    for (pos in 0:999999) {
+	    if ((pos+1) % 100 != 0) 
+		    next;
+	    targets = sample(p1.genomes, 200);
+	    targets.addNewDrawnMutation(m4, pos);
+	    targets = sample(p2.genomes, 200);
+	    targets.addNewDrawnMutation(m5, pos);
+    }
+}
+
+2000 late() {
+    sim.outputFull();
+    sim.simulationFinished();
+}
