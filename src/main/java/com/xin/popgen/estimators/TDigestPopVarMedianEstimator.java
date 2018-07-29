@@ -56,7 +56,7 @@ public final class TDigestPopVarMedianEstimator extends PopVarMedianEstimator {
                     // Only use SNP neither fix nor lose in any population
                     if ((alleleCounts[m][0] * alleleCounts[m][1] == 0) || (alleleCounts[n][0] * alleleCounts[n][1] == 0))
                         continue;
-                    int popPairIndex = sampleInfo.getPopPairIndex(m, n);
+                    int popPairIndex = popInfo.getPopPairIndex(m, n);
                     popPairVarDigests[popPairIndex].add(calVarOmega(alleleCounts[m][0],
                                 alleleCounts[m][1], alleleCounts[n][0], alleleCounts[n][1]));
                 }

@@ -23,7 +23,7 @@ import java.io.IOException;
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
-public class VcfInfo implements Info {
+public class VcfInfo extends CountInfo {
 
     // an IndInfo instance stores the individual information
     final IndInfo sampleInfo;
@@ -46,10 +46,10 @@ public class VcfInfo implements Info {
      * @param genoFileName the name of the file containing genotype data in VCF format
      * @param sampleInfo   a IndInfo instance storing the individual information
      */
-    public VcfInfo(String genoFileName, IndInfo sampleInfo, boolean skip) {
+    public VcfInfo(String genoFileName, IndInfo sampleInfo, PopInfo popInfo, boolean skip) {
         this.sampleInfo = sampleInfo;
         this.indNum = sampleInfo.getIndNum();
-        this.popNum = sampleInfo.getPopNum();
+        this.popNum = popInfo.getPopNum();
         this.br = getBufferedReader(genoFileName);
         if (skip) {
             String line;
@@ -86,6 +86,7 @@ public class VcfInfo implements Info {
         return this.info;
     }
 
+    @Override
     /**
      * Returns the counts of alleles.
      * @return the counts of alleles

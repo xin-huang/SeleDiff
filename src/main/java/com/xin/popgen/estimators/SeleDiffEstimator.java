@@ -50,8 +50,8 @@ public class SeleDiffEstimator extends Estimator {
     SeleDiffEstimator(String genoFileName, String indFileName, String snpFileName,
     		String popVarFileName, String timeFileName, String outputFileName, char format) {
     	super(genoFileName, indFileName, snpFileName, outputFileName, format);
-        this.popVarInfo = new PopVarInfo(popVarFileName, sampleInfo);
-        this.timeInfo = new TimeInfo(timeFileName, sampleInfo);
+        this.popVarInfo = new PopVarInfo(popVarFileName, popInfo);
+        this.timeInfo = new TimeInfo(timeFileName, popInfo);
     }
     
 	@Override
@@ -68,7 +68,7 @@ public class SeleDiffEstimator extends Estimator {
             String snp = genoInfo.getSnpInfo();
             for (int m = 0; m < alleleCounts.length; m++) {
                 for (int n = m + 1; n < alleleCounts.length; n++) {
-                    int popPairIndex = sampleInfo.getPopPairIndex(m, n);
+                    int popPairIndex = popInfo.getPopPairIndex(m, n);
                     double popVar = popVarInfo.getPopVar(popPairIndex);
                     double time = timeInfo.getTime(popPairIndex);
                     double logOdds = Model.calLogOdds(alleleCounts[m][0],

@@ -37,24 +37,16 @@ public final class IndInfo implements Info {
     // a LinkedQueue stores population IDs for each individuals 
     private final ArrayList<String> ind2popQueue;
 
-    // a HashMap stores population IDs and their corresponding indices
-    // key: population ID; value: index
-    private final HashMap<String, Integer> popIndex;
+    // an integer stores how many individuals in the sample
+    private final int indNum;
 
     // a HashSet stores population IDs
     private final HashSet<String> popSet;
-
-    // a String array stores population IDs
-    private final String[] popIds;
-    
-    // an integer stores how many populations in the sample
-    private final int popNum;
-
-    // an integer stores how many individuals in the sample
-    private final int indNum;
     
     // a Pattern for splitting lines
     private final Pattern pattern = Pattern.compile("\\s+");
+
+    private final PopInfo popInfo;
 
     /**
      * Constructor of {@code IndInfo}.
@@ -63,26 +55,28 @@ public final class IndInfo implements Info {
      */
     public IndInfo(String indFileName) {
         ind2popQueue = new ArrayList<>();
-        popIndex = new HashMap<>(); // key: pop id; value: pop index
         popSet = new HashSet<>();
+        HashMap<String, Integer> popIndex = new HashMap<>(); // key: pop id; value: pop index
         readFile(getBufferedReader(indFileName));
         
         int i = 0;
         indNum = ind2popQueue.size();
-        popNum = popSet.size();
-        popIds = new String[popNum];
+        int popNum = popSet.size();
+        if (popNum == 1) throw new IllegalArgumentException("Find Only 1 population in " + indFileName
+                + ", please check your input file.");
+
+        String[] popIds = new String[popNum];
         for (String popId:popSet) {
             popIndex.put(popId,i);
             popIds[i++] = popId;
         }
+
+        this.popInfo = new PopInfo(popIndex, popIds);
         
         indId2popIndex = new int[indNum];
         for (int j = 0; j < indNum; j++) {
         	indId2popIndex[j] = popIndex.get(ind2popQueue.get(j));
         }
-
-        if (popNum == 1) throw new IllegalArgumentException("Find Only 1 population in " + indFileName
-                + ", please check your input file.");
 
         System.out.println(indNum + " individuals with " + popNum
                 + " populations are read from " + indFileName);
@@ -100,88 +94,13 @@ public final class IndInfo implements Info {
     }
 
     /**
-     * Returns the index of a triangular array given two population indices.
-     *
-     * @param i the index of the first population
-     * @param j the index of the second population
-     * @return the index of the triangular array
-     */
-    public int getPopPairIndex(int i, int j) {
-        int k;
-        if (i < j)
-            k = i*popNum - (i+2)*(i+1)/2 + j;
-        else
-            k = j*popNum - (j+2)*(j+1)/2 + i;
-        return k;
-    }
-
-    /**
-     * Returns the IDs of a population pair given a population pair index.
-     *
-     * @param k a population pair index
-     * @return the IDs of the population pair
-     */
-    public String[] getPopPair(int k) {
-    	int i = 0;
-    	while (((k+(i+1)*(i+2)/2)/popNum) != i) {
-    		i++;
-    	}
-        int j = k - i * popNum + (i+2)*(i+1)/2;
-        return new String[]{getPopId(i), getPopId(j)};
-    }
-
-    /**
-     * Returns how many populations in the sample.
-     *
-     * @return how many populations in the sample
-     */
-    public int getPopNum() { return popNum; }
-
-    /**
      * Returns how many individuals in the sample.
      *
      * @return how many individuals in the sample
      */
     public int getIndNum() { return indNum; }
 
-    /**
-     * Checks whether a population ID exists in the sample.
-     *
-     * @param popId a population ID
-     * @return true, the population ID exists; false, the population ID does not exist
-     */
-    boolean containsPopId(String popId) {
-        return popIndex.containsKey(popId);
-    }
-
-    /**
-     * Returns the index of a triangular array given two population IDs.
-     *
-     * @param popi the first population ID
-     * @param popj the second population ID
-     * @return the index of the triangular array
-     */
-    int getPopPairIndex(String popi, String popj) {
-        return getPopPairIndex(getPopIndex(popi), getPopIndex(popj));
-    }
-
-    /**
-     * Returns the population ID of an index.
-     *
-     * @param i a population index
-     * @return the population ID
-     */
-    private String getPopId(int i) { return popIds[i]; }
-
-    /**
-     * Returns the population index of a population ID.
-     *
-     * @param popId a population ID
-     * @return the population index
-     */
-    private int getPopIndex(String popId) {
-        return popIndex.get(popId);
-    }
+    public PopInfo getPopInfo() { return popInfo; }
 
     @Override
     public void parseLine(String line) {
