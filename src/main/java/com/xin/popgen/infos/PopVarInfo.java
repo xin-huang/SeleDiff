@@ -25,18 +25,18 @@ public final class PopVarInfo implements Info {
     // a Double array stores variances of Omega between populations
     private final Double[] popVars;
 
-    // a SampleInfo instance stores sample information
-    private final IndInfo indInfo;
+    // a PopInfo instance stores population information
+    private final PopInfo popInfo;
 
     /**
      * Constructor of class {@code PopVarInfo}.
      *
      * @param popVarFileName the file name of a file containing variances of Omega between populations
-     * @param indInfo a IndInfo instance containing sample information
+     * @param popInfo a PopInfo instance containing population information
      */
-    public PopVarInfo(String popVarFileName, IndInfo indInfo) {
-        int popPairNum = indInfo.getPopNum() * (indInfo.getPopNum() - 1)/2;
-        this.indInfo = indInfo;
+    public PopVarInfo(String popVarFileName, PopInfo popInfo) {
+        this.popInfo = popInfo;
+        int popPairNum = popInfo.getPopNum() * (popInfo.getPopNum() - 1)/2;
         popVars = new Double[popPairNum];
         readFile(getBufferedReader(popVarFileName));
         checkPopPairs();
@@ -62,7 +62,7 @@ public final class PopVarInfo implements Info {
     private void checkPopPairs() {
         for (int k = 0; k < popVars.length; k++) {
             if (popVars[k] == null) {
-                String[] popPair = indInfo.getPopPair(k);
+                String[] popPair = popInfo.getPopPair(k);
                 throw new IllegalArgumentException("Cannot find the variance of Omega of the population pair {"
                         + popPair[0] + "," + popPair[1] + "}");
             }
@@ -72,14 +72,14 @@ public final class PopVarInfo implements Info {
     @Override
     public void parseLine(String line) {
         String[] elements = line.trim().split("\\s+");
-        if (indInfo.containsPopId(elements[0]) && indInfo.containsPopId(elements[1])) {
-            int popPairIndex = indInfo.getPopPairIndex(elements[0], elements[1]);
+        if (popInfo.containsPopId(elements[0]) && popInfo.containsPopId(elements[1])) {
+            int popPairIndex = popInfo.getPopPairIndex(elements[0], elements[1]);
             popVars[popPairIndex] = Double.parseDouble(elements[2]);
         }
         else {
-            if (!indInfo.containsPopId(elements[0]))
+            if (!popInfo.containsPopId(elements[0]))
                 throw new IllegalArgumentException("Cannot find population: " + elements[0]);
-            if (!indInfo.containsPopId(elements[1]))
+            if (!popInfo.containsPopId(elements[1]))
                 throw new IllegalArgumentException("Cannot find population: " + elements[1]);
         }
     }

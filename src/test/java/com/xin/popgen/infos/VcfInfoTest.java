@@ -23,11 +23,13 @@ public class VcfInfoTest {
 
     private final IndInfo indInfo = new IndInfo("examples/data/example.candidates.ind");
     private final IndInfo gzIndInfo = new IndInfo("examples/compressed_data/example.candidates.ind.gz");
+    private final PopInfo popInfo = indInfo.getPopInfo();
+    private final PopInfo gzPopInfo = gzIndInfo.getPopInfo();
 
     private final VcfInfo vcfInfo = new VcfInfo("examples/data/example.candidates.vcf",
-            indInfo, true);
+            indInfo, popInfo, true);
     private final VcfInfo gzVcfInfo = new VcfInfo("examples/compressed_data/example.candidates.vcf.gz",
-            gzIndInfo, true);
+            gzIndInfo, gzPopInfo, true);
 
     @Test
     public void testCountAlleles() {

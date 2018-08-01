@@ -32,19 +32,18 @@ public abstract class Estimator {
 	private static final int POW10[] = {1, 10, 100, 1000, 10000, 100000, 1000000};
 	
     // a GenoInfo instance stores the genotype information
-	final VcfInfo genoInfo;
+	final CountInfo genoInfo;
+
+	final PopInfo popInfo;
 
 	// a SampleInfo instance stores the sample information
-    final IndInfo sampleInfo;
-
-    // a SnpInfo instance stores the SNP information
-    //final SnpInfo snpInfo;
+    IndInfo sampleInfo;
 
     // an integer stores how many populations in the sample
     final int popNum;
     
     // an integer stores how many individuals in the sample
-    final int indNum;
+    int indNum = 0;
     
     // an integer stores how many population pairs in the sample
     final int popPairNum;
@@ -52,7 +51,7 @@ public abstract class Estimator {
     // a String array stores population Ids of each pair
     final String[][] popPairIds;
 
-    final String snpFileName;
+    String snpFileName;
 
     // a String stores the name of the output file
     final String outputFileName;
@@ -64,23 +63,29 @@ public abstract class Estimator {
      * @param snpFileName an EIGENSTRAT .snp file name
      */
     Estimator(String genoFileName, String indFileName, String snpFileName, String outputFileName, char format) {
-    	this.sampleInfo = new IndInfo(indFileName);
-    	this.snpFileName = snpFileName;
-    	if (format == 'v') {
-            this.genoInfo = new VcfInfo(genoFileName, sampleInfo, true);
-    	}
-    	else {
-            this.genoInfo = new GenoInfo(genoFileName, sampleInfo, snpFileName);
-    	}
-    	this.popNum = sampleInfo.getPopNum();
-    	this.indNum = sampleInfo.getIndNum();
+        this.snpFileName = snpFileName;
+        if ((format == 'v') || (format == 'e')) {
+            this.sampleInfo = new IndInfo(indFileName);
+            this.indNum = sampleInfo.getIndNum();
+            this.popInfo = sampleInfo.getPopInfo();
+    	    if (format == 'v')
+                this.genoInfo = new VcfInfo(genoFileName, sampleInfo, popInfo, true);
+    	    else
+                this.genoInfo = new GenoInfo(genoFileName, sampleInfo, popInfo, snpFileName);
+        }
+        else {
+    	    this.genoInfo = new CountInfo(genoFileName);
+    	    this.popInfo = genoInfo.getPopInfo();
+        }
+
+    	this.popNum = popInfo.getPopNum();
     	this.popPairNum = (popNum * (popNum - 1))/2;
         this.outputFileName = outputFileName;
     	
     	// get population Ids of different pairs
     	this.popPairIds = new String[popPairNum][2];
     	for (int i = 0; i < popPairNum; i++) {
-    		this.popPairIds[i] = sampleInfo.getPopPair(i);
+    		this.popPairIds[i] = popInfo.getPopPair(i);
     	}
     }
 

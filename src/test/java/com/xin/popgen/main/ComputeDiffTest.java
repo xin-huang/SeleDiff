@@ -35,7 +35,7 @@ public class ComputeDiffTest {
     @Test
     public void testComputeDiff() {
         thrown.expect(com.beust.jcommander.ParameterException.class);
-        thrown.expectMessage("The following options are required: [--time], [--output], [--var], [--ind]");
+        thrown.expectMessage("The following options are required: [--time], [--output], [--var]");
         jc.parse("compute-diff", "--geno", "examples/data/example.geno");
 
         jc.parse("compute-diff", "--vcf", "examples/data/example.vcf",

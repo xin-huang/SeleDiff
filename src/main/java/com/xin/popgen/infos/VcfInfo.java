@@ -19,11 +19,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * Class {@code VcfInfo} extends is used for counting alleles and obtaining SNP information from a VCF file.
+ * Class {@code VcfInfo} is used for counting alleles and obtaining SNP information from a VCF file.
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
-public class VcfInfo implements Info {
+public class VcfInfo extends CountInfo {
 
     // an IndInfo instance stores the individual information
     final IndInfo sampleInfo;
@@ -37,19 +37,16 @@ public class VcfInfo implements Info {
     // a BufferedReader instances points to the genotype data
     BufferedReader br = null;
 
-    // a String stores the information of a SNP
-    private String info;
-
     /**
      * Constructor of {@code VcfInfo}.
      *
      * @param genoFileName the name of the file containing genotype data in VCF format
      * @param sampleInfo   a IndInfo instance storing the individual information
      */
-    public VcfInfo(String genoFileName, IndInfo sampleInfo, boolean skip) {
+    public VcfInfo(String genoFileName, IndInfo sampleInfo, PopInfo popInfo, boolean skip) {
         this.sampleInfo = sampleInfo;
         this.indNum = sampleInfo.getIndNum();
-        this.popNum = sampleInfo.getPopNum();
+        this.popNum = popInfo.getPopNum();
         this.br = getBufferedReader(genoFileName);
         if (skip) {
             String line;
@@ -78,18 +75,7 @@ public class VcfInfo implements Info {
         }
     }
 
-    /**
-     * Returns the information of a SNP.
-     * @return the information of a SNP
-     */
-    public String getSnpInfo() {
-        return this.info;
-    }
-
-    /**
-     * Returns the counts of alleles.
-     * @return the counts of alleles
-     */
+    @Override
     public int[][] countAlleles() {
         int[][] alleleCounts = new int[popNum][2];
         try {
@@ -105,6 +91,7 @@ public class VcfInfo implements Info {
 
     /**
      * Helper function for counting alleles.
+     *
      * @param line a String represents one line in the VCF file
      * @return a 2-D integer array containing counts of each allele
      */
@@ -118,6 +105,7 @@ public class VcfInfo implements Info {
         for (int i = 0; i < 3; i++) {
             end = line.indexOf("\t", end+1);
         }
+        // SNP ID REF ALT
         this.info = line.substring(start, end);
         for (int i = 0; i < 4; i++) {
             end = line.indexOf("\t", end+1);

@@ -40,8 +40,16 @@ public class EstimatorFactory {
         Estimator estimator = null;
 
         if (jc.getParsedCommand().equals("compute-var")) {
-            char format = checkParameters(var.vcfFileName, var.genoFileName, var.snpFileName);
+            char format = checkParameters(var.countFileName, var.vcfFileName,
+                    var.genoFileName, var.snpFileName);
             switch (format) {
+                case('c'):
+                    estimator = new TDigestPopVarMedianEstimator(
+                            var.countFileName, null, var.countFileName,
+                            var.outputFileName,
+                            format
+                    );
+                    break;
                 case ('e'):
                     estimator = new TDigestPopVarMedianEstimator(
                             var.genoFileName,
@@ -63,8 +71,18 @@ public class EstimatorFactory {
                 default: break;
             }
         } else if (jc.getParsedCommand().equals("compute-diff")) {
-            char format = checkParameters(diff.vcfFileName, diff.genoFileName, diff.snpFileName);
+            char format = checkParameters(diff.countFileName, diff.vcfFileName,
+                    diff.genoFileName, diff.snpFileName);
             switch (format) {
+                case('c'):
+                    estimator = new SeleDiffEstimator(
+                            diff.countFileName, null, diff.countFileName,
+                            diff.popVarFileName,
+                            diff.timeFileName,
+                            diff.outputFileName,
+                            format
+                    );
+                    break;
                 case ('e'):
                     estimator = new SeleDiffEstimator(
                             diff.genoFileName,
@@ -102,19 +120,25 @@ public class EstimatorFactory {
      * @param snpFileName the name of a EIGENSTRAT SNP file
      * @return the format of the input files, 'e' for EIGENSTRAT format, 'v' for VCF format
      */
-    private static char checkParameters(String vcfFileName, String genoFileName, String snpFileName) {
+    private static char checkParameters(String countFileName, String vcfFileName,
+                                        String genoFileName, String snpFileName) {
 
         char format = 'e';
 
+        if ((countFileName != null) && (genoFileName != null))
+            throw new ParameterException("Cannot use --count with --geno.");
+        if ((countFileName != null) && (vcfFileName != null))
+            throw new ParameterException("Cannot use --count with --vcf.");
         if ((vcfFileName != null) && (genoFileName != null))
             throw new ParameterException("Only use --vcf or --geno to specify the genotype file.");
         if ((vcfFileName != null) && (snpFileName != null))
             throw new ParameterException("Cannot use --vcf with --snp.");
-        if ((vcfFileName == null) && (genoFileName == null))
-            throw new ParameterException("Cannot find --vcf or --geno to specify the genotype file.");
+        if ((countFileName == null) && (vcfFileName == null) && (genoFileName == null))
+            throw new ParameterException("Cannot find --count, --vcf or --geno to specify the allele count/genotype file.");
         if ((genoFileName != null) && (snpFileName == null))
             throw new ParameterException("Cannot find --snp when using --geno.");
         if (vcfFileName != null) format = 'v';
+        if (countFileName != null) format = 'c';
 
         return format;
 

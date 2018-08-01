@@ -32,7 +32,12 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandDescription = "Sub-command for estimating variances of Omega")
 public class ComputeVar {
-	
+
+    @Parameter(names = "--count",
+            description = "The COUNT file stores SNP information and allele counts of SNPs",
+            validateWith = FileValidator.class)
+    public String countFileName;
+
 	@Parameter(names = "--vcf",
             description = "The VCF file stores SNP information and genotype data.",
             validateWith = FileValidator.class)
@@ -43,7 +48,7 @@ public class ComputeVar {
 					+ "0, zero copy of the reference allele; 1, one copy of the reference allele "
 					+ "and one copy of the alternative allele; 2, two copies of the reference allele; "
 					+ "9, missing values.", 
-					validateWith = FileValidator.class)
+            validateWith = FileValidator.class)
     public String genoFileName;
     
     @Parameter(names = "--snp",
@@ -51,7 +56,7 @@ public class ComputeVar {
     		validateWith = FileValidator.class)
     public String snpFileName;
     
-    @Parameter(names = "--ind", required = true, 
+    @Parameter(names = "--ind",
     		description = "The EIGENSTRAT IND file stores information of individuals and populations.", 
     		validateWith = FileValidator.class)
     public String indFileName;

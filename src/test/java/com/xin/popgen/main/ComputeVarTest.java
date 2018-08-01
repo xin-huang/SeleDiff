@@ -35,7 +35,7 @@ public class ComputeVarTest {
     @Test
     public void testComputeVar() {
         thrown.expect(com.beust.jcommander.ParameterException.class);
-        thrown.expectMessage("The following options are required: [--output], [--ind]");
+        thrown.expectMessage("The following option is required: [--output]");
         jc.parse("compute-var", "--geno", "examples/data/example.geno");
 
         jc.parse("compute-var", "--vcf", "examples/data/example.vcf",
@@ -65,8 +65,8 @@ public class ComputeVarTest {
 
     @Test
     public void testFileValidator3() {
-        thrown.expectMessage("Parameter --output: Path test does not exist");
-        jc.parse("compute-var", "--ind", "examples/data/example.ind", "--output", "test/test.output");
+        thrown.expectMessage("Parameter --output: Path jojo does not exist");
+        jc.parse("compute-var", "--ind", "examples/data/example.ind", "--output", "jojo/jojo.output");
     }
 
 }

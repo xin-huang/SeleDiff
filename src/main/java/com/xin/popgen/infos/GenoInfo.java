@@ -33,8 +33,8 @@ public final class GenoInfo extends VcfInfo{
      * @param genoFileName the name of the file containing genotype data in EIGENSTRAT format
      * @param sampleInfo a IndInfo instance storing the individual information
      */
-    public GenoInfo(String genoFileName, IndInfo sampleInfo, String snpFileName) {
-        super(genoFileName, sampleInfo, false);
+    public GenoInfo(String genoFileName, IndInfo sampleInfo, PopInfo popInfo, String snpFileName) {
+        super(genoFileName, sampleInfo, popInfo, false);
         this.snpInfo = new SnpInfo(snpFileName);
     }
 

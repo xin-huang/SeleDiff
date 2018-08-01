@@ -24,6 +24,8 @@ public class IndInfoTest {
 
     private final IndInfo indInfo = new IndInfo("examples/data/example.ind");
     private final IndInfo gzIndInfo = new IndInfo("examples/compressed_data/example.ind.gz");
+    private final PopInfo popInfo = indInfo.getPopInfo();
+    private final PopInfo gzPopInfo = gzIndInfo.getPopInfo();
 
     @Test
     public void testGetPopIndex() {
@@ -33,30 +35,30 @@ public class IndInfoTest {
 
     @Test
     public void testGetPopPairIndex() {
-        assertEquals(0, indInfo.getPopPairIndex("YRI", "CEU"));
-        assertEquals(1, indInfo.getPopPairIndex("YRI", "CHS"));
-        assertEquals(2, indInfo.getPopPairIndex("CEU", "CHS"));
+        assertEquals(0, popInfo.getPopPairIndex("YRI", "CEU"));
+        assertEquals(1, popInfo.getPopPairIndex("YRI", "CHS"));
+        assertEquals(2, popInfo.getPopPairIndex("CEU", "CHS"));
 
-        assertEquals(0, gzIndInfo.getPopPairIndex("YRI", "CEU"));
-        assertEquals(1, gzIndInfo.getPopPairIndex("YRI", "CHS"));
-        assertEquals(2, gzIndInfo.getPopPairIndex("CEU", "CHS"));
+        assertEquals(0, gzPopInfo.getPopPairIndex("YRI", "CEU"));
+        assertEquals(1, gzPopInfo.getPopPairIndex("YRI", "CHS"));
+        assertEquals(2, gzPopInfo.getPopPairIndex("CEU", "CHS"));
     }
 
     @Test
     public void testGetPopPair() {
-        String[] popPair0 = indInfo.getPopPair(0);
+        String[] popPair0 = popInfo.getPopPair(0);
         assertEquals("YRI", popPair0[0]);
         assertEquals("CEU", popPair0[1]);
 
-        String[] popPair1 = gzIndInfo.getPopPair(1);
+        String[] popPair1 = gzPopInfo.getPopPair(1);
         assertEquals("YRI", popPair1[0]);
         assertEquals("CHS", popPair1[1]);
     }
 
     @Test
     public void testGetPopNum() {
-        assertEquals(3, indInfo.getPopNum());
-        assertEquals(3, gzIndInfo.getPopNum());
+        assertEquals(3, popInfo.getPopNum());
+        assertEquals(3, gzPopInfo.getPopNum());
 
     }
 
@@ -68,13 +70,13 @@ public class IndInfoTest {
 
     @Test
     public void testContainsPopId() {
-        assertTrue(indInfo.containsPopId("YRI"));
-        assertTrue(indInfo.containsPopId("CEU"));
-        assertTrue(indInfo.containsPopId("CHS"));
+        assertTrue(popInfo.containsPopId("YRI"));
+        assertTrue(popInfo.containsPopId("CEU"));
+        assertTrue(popInfo.containsPopId("CHS"));
 
-        assertTrue(gzIndInfo.containsPopId("YRI"));
-        assertTrue(gzIndInfo.containsPopId("CEU"));
-        assertTrue(gzIndInfo.containsPopId("CHS"));
+        assertTrue(gzPopInfo.containsPopId("YRI"));
+        assertTrue(gzPopInfo.containsPopId("CEU"));
+        assertTrue(gzPopInfo.containsPopId("CHS"));
     }
 
 }

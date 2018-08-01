@@ -28,8 +28,8 @@ public final class TimeInfo implements Info {
     // k = i * (n - (i+1)/2) + j - i - 1
     private final Integer[] times;
 
-    // a SampleInfo instance stores the information of samples
-    private final IndInfo indInfo;
+    // a PopInfo instance stores population information
+    private final PopInfo popInfo;
 
     /**
      * Constructor of class {@code TimeInfo}.
@@ -39,12 +39,12 @@ public final class TimeInfo implements Info {
      * the third column is the divergence time of the population pair
      *
      * @param timeFileName the file name of a divergence time file
-     * @param indInfo an IndInfo instance
+     * @param popInfo a PopInfo instance
      */
-    public TimeInfo(String timeFileName, IndInfo indInfo) {
-        int popPairNum = (indInfo.getPopNum()*(indInfo.getPopNum()-1))/2;
+    public TimeInfo(String timeFileName, PopInfo popInfo) {
+        this.popInfo = popInfo;
+        int popPairNum = (popInfo.getPopNum()*(popInfo.getPopNum()-1))/2;
         times = new Integer[popPairNum];
-        this.indInfo = indInfo;
         readFile(getBufferedReader(timeFileName));
         checkPopPairs();
 
@@ -69,7 +69,7 @@ public final class TimeInfo implements Info {
     private void checkPopPairs() {
         for (int k = 0; k < times.length; k++) {
             if (times[k] == null) {
-                String[] popPair = indInfo.getPopPair(k);
+                String[] popPair = popInfo.getPopPair(k);
                 throw new IllegalArgumentException("Cannot find the divergence time of the population pair {"
                         + popPair[0] + "," + popPair[1] + "}");
             }
@@ -82,13 +82,13 @@ public final class TimeInfo implements Info {
         // elements[0]: the first population
         // elements[1]: the second population
         // elements[2]: divergence time between the first and second population
-        if (indInfo.containsPopId(elements[0]) && indInfo.containsPopId(elements[1])) {
-            times[indInfo.getPopPairIndex(elements[0],elements[1])] = Integer.parseInt(elements[2]);
+        if (popInfo.containsPopId(elements[0]) && popInfo.containsPopId(elements[1])) {
+            times[popInfo.getPopPairIndex(elements[0],elements[1])] = Integer.parseInt(elements[2]);
         }
         else {
-            if (!indInfo.containsPopId(elements[0]))
+            if (!popInfo.containsPopId(elements[0]))
                 throw new IllegalArgumentException("Cannot find population: " + elements[0]);
-            if (!indInfo.containsPopId(elements[1]))
+            if (!popInfo.containsPopId(elements[1]))
                 throw new IllegalArgumentException("Cannot find population: " + elements[1]);
         }
     }
