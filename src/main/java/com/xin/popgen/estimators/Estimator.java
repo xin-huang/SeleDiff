@@ -63,9 +63,9 @@ public abstract class Estimator {
      * @param snpFileName an EIGENSTRAT .snp file name
      */
     Estimator(String genoFileName, String indFileName, String snpFileName, String outputFileName, char format) {
-		if ((format == 'v') || (format == 'e')) {
+        this.snpFileName = snpFileName;
+        if ((format == 'v') || (format == 'e')) {
             this.sampleInfo = new IndInfo(indFileName);
-            this.snpFileName = snpFileName;
             this.indNum = sampleInfo.getIndNum();
             this.popInfo = sampleInfo.getPopInfo();
     	    if (format == 'v')

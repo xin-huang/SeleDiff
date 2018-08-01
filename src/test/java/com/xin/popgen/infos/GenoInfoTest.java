@@ -23,11 +23,13 @@ public class GenoInfoTest {
 
     private final IndInfo indInfo = new IndInfo("examples/data/example.candidates.ind");
     private final IndInfo gzIndInfo = new IndInfo("examples/compressed_data/example.candidates.ind.gz");
+    private final PopInfo popInfo = indInfo.getPopInfo();
+    private final PopInfo gzPopInfo = gzIndInfo.getPopInfo();
 
     private final GenoInfo genoInfo = new GenoInfo("examples/data/example.candidates.geno",
-            indInfo, "examples/data/example.candidates.snp");
+            indInfo, popInfo, "examples/data/example.candidates.snp");
     private final GenoInfo gzGenoInfo = new GenoInfo("examples/compressed_data/example.candidates.geno.gz",
-            gzIndInfo, "examples/compressed_data/example.candidates.snp.gz");
+            gzIndInfo, gzPopInfo, "examples/compressed_data/example.candidates.snp.gz");
 
     @Test
     public void testGetSnpInfo() {

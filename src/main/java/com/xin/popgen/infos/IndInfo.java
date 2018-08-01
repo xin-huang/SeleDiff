@@ -31,7 +31,6 @@ public final class IndInfo implements Info {
 	// a String array stores population IDs for each individuals
 	// The order of individual IDs in the sample file should be 
 	// CONSISTENT with those in the header of the VCF file
-    
     private int[] indId2popIndex;
     
     // a LinkedQueue stores population IDs for each individuals 
@@ -46,6 +45,7 @@ public final class IndInfo implements Info {
     // a Pattern for splitting lines
     private final Pattern pattern = Pattern.compile("\\s+");
 
+    // a PopInfo instance stores population information
     private final PopInfo popInfo;
 
     /**
@@ -82,7 +82,6 @@ public final class IndInfo implements Info {
                 + " populations are read from " + indFileName);
     }
 
-
     /**
      * Returns the population index of an individual.
      *
@@ -100,6 +99,11 @@ public final class IndInfo implements Info {
      */
     public int getIndNum() { return indNum; }
 
+    /**
+     * Returns a PopInfo instance containing population information.
+     *
+     * @return a PopInfo instance
+     */
     public PopInfo getPopInfo() { return popInfo; }
 
     @Override

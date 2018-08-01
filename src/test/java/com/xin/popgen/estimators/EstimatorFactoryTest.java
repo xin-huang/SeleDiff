@@ -71,7 +71,7 @@ public class EstimatorFactoryTest {
                 .addCommand("compute-var", var)
                 .addCommand("compute-diff", diff)
                 .build();
-        thrown.expectMessage("Cannot find --vcf or --geno to specify the genotype file.");
+        thrown.expectMessage("Cannot find --count, --vcf or --geno to specify the allele count/genotype file.");
         jc.parse("compute-var",
                 "--ind", "examples/data/example.ind",
                 "--snp", "examples/data/example.snp",
@@ -91,6 +91,38 @@ public class EstimatorFactoryTest {
         jc.parse("compute-var",
                 "--geno", "examples/data/example.geno",
                 "--ind", "examples/data/example.ind",
+                "--output", "examples/data/example.var");
+        EstimatorFactory.create(jc, var, diff);
+    }
+
+    @Test
+    public void testCheckParameters5() {
+        ComputeVar var = new ComputeVar();
+        ComputeDiff diff = new ComputeDiff();
+        JCommander jc = JCommander.newBuilder()
+                .addCommand("compute-var", var)
+                .addCommand("compute-diff", diff)
+                .build();
+        thrown.expectMessage("Cannot use --count with --geno.");
+        jc.parse("compute-var",
+                "--geno", "examples/data/example.geno",
+                "--count", "examples/data/example.count",
+                "--output", "examples/data/example.var");
+        EstimatorFactory.create(jc, var, diff);
+    }
+
+    @Test
+    public void testCheckParameters6() {
+        ComputeVar var = new ComputeVar();
+        ComputeDiff diff = new ComputeDiff();
+        JCommander jc = JCommander.newBuilder()
+                .addCommand("compute-var", var)
+                .addCommand("compute-diff", diff)
+                .build();
+        thrown.expectMessage("Cannot use --count with --vcf.");
+        jc.parse("compute-var",
+                "--vcf", "examples/data/example.vcf",
+                "--count", "examples/data/example.count",
                 "--output", "examples/data/example.var");
         EstimatorFactory.create(jc, var, diff);
     }

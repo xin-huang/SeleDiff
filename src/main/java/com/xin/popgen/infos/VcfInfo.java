@@ -19,7 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * Class {@code VcfInfo} extends is used for counting alleles and obtaining SNP information from a VCF file.
+ * Class {@code VcfInfo} is used for counting alleles and obtaining SNP information from a VCF file.
  *
  * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
@@ -36,9 +36,6 @@ public class VcfInfo extends CountInfo {
 
     // a BufferedReader instances points to the genotype data
     BufferedReader br = null;
-
-    // a String stores the information of a SNP
-    private String info;
 
     /**
      * Constructor of {@code VcfInfo}.
@@ -78,19 +75,7 @@ public class VcfInfo extends CountInfo {
         }
     }
 
-    /**
-     * Returns the information of a SNP.
-     * @return the information of a SNP
-     */
-    public String getSnpInfo() {
-        return this.info;
-    }
-
     @Override
-    /**
-     * Returns the counts of alleles.
-     * @return the counts of alleles
-     */
     public int[][] countAlleles() {
         int[][] alleleCounts = new int[popNum][2];
         try {
@@ -106,6 +91,7 @@ public class VcfInfo extends CountInfo {
 
     /**
      * Helper function for counting alleles.
+     *
      * @param line a String represents one line in the VCF file
      * @return a 2-D integer array containing counts of each allele
      */
@@ -119,6 +105,7 @@ public class VcfInfo extends CountInfo {
         for (int i = 0; i < 3; i++) {
             end = line.indexOf("\t", end+1);
         }
+        // SNP ID REF ALT
         this.info = line.substring(start, end);
         for (int i = 0; i < 4; i++) {
             end = line.indexOf("\t", end+1);

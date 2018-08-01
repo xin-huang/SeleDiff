@@ -8,24 +8,29 @@ import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
 /**
- * Created by deep on 18-7-27.
+ * Class {@code CountInfo} is used for counting alleles and obtaining SNP information from a .count file.
+ *
+ * @author Xin Huang {@code <xin.huang07@gmail.com>}
  */
 public class CountInfo implements Info {
 
     // a Pattern for splitting lines
     private final Pattern pattern = Pattern.compile("\\s+");
 
-    private int popNum;
+    // an integer stores how many populations in the sample
+    private int popNum = 0;
 
+    // a PopInfo instance stores population information
     private PopInfo popInfo;
 
     // a BufferedReader instances points to the input data
     BufferedReader br = null;
 
     // a String stores the information of a SNP
-    private String info;
+    String info;
 
-    public CountInfo() {}
+    // default constructor
+    CountInfo() {}
 
     public CountInfo(String countFileName) {
         this.br = getBufferedReader(countFileName);
@@ -33,7 +38,7 @@ public class CountInfo implements Info {
             String[] elements = pattern.split(br.readLine().trim());
             HashSet<String> popSet = new HashSet<>();
             HashMap<String, Integer> popIndex = new HashMap<>();
-            for (int i = 4; i < elements.length; i += 2) {
+            for (int i = 5; i < elements.length; i += 2) {
                 popSet.add(elements[i]);
             }
             this.popNum = popSet.size();
@@ -66,10 +71,25 @@ public class CountInfo implements Info {
         }
     }
 
+    /**
+     * Returns the information of a SNP.
+     *
+     * @return the information of a SNP
+     */
     public String getSnpInfo() { return this.info; }
 
+    /**
+     * Returns a PopInfo instance containing population information.
+     *
+     * @return a PopInfo instance
+     */
     public PopInfo getPopInfo() { return popInfo; }
 
+    /**
+     * Returns the counts of alleles.
+     *
+     * @return the counts of alleles
+     */
     public int[][] countAlleles() {
         int[][] alleleCounts = new int[popNum][2];
         try {
@@ -83,18 +103,22 @@ public class CountInfo implements Info {
         return alleleCounts;
     }
 
+    /**
+     * Helper function for counting alleles.
+     *
+     * @param line a String represents one line in the VCF file
+     * @return a 2-D integer array containing counts of each allele
+     */
     private int[][] countAlleles(String line) {
         int[][] alleleCounts = new int[popNum][2];
         String[] elements = pattern.split(line);
         StringJoiner sj = new StringJoiner("\t");
-        for (int i = 0; i < 3; i++) {
-            sj.add(elements[i]);
-        }
+        sj.add(elements[2]).add(elements[3]).add(elements[4]);
         this.info = sj.toString();
-        int j = 4;
+        int j = 5;
         for (int i = 0; i < popNum; i++) {
-            alleleCounts[i][0] = Integer.parseInt(elements[j]);
-            alleleCounts[i][1] = Integer.parseInt(elements[++j]);
+            alleleCounts[i][0] = Integer.parseInt(elements[j++]);
+            alleleCounts[i][1] = Integer.parseInt(elements[j++]);
         }
         return  alleleCounts;
     }

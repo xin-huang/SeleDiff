@@ -45,7 +45,7 @@ public class EstimatorFactory {
             switch (format) {
                 case('c'):
                     estimator = new TDigestPopVarMedianEstimator(
-                            var.countFileName, null, null,
+                            var.countFileName, null, var.countFileName,
                             var.outputFileName,
                             format
                     );
@@ -76,7 +76,7 @@ public class EstimatorFactory {
             switch (format) {
                 case('c'):
                     estimator = new SeleDiffEstimator(
-                            diff.countFileName, null, null,
+                            diff.countFileName, null, diff.countFileName,
                             diff.popVarFileName,
                             diff.timeFileName,
                             diff.outputFileName,
@@ -126,9 +126,9 @@ public class EstimatorFactory {
         char format = 'e';
 
         if ((countFileName != null) && (genoFileName != null))
-            throw new ParameterException("Cannot use --count with --genotype");
+            throw new ParameterException("Cannot use --count with --geno.");
         if ((countFileName != null) && (vcfFileName != null))
-            throw new ParameterException("Cannot use --count with --vcf");
+            throw new ParameterException("Cannot use --count with --vcf.");
         if ((vcfFileName != null) && (genoFileName != null))
             throw new ParameterException("Only use --vcf or --geno to specify the genotype file.");
         if ((vcfFileName != null) && (snpFileName != null))

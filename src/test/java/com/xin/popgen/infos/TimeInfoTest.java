@@ -25,27 +25,29 @@ public class TimeInfoTest {
 
     private final IndInfo indInfo = new IndInfo("examples/data/example.ind");
     private final IndInfo gzIndInfo = new IndInfo("examples/compressed_data/example.ind.gz");
+    private final PopInfo popInfo = indInfo.getPopInfo();
+    private final PopInfo gzPopInfo = gzIndInfo.getPopInfo();
 	
-	private final TimeInfo timeInfo = new TimeInfo("examples/data/example.time", indInfo);
-	private final TimeInfo gzTimeInfo = new TimeInfo("examples/compressed_data/example.time.gz", gzIndInfo);
+	private final TimeInfo timeInfo = new TimeInfo("examples/data/example.time", popInfo);
+	private final TimeInfo gzTimeInfo = new TimeInfo("examples/compressed_data/example.time.gz", gzPopInfo);
 
 	@Test
 	public void testGetTime() {
 	    // test uncompressed data
-		assertEquals(5000, timeInfo.getTime(indInfo.getPopPairIndex("YRI", "CEU")));
-		assertEquals(5000, timeInfo.getTime(indInfo.getPopPairIndex("YRI", "CHS")));
-		assertEquals(3000, timeInfo.getTime(indInfo.getPopPairIndex("CEU", "CHS")));
-        assertEquals(5000, timeInfo.getTime(indInfo.getPopPairIndex("CEU", "YRI")));
-        assertEquals(5000, timeInfo.getTime(indInfo.getPopPairIndex("CHS", "YRI")));
-        assertEquals(3000, timeInfo.getTime(indInfo.getPopPairIndex("CHS", "CEU")));
+		assertEquals(5000, timeInfo.getTime(popInfo.getPopPairIndex("YRI", "CEU")));
+		assertEquals(5000, timeInfo.getTime(popInfo.getPopPairIndex("YRI", "CHS")));
+		assertEquals(3000, timeInfo.getTime(popInfo.getPopPairIndex("CEU", "CHS")));
+        assertEquals(5000, timeInfo.getTime(popInfo.getPopPairIndex("CEU", "YRI")));
+        assertEquals(5000, timeInfo.getTime(popInfo.getPopPairIndex("CHS", "YRI")));
+        assertEquals(3000, timeInfo.getTime(popInfo.getPopPairIndex("CHS", "CEU")));
 
         // test compressed data
-        assertEquals(5000, gzTimeInfo.getTime(gzIndInfo.getPopPairIndex("YRI", "CEU")));
-        assertEquals(5000, gzTimeInfo.getTime(gzIndInfo.getPopPairIndex("YRI", "CHS")));
-        assertEquals(3000, gzTimeInfo.getTime(gzIndInfo.getPopPairIndex("CEU", "CHS")));
-        assertEquals(5000, gzTimeInfo.getTime(gzIndInfo.getPopPairIndex("CEU", "YRI")));
-        assertEquals(5000, gzTimeInfo.getTime(gzIndInfo.getPopPairIndex("CHS", "YRI")));
-        assertEquals(3000, gzTimeInfo.getTime(gzIndInfo.getPopPairIndex("CHS", "CEU")));
+        assertEquals(5000, gzTimeInfo.getTime(gzPopInfo.getPopPairIndex("YRI", "CEU")));
+        assertEquals(5000, gzTimeInfo.getTime(gzPopInfo.getPopPairIndex("YRI", "CHS")));
+        assertEquals(3000, gzTimeInfo.getTime(gzPopInfo.getPopPairIndex("CEU", "CHS")));
+        assertEquals(5000, gzTimeInfo.getTime(gzPopInfo.getPopPairIndex("CEU", "YRI")));
+        assertEquals(5000, gzTimeInfo.getTime(gzPopInfo.getPopPairIndex("CHS", "YRI")));
+        assertEquals(3000, gzTimeInfo.getTime(gzPopInfo.getPopPairIndex("CHS", "CEU")));
 	}
 
     @Rule
@@ -67,7 +69,7 @@ public class TimeInfoTest {
     @Test
     public void testCheckPopPairs() {
         thrown.expectMessage("Cannot find the divergence time of the population pair {YRI,CEU}");
-        TimeInfo t = new TimeInfo("examples/data/example.test.time", indInfo);
+        TimeInfo t = new TimeInfo("examples/data/example.test.time", popInfo);
     }
 
 }

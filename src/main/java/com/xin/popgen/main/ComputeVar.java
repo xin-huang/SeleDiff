@@ -56,7 +56,7 @@ public class ComputeVar {
     		validateWith = FileValidator.class)
     public String snpFileName;
     
-    @Parameter(names = "--ind", required = true, 
+    @Parameter(names = "--ind",
     		description = "The EIGENSTRAT IND file stores information of individuals and populations.", 
     		validateWith = FileValidator.class)
     public String indFileName;

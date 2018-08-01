@@ -25,27 +25,29 @@ public class PopVarInfoTest {
 
     private final IndInfo indInfo = new IndInfo("examples/data/example.ind");
     private final IndInfo gzIndInfo = new IndInfo("examples/compressed_data/example.ind.gz");
+    private final PopInfo popInfo = indInfo.getPopInfo();
+    private final PopInfo gzPopInfo = gzIndInfo.getPopInfo();
 	
-	private final PopVarInfo popVarInfo = new PopVarInfo("examples/results/example.var", indInfo);
-	private final PopVarInfo gzPopVarInfo = new PopVarInfo("examples/compressed_data/example.var.gz", gzIndInfo);
+	private final PopVarInfo popVarInfo = new PopVarInfo("examples/results/example.var", popInfo);
+	private final PopVarInfo gzPopVarInfo = new PopVarInfo("examples/compressed_data/example.var.gz", gzPopInfo);
 
 	@Test
     public void testGetPopVar() {
 	    // test uncompressed data
-        assertEquals(1.542796, popVarInfo.getPopVar(indInfo.getPopPairIndex("YRI", "CEU")), 0.000001);
-        assertEquals(1.633976, popVarInfo.getPopVar(indInfo.getPopPairIndex("YRI", "CHS")), 0.000001);
-        assertEquals(0.988984, popVarInfo.getPopVar(indInfo.getPopPairIndex("CEU", "CHS")), 0.000001);
-        assertEquals(1.542796, popVarInfo.getPopVar(indInfo.getPopPairIndex("CEU", "YRI")), 0.000001);
-        assertEquals(1.633976, popVarInfo.getPopVar(indInfo.getPopPairIndex("CHS", "YRI")), 0.000001);
-        assertEquals(0.988984, popVarInfo.getPopVar(indInfo.getPopPairIndex("CHS", "CEU")), 0.000001);
+        assertEquals(1.542796, popVarInfo.getPopVar(popInfo.getPopPairIndex("YRI", "CEU")), 0.000001);
+        assertEquals(1.633976, popVarInfo.getPopVar(popInfo.getPopPairIndex("YRI", "CHS")), 0.000001);
+        assertEquals(0.988984, popVarInfo.getPopVar(popInfo.getPopPairIndex("CEU", "CHS")), 0.000001);
+        assertEquals(1.542796, popVarInfo.getPopVar(popInfo.getPopPairIndex("CEU", "YRI")), 0.000001);
+        assertEquals(1.633976, popVarInfo.getPopVar(popInfo.getPopPairIndex("CHS", "YRI")), 0.000001);
+        assertEquals(0.988984, popVarInfo.getPopVar(popInfo.getPopPairIndex("CHS", "CEU")), 0.000001);
 
         // test compressed data
-        assertEquals(1.542796, gzPopVarInfo.getPopVar(gzIndInfo.getPopPairIndex("YRI", "CEU")), 0.000001);
-        assertEquals(1.633976, gzPopVarInfo.getPopVar(gzIndInfo.getPopPairIndex("YRI", "CHS")), 0.000001);
-        assertEquals(0.988984, gzPopVarInfo.getPopVar(gzIndInfo.getPopPairIndex("CEU", "CHS")), 0.000001);
-        assertEquals(1.542796, gzPopVarInfo.getPopVar(gzIndInfo.getPopPairIndex("CEU", "YRI")), 0.000001);
-        assertEquals(1.633976, gzPopVarInfo.getPopVar(gzIndInfo.getPopPairIndex("CHS", "YRI")), 0.000001);
-        assertEquals(0.988984, gzPopVarInfo.getPopVar(gzIndInfo.getPopPairIndex("CHS", "CEU")), 0.000001);
+        assertEquals(1.542796, gzPopVarInfo.getPopVar(gzPopInfo.getPopPairIndex("YRI", "CEU")), 0.000001);
+        assertEquals(1.633976, gzPopVarInfo.getPopVar(gzPopInfo.getPopPairIndex("YRI", "CHS")), 0.000001);
+        assertEquals(0.988984, gzPopVarInfo.getPopVar(gzPopInfo.getPopPairIndex("CEU", "CHS")), 0.000001);
+        assertEquals(1.542796, gzPopVarInfo.getPopVar(gzPopInfo.getPopPairIndex("CEU", "YRI")), 0.000001);
+        assertEquals(1.633976, gzPopVarInfo.getPopVar(gzPopInfo.getPopPairIndex("CHS", "YRI")), 0.000001);
+        assertEquals(0.988984, gzPopVarInfo.getPopVar(gzPopInfo.getPopPairIndex("CHS", "CEU")), 0.000001);
     }
 
     @Rule
@@ -67,7 +69,7 @@ public class PopVarInfoTest {
     @Test
     public void testCheckPopPairs() {
         thrown.expectMessage("Cannot find the variance of Omega of the population pair {CEU,CHS}");
-        PopVarInfo p = new PopVarInfo("examples/data/example.test.var", indInfo);
+        PopVarInfo p = new PopVarInfo("examples/data/example.test.var", popInfo);
     }
 
 }
