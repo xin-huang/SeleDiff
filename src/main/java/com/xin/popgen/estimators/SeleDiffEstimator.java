@@ -103,7 +103,9 @@ public class SeleDiffEstimator extends Estimator {
     @Override
     protected void writeHeader(BufferedWriter bw) throws IOException {
         StringJoiner sj = new StringJoiner("\t");
-        sj.add("SNP ID")
+        sj.add("#CHROMO")
+                .add("POS")
+                .add("ID")
                 .add("Ref")
                 .add("Alt")
                 .add("Population 1")

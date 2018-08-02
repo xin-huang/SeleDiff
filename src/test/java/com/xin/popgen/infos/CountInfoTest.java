@@ -4,9 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by deep on 18-7-31.
- */
 public class CountInfoTest {
 
     private final CountInfo countInfo = new CountInfo("examples/data/example.count");
@@ -31,7 +28,7 @@ public class CountInfoTest {
         assertEquals(360, alleleCounts[2][0]);
         assertEquals(130, alleleCounts[2][1]);
 
-        assertEquals("rs13303118\tT\tG", countInfo.getSnpInfo());
+        assertEquals("1\t908247\trs13303118\tT\tG", countInfo.getSnpInfo());
 
         countInfo.close();
     }

@@ -34,10 +34,10 @@ public class GenoInfoTest {
     @Test
     public void testGetSnpInfo() {
         // test uncompressed data
-        assertEquals("rs1800407\tC\tT", genoInfo.getSnpInfo());
+        assertEquals("15\t25903913\trs1800407\tC\tT", genoInfo.getSnpInfo());
 
         // test compressed data
-        assertEquals("rs1800407\tC\tT", gzGenoInfo.getSnpInfo());
+        assertEquals("15\t25903913\trs1800407\tC\tT", gzGenoInfo.getSnpInfo());
     }
 
     @Test

@@ -65,7 +65,7 @@ public class SnpInfo implements Info {
         	String line = br.readLine();
         	if (line != null) {
                 String[] snpInfo = pattern.split(line.trim());
-                sj.add(snpInfo[0]).add(snpInfo[4]).add(snpInfo[5]);
+                sj.add(snpInfo[1]).add(snpInfo[3]).add(snpInfo[0]).add(snpInfo[4]).add(snpInfo[5]);
             }
         } catch (IOException e) {
             e.printStackTrace();

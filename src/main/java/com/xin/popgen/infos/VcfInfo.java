@@ -101,12 +101,12 @@ public class VcfInfo extends CountInfo {
         for (int i = 0; i < 2; i++) {
             end = line.indexOf("\t", end+1);
         }
-        int start = end + 1;
+        //int start = end + 1;
         for (int i = 0; i < 3; i++) {
             end = line.indexOf("\t", end+1);
         }
-        // SNP ID REF ALT
-        this.info = line.substring(start, end);
+        // CHROMO POS ID REF ALT
+        this.info = line.substring(0, end);
         for (int i = 0; i < 4; i++) {
             end = line.indexOf("\t", end+1);
         }

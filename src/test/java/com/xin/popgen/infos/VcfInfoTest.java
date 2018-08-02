@@ -45,7 +45,7 @@ public class VcfInfoTest {
         assertEquals(486, alleleCounts[2][0]);
         assertEquals(4, alleleCounts[2][1]);
 
-        assertEquals("rs1800407\tC\tT", vcfInfo.getSnpInfo());
+        assertEquals("15\t25903913\trs1800407\tC\tT", vcfInfo.getSnpInfo());
 
         vcfInfo.close();
 
@@ -60,7 +60,7 @@ public class VcfInfoTest {
         assertEquals(486, alleleCounts[2][0]);
         assertEquals(4, alleleCounts[2][1]);
 
-        assertEquals("rs1800407\tC\tT", gzVcfInfo.getSnpInfo());
+        assertEquals("15\t25903913\trs1800407\tC\tT", gzVcfInfo.getSnpInfo());
 
         gzVcfInfo.close();
     }

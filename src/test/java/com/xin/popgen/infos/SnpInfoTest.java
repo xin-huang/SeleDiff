@@ -28,11 +28,11 @@ public class SnpInfoTest {
     @Test
     public void testGet() {
         // test uncompressed data
-        assertEquals("rs13303118\tT\tG", snpInfo.get());
+        assertEquals("1\t908247\trs13303118\tT\tG", snpInfo.get());
         snpInfo.close();
 
         // test compressed data
-        assertEquals("rs13303118\tT\tG", gzSnpInfo.get());
+        assertEquals("1\t908247\trs13303118\tT\tG", gzSnpInfo.get());
         gzSnpInfo.close();
     }
 

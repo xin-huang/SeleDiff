@@ -36,9 +36,9 @@ public class SeleDiffEstimatorTest {
         selediff.analyze();
         try (BufferedReader br = new BufferedReader(new FileReader("selediff.results"))) {
             String header = br.readLine().trim();
-            assertEquals("SNP ID\tRef\tAlt\tPopulation 1\tPopulation 2\tSelection difference (Population 1 - Population 2)\tStd\tLower bound of 95% CI\tUpper bound of 95% CI\tDelta\tp-value", header);
+            assertEquals("#CHROMO\tPOS\tID\tRef\tAlt\tPopulation 1\tPopulation 2\tSelection difference (Population 1 - Population 2)\tStd\tLower bound of 95% CI\tUpper bound of 95% CI\tDelta\tp-value", header);
             String line = br.readLine().trim();
-            assertEquals("rs1800407\tC\tT\tYRI\tCEU\t-0.000773\t0.000380\t-0.001517\t-0.000028\t\t4.135\t0.042005", line);
+            assertEquals("15\t25903913\trs1800407\tC\tT\tYRI\tCEU\t-0.000773\t0.000380\t-0.001517\t-0.000028\t\t4.135\t0.042005", line);
             br.close();
             File file = new File("selediff.results");
             file.delete();

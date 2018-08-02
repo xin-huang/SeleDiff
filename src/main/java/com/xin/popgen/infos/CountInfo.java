@@ -113,7 +113,9 @@ public class CountInfo implements Info {
         int[][] alleleCounts = new int[popNum][2];
         String[] elements = pattern.split(line);
         StringJoiner sj = new StringJoiner("\t");
-        sj.add(elements[2]).add(elements[3]).add(elements[4]);
+        for (int i = 0; i < 5; i++) {
+            sj.add(elements[i]);
+        }
         this.info = sj.toString();
         int j = 5;
         for (int i = 0; i < popNum; i++) {
