@@ -1,5 +1,5 @@
 ---
-title: 'SeleDiff: A fast and scalable tool for estimating and testing selection differences between populations.'
+title: 'SeleDiff: A fast and scalable tool for estimating and testing selection differences between populations'
 tags:
     - Java
     - Population genetics
