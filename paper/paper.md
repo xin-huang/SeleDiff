@@ -56,7 +56,7 @@ Given a dataset with $n$ loci, we can estimate $\text{var}\left(\Omega\right)$ a
 
 $$\text{median}\left\{\frac{\ln^2\text{OR}_k}{0.455}-\text{var}\left(\ln\text{OR}_k\right)\right\}, 1\leq k \leq n,$$
 
-where $\text{var}\left(\ln\text{OR}\right)\approx\frac{1}{N_i\hat{p}_i\left(t\right)}+\frac{1}{N_i\hat{q}_i\left(t\right)}+\frac{1}{N_j\hat{p}_j\left(t\right)+\frac{1}{N_j\hat{q}_j\left(t\right)}$. Here, $N_i$ and $N_j$ are the sample sizes of populations $i$ and $j$. We add 0.5 to allele counts less than 5 for continuity correction. To test the selection differences in a locus, we proposed a statistic:
+where $\text{var}\left(\ln\text{OR}\right)\approx1/\left[N_i\hat{p}_i\left(t\right)\right]+1/\left[N_i\hat{q}_i\left(t\right)\right]+1/[N_j\hat{p}_j\left(t\right)]+1/[N_j\hat{q}_j\left(t\right)]$. Here, $N_i$ and $N_j$ are the sample sizes of populations $i$ and $j$. We add 0.5 to allele counts less than 5 for continuity correction. To test the selection differences in a locus, we proposed a statistic:
 
 $$\delta = \frac{\left[\text{E}\left(d_{ij}\right)\right]^2}{\text{var}\left(d_{ij}\right)},$$
 
