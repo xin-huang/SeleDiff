@@ -19,7 +19,7 @@ affiliations:
       index: 1
     - name: Chinese Academy of Sciences, University of Chinese Academy of Sciences, Beijing, 100049, China
       index: 2
-    - name: State Key Laboratory of Genetic Engineering and Ministry of Education Key Laboratory of Contemporary Anthropology, Collaborative Innovation Center for 7Genetics and Development, School of Life Sciences, Fudan University, Shanghai, 200433, China
+    - name: State Key Laboratory of Genetic Engineering and Ministry of Education Key Laboratory of Contemporary Anthropology, Collaborative Innovation Center for Genetics and Development, School of Life Sciences, Fudan University, Shanghai, 200433, China
       index: 3
     - name: Institutes of Biomedical Sciences, Shanghai Medical College, Fudan University, Shanghai, 200032, China
       index: 4
