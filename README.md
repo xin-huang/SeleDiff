@@ -13,6 +13,7 @@
 ## Introduction
 - `SeleDiff` implements a probabilistic method for estimating and testing selection (coefficient) differences between populations<sup>1</sup>.
 - If you have any problem, please feel free to contact xin.huang07@gmail.com, or open an [issue](https://github.com/xin-huang/SeleDiff/issues) in this repository.
+- If you are interested in contributing to `SeleDiff`, please feel free to clone and modify it.
 - For more details, please see the manual in `./docs`.
 
 ## Installation
