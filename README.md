@@ -45,7 +45,7 @@ You can use `gradlew` to remove `SeleDiff`:
     
 ### Windows
 
-In Windows, you can download the [latest release](https://github.com/xin-huang/SeleDiff/releases). Please make sure your environment variable `JAVA_HOME` correctly point to you JDK directory. After download and uncompression, you can open `cmd` and enter the directory of `SeleDiff` in `cmd`. Please use `gradlew.bat` to build and install `SeleDiff`.
+In Windows, you can download the [latest release](https://github.com/xin-huang/SeleDiff/releases). Please make sure your environment variable `JAVA_HOME` correctly point to your JDK directory. After download and uncompression, you can open `cmd` and enter the directory of `SeleDiff` in `cmd`. Please use `gradlew.bat` to build and install `SeleDiff`.
 
     > cd /path/to/SeleDiff
     > gradlew.bat build
@@ -83,7 +83,7 @@ You can use `gradlew.bat` to remove `SeleDiff`:
 ### Var File
 
 The Var file is the output file from the first sub-command `compute-var`, which stores variances of pairwise Ω. 
-`SeleDiff` does not divide Ω with generation times as He et al. (2015)<sup>1</sup> in order to reduce floating-point rounding errors.
+`SeleDiff` does not divide Ω with generation times as He et al. (2015) in order to reduce floating-point rounding errors.
 When estimating Ω, `SeleDiff` uses SNPs are not fixed in any population.
 When using sub-command `compute-diff` to estimate selection differences, `SeleDiff` uses `--var` option to accept a a *SPACE* delimited file without header that specifies variances of Ω between populations.
 
