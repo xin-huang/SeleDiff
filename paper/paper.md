@@ -33,7 +33,7 @@ Detecting and quantifying selection is a classical task in population genetics. 
 
 # Introduction
 
-Analyzing natural selection is critically important in population genetics [@Haldane:1924]. In the past 20 years, researchers have learned extensively about selection signals in genomic data [@Vitti:2013], but a deeper understanding of selection strength has remained elusive [@Thurman:2016].This is particularly due to difficulties in estimating selective pressures using empirical data. In addition, as the amount of genomic data has increased dramatically, researchers require more efficient software for analyzing large-scale genomic datasets. To meet these computational demands, we introduced and evaluated SeleDiff, a fast and scalable tool for quantifying differences in selective pressures between populations.
+Analyzing natural selection is critically important in population genetics [@Haldane:1990]. In the past 20 years, researchers have learned extensively about selection signals in genomic data [@Vitti:2013], but a deeper understanding of selection strength has remained elusive [@Thurman:2016].This is particularly due to difficulties in estimating selective pressures using empirical data. In addition, as the amount of genomic data has increased dramatically, researchers require more efficient software for analyzing large-scale genomic datasets. To meet these computational demands, we introduced and evaluated SeleDiff, a fast and scalable tool for quantifying differences in selective pressures between populations.
 
 # Results
 
