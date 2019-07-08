@@ -13,8 +13,8 @@
 ## Introduction
 - `SeleDiff` implements a probabilistic method for estimating and testing selection (coefficient) differences between populations<sup>1</sup>.
 - If you have any problem, please feel free to contact xin.huang07@gmail.com, or open an [issue](https://github.com/xin-huang/SeleDiff/issues) in this repository.
-- If you are interested in contributing to `SeleDiff`, please feel free to clone and modify it. You should include unit tests for your modified codes. Besides, you can edit `build.gradle` to include new dependencies. After your modification, please send a GitHub Pull Request with a clear list of what you've done.
 - If you would like to reproduce our simulation, please check the codes in `./appendix`.
+- If you are interested in contributing to `SeleDiff`, please feel free to clone and modify it. You should include unit tests for your modified codes. Besides, you can edit `build.gradle` to include new dependencies. After your modification, please send a GitHub Pull Request with a clear list of what you've done.
 - For more details, please see the manual in `./docs`.
 
 ## Installation
