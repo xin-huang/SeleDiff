@@ -6,7 +6,7 @@
 [![build Status](https://travis-ci.org/xin-huang/SeleDiff.svg?branch=master)](https://travis-ci.org/xin-huang/SeleDiff)
 [![manual](https://img.shields.io/badge/manual-v1.0-00838F.svg)](https://github.com/xin-huang/SeleDiff/blob/master/docs/SeleDiff_Manual_v1.0.pdf)
 [![release](https://img.shields.io/github/release/xin-huang/SeleDiff.svg)](https://github.com/xin-huang/SeleDiff/releases)
-[![status](http://joss.theoj.org/papers/93d0bb9fea95827696628d97d9825dca/status.svg)](http://joss.theoj.org/papers/93d0bb9fea95827696628d97d9825dca)
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.01545/status.svg)](https://doi.org/10.21105/joss.01545)
 [![DOI](https://zenodo.org/badge/44897714.svg)](https://zenodo.org/badge/latestdoi/44897714)
 
 ## Introduction
