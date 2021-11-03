@@ -9,6 +9,8 @@
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.01545/status.svg)](https://doi.org/10.21105/joss.01545)
 [![DOI](https://zenodo.org/badge/44897714.svg)](https://zenodo.org/badge/latestdoi/44897714)
 
+**NOTE: This project is no longer actively maintained.**
+
 ## Introduction
 - `SeleDiff` implements a probabilistic method for estimating and testing selection (coefficient) differences between populations<sup>1</sup>.
 - If you have any problem, please feel free to contact xinhuang.res@gmail.com, or open an [issue](https://github.com/xin-huang/SeleDiff/issues) in this repository.
